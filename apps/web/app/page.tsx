@@ -1,19 +1,45 @@
-import { Button } from "@workspace/ui/components/button"
+import { Navbar } from "@/components/navbar"
+import { Hero } from "@/components/hero"
+import { WhoWeAreFAQ } from "@/components/who-we-are-faq"
+import { WhatWeDo } from "@/components/what-we-do"
+import { VisionMission } from "@/components/vision-mission"
+import { WhyChooseCNX } from "@/components/why-choose-cnx"
+import { CommunityPartners } from "@/components/community-partners"
+import { OurTeam } from "@/components/our-team"
+import { Footer } from "@/components/footer"
 
-export default function Page() {
+export default function HomePage() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="text-muted-foreground font-mono text-xs">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
+    <div className="relative min-h-screen flex-col bg-[#050505] text-[#F5F5F5] selection:bg-white/20 selection:text-white">
+      {/* Global Navigation (Interactive Mega-Menu) */}
+      <Navbar />
+
+      {/* Main Content Sections (Strictly ordered 01 to 09) */}
+      <main id="main-content" tabIndex={-1} className="w-full outline-none">
+        {/* 01 — Cinematic Video Hero */}
+        <Hero />
+
+        {/* 02 — Who We Are + Frequently Asked Questions */}
+        <WhoWeAreFAQ />
+
+        {/* 03 — What We Do (Alternating Editorial Rhythm) */}
+        <WhatWeDo />
+
+        {/* 04 — Our Vision & Mission (Upper Tonal Band + Lower Showcase) */}
+        <VisionMission />
+
+        {/* 05 — Why Choose CodeNeuraX (Asymmetric Information Mosaic) */}
+        <WhyChooseCNX />
+
+        {/* 06 — Community Partners */}
+        <CommunityPartners />
+
+        {/* 07 — Our Team (Bespoke Editorial Leadership Spotlight) */}
+        <OurTeam />
+      </main>
+
+      {/* 08 — Structured Multi-Column Website Footer */}
+      <Footer />
     </div>
   )
 }

@@ -43,3 +43,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Private CNX photography and event footage — keep local, do not publish
+/apps/web/public/images/dinesh-yadav.jpg
+/apps/web/public/images/event-*.jpg
+/apps/web/public/images/ai-sparks-banner.webp
+/apps/web/public/video/
+
+# Exclude personal and event photography from public Git
+/apps/web/public/images/*
+!/apps/web/public/images/cnx-logo.png
