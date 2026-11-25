@@ -1,0 +1,471 @@
+import type { LeetCodeProblem, LibraryResource } from '../types';
+
+export const LIBRARY_RESOURCES: LibraryResource[] = [
+  {
+    id: 'lib-google-dsa',
+    title: 'Google DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet · C++ / Python / Java',
+    updatedAt: 'Nov 2026',
+    tags: ['Graphs', 'DP', 'Trees', 'Recursion'],
+    summary:
+      'Curated multi-round coding questions frequently surfaced in Google SWE Intern and New Grad technical screens.',
+    sampleTopics: [
+      'Shortest paths in weighted & state-space grids',
+      'Intervals, sweep-line algorithms & monotonic stacks',
+      'Tree DP, Lowest Common Ancestor & Trie pruning',
+    ],
+    previewSnippet:
+      '// Highlighted Pattern: Multi-Source BFS + State Pruning\n// Target Complexity: O(R * C * K) time | O(R * C) space\n// Key Check: Avoid revisiting (node, remaining_eliminations) with inferior budget.',
+  },
+  {
+    id: 'lib-microsoft-dsa',
+    title: 'Microsoft DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet · Annotated',
+    updatedAt: 'Nov 2026',
+    tags: ['Arrays', 'Linked Lists', 'Trees', 'Design'],
+    summary:
+      'High-signal interview archive compiled from Microsoft India SDE intern and FTE coding rounds.',
+    sampleTopics: [
+      'In-place linked list & matrix transformations',
+      'BST validation, serialization, and iterator design',
+      'Sliding window & string partitioning edge cases',
+    ],
+    previewSnippet:
+      '// Highlighted Pattern: LRU Cache (HashMap + Doubly Linked List)\n// Guarantees O(1) get() and put() without garbage-collection churn.',
+  },
+  {
+    id: 'lib-gate-cs',
+    title: 'GATE - CS Previous Year Ques',
+    category: 'Previous Year Questions',
+    countLabel: 'All Official Papers',
+    format: 'Topic-Indexed Archive · MSQ / NAT / MCQ',
+    updatedAt: '2007–2026',
+    tags: ['OS', 'DBMS', 'COA', 'Algorithms', 'TOC'],
+    summary:
+      'Complete Computer Science & Information Technology GATE previous year papers organized by subject and difficulty.',
+    sampleTopics: [
+      'Operating Systems: Virtual memory page faults, Deadlocks, CPU scheduling',
+      'DBMS: Conflict serializability, B+ Trees, Relational Algebra',
+      'Algorithms & TOC: Recurrences, Asymptotics, Undecidability',
+    ],
+    previewSnippet:
+      '// GATE CS Topic Checkpoint: B+ Tree Order Calculation\n// Block Size B = 4096 bytes | Record Pointer R = 8B | Key K = 12B | Block Ptr P = 6B\n// Solve p * P + (p - 1) * K <= B for internal node branching factor p.',
+  },
+  {
+    id: 'lib-gate-da',
+    title: 'GATE - DA Previous Year Ques',
+    category: 'Previous Year Questions',
+    countLabel: 'All Official Papers',
+    format: 'Official Papers + Solved Keys',
+    updatedAt: '2024–2026',
+    tags: ['Probability', 'Linear Algebra', 'ML', 'AI', 'SQL'],
+    summary:
+      'Complete Data Science & Artificial Intelligence (DA) official papers, paired with AI Sparks ’26 top-performer prep roadmap.',
+    sampleTopics: [
+      'Probability distributions, Bayes theorem, expectation & variance',
+      'Eigenvalues, SVD, rank-nullity & quadratic forms',
+      'Supervised learning bias-variance, k-means, decision trees & search algorithms',
+    ],
+    previewSnippet:
+      '// GATE DA Checkpoint: Eigenvalues of A^2 + 3A + 2I\n// If lambda is an eigenvalue of A, then lambda^2 + 3*lambda + 2 is an eigenvalue of the polynomial matrix.',
+  },
+  {
+    id: 'lib-linkedin-dsa',
+    title: 'LinkedIn DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet',
+    updatedAt: 'Oct 2026',
+    tags: ['HashMaps', 'Concurrency', 'Design', 'Trees'],
+    summary:
+      'Focused algorithmic and data-structure design questions covering nested structures, graph distances, and O(1) caches.',
+    sampleTopics: [
+      'Max Stack, All O(1) Data Structure & Nested List Weight Sum',
+      'Shortest Word Distance variations & graph degree centrality',
+      'Text justification & interval merging',
+    ],
+    previewSnippet:
+      '// Pattern: All O`one Data Structure (Doubly Linked Frequency Buckets + HashMap)\n// Supports inc(), dec(), getMaxKey(), getMinKey() in strict O(1) amortized time.',
+  },
+  {
+    id: 'lib-adobe-dsa',
+    title: 'Adobe DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet',
+    updatedAt: 'Oct 2026',
+    tags: ['Bit Manipulation', 'DP', 'Strings', 'Geometry'],
+    summary:
+      'Company-calibrated question set emphasizing memory efficiency, bitmasks, matrix paths, and string algorithms.',
+    sampleTopics: [
+      'Bitwise XOR masks, power-of-two checks & subset enumeration',
+      'Longest palindromic substrings & KMP prefix tables',
+      'Dynamic programming on grids & stock cooldown states',
+    ],
+    previewSnippet:
+      '// Bitwise Trick: x & (x - 1) clears the lowest set bit in O(1).\n// Crucial for Kernighan popcount and power-of-two verification.',
+  },
+  {
+    id: 'lib-amazon-dsa',
+    title: 'Amazon DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet · OA + Onsite',
+    updatedAt: 'Nov 2026',
+    tags: ['Heaps', 'BFS/DFS', 'Greedy', 'Sliding Window'],
+    summary:
+      'Amazon OA and SDE-1/Intern question bank highlighted during Nidhi Singh’s CodeNeuraX engineering session.',
+    sampleTopics: [
+      'Priority queues, K closest points, and reorder log data',
+      'Rotting oranges, number of islands & topological course scheduling',
+      'Binary search on answer space (shipping capacity, split array)',
+    ],
+    previewSnippet:
+      '// Binary Search on Answer Pattern:\n// Monotonic predicate feasible(capacity) -> narrow [max(weights), sum(weights)] in O(N log S).',
+  },
+  {
+    id: 'lib-capgemini-dsa',
+    title: 'Capgemini DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Campus Placement Pack',
+    updatedAt: 'Oct 2026',
+    tags: ['Pseudocode', 'Strings', 'Arrays', 'Aptitude'],
+    summary:
+      'Campus hiring technical assessment questions covering pseudo-code tracing, string manipulation, and fundamental DSA.',
+    sampleTopics: [
+      'Frequency compression, anagram grouping & array rotations',
+      'Recursive trace evaluation & bitwise operator precedence',
+      'Basic sorting stability & SQL join queries',
+    ],
+    previewSnippet:
+      '// Run-Length String Compression:\n// Maintain read/write pointers for O(N) time and O(1) auxiliary space.',
+  },
+  {
+    id: 'lib-deloitte-dsa',
+    title: 'Deloitte DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Campus Placement Pack',
+    updatedAt: 'Oct 2026',
+    tags: ['SQL', 'Arrays', 'Number Theory', 'Logic'],
+    summary:
+      'Technical and analytical problem sets tailored for Deloitte campus NLA and analyst engineering evaluations.',
+    sampleTopics: [
+      'Subarray sums, prime sieves & modulo arithmetic',
+      'Window functions, ranking & nested SQL aggregations',
+      'Stack bracket balancing & queue simulation',
+    ],
+    previewSnippet:
+      '// Prefix Sum + HashMap:\n// Count subarrays summing to K in single O(N) pass by tracking freq[prefix - K].',
+  },
+  {
+    id: 'lib-tcs-dsa',
+    title: 'TCS DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'NQT & Digital / Prime Pack',
+    updatedAt: 'Nov 2026',
+    tags: ['NQT', 'Prime', 'Matrices', 'Strings'],
+    summary:
+      'TCS NQT, Digital, and Prime coding archives covering input parsing edge cases, number theory, and matrix traversals.',
+    sampleTopics: [
+      'Spiral matrix, subarray max-product & cyclic shifts',
+      'GCD/LCM, base conversions & digit DP fundamentals',
+      'Greedy interval scheduling & clean stdin/stdout parsing',
+    ],
+    previewSnippet:
+      '// Kadane Variant (Max Product Subarray):\n// Track both running maxProd and minProd to handle negative sign flips.',
+  },
+  {
+    id: 'lib-notes-os',
+    title: 'Operating Systems — Concise Engineering Notes',
+    category: 'Notes',
+    countLabel: '48 Pages · 6 Modules',
+    format: 'Markdown & Printable Guide',
+    updatedAt: 'Nov 2026',
+    tags: ['Processes', 'Threads', 'Memory', 'Deadlocks'],
+    summary:
+      'High-yield OS architecture notes bridging university exams, GATE CS, and backend systems interviews.',
+    sampleTopics: [
+      'Context switching, POSIX threads, mutexes vs semaphores',
+      'Paging, TLB hit ratio math, Thrashing & Working Set model',
+      'Disk scheduling & Linux inode filesystem internals',
+    ],
+    previewSnippet:
+      'Effective Access Time (EAT) = alpha * (TLB + Mem) + (1 - alpha) * (TLB + 2 * Mem).',
+  },
+  {
+    id: 'lib-notes-dbms',
+    title: 'DBMS & SQL Query Internals',
+    category: 'Notes',
+    countLabel: '42 Pages · Query Labs',
+    format: 'Reference Handbook',
+    updatedAt: 'Oct 2026',
+    tags: ['ACID', 'Normalization', 'Indexing', 'SQL'],
+    summary:
+      'Practical notes on relational normalization (1NF–BCNF), transaction isolation levels, MVCC, and B+ Tree indexing.',
+    sampleTopics: [
+      'Candidate keys, lossless join decomposition & dependency preservation',
+      'Dirty reads, phantom reads & PostgreSQL isolation guarantees',
+      'Query execution plans, composite index column ordering',
+    ],
+    previewSnippet:
+      'Rule of thumb: Composite index (a, b) accelerates WHERE a = ? AND b = ?, and WHERE a = ?, but cannot seek on b alone.',
+  },
+  {
+    id: 'lib-notes-cn',
+    title: 'Computer Networks — Protocol & Packet Reference',
+    category: 'Notes',
+    countLabel: '36 Pages',
+    format: 'Protocol Cheatbook',
+    updatedAt: 'Oct 2026',
+    tags: ['TCP/IP', 'HTTP/3', 'DNS', 'Subnetting'],
+    summary:
+      'Clear mental models for TCP congestion control, TLS 1.3 handshakes, CIDR subnetting, and DNS resolution.',
+    sampleTopics: [
+      'TCP 3-way handshake, sliding window & AIMD congestion control',
+      'CIDR subnet masks, ARP/NAT traversal & routing tables',
+      'HTTP/1.1 keep-alive vs HTTP/2 multiplexing vs QUIC',
+    ],
+    previewSnippet:
+      'TLS 1.3 eliminates an entire round-trip during initial key exchange (1-RTT) and enables 0-RTT resumption.',
+  },
+  {
+    id: 'lib-notes-sysdesign',
+    title: 'System Design Primer for Student Builders',
+    category: 'Notes',
+    countLabel: '30 Pages · Diagrams',
+    format: 'Architecture Guide',
+    updatedAt: 'Nov 2026',
+    tags: ['Caching', 'Queues', 'Sharding', 'Rate Limiting'],
+    summary:
+      'Practical low-level & distributed systems design patterns for scaling hackathon prototypes into resilient products.',
+    sampleTopics: [
+      'Token bucket vs sliding window log rate limiters in Redis',
+      'Write-through vs cache-aside invalidation tradeoffs',
+      'Idempotent webhooks, dead-letter queues & consistent hashing',
+    ],
+    previewSnippet:
+      'Never scale prematurely: measure p95 query latency and add connection pooling + indexed reads before introducing microservices.',
+  },
+  {
+    id: 'lib-notes-agentic-ai',
+    title: 'Agentic AI & LLM Architecture Fundamentals',
+    category: 'Notes',
+    countLabel: 'AI Sparks ’26 Companion',
+    format: 'Colab + Study Brief',
+    updatedAt: 'Aug 2026',
+    tags: ['Agentic AI', 'Tool Calling', 'RAG', 'Evals'],
+    summary:
+      'Distilled engineering notes from AI Sparks ’26 covering reasoning loops, tool schemas, memory, and model evaluation.',
+    sampleTopics: [
+      'ReAct loop anatomy: Thought -> Action -> Observation -> Termination',
+      'Strict JSON schema function calling & retry validation',
+      'Precision/recall tradeoffs in hybrid semantic + BM25 retrieval',
+    ],
+    previewSnippet:
+      'Deterministic guardrails belong in typed application code, not inside hopeful natural-language prompt adjectives.',
+  },
+  {
+    id: 'lib-ps-algorush',
+    title: 'AlgoRush 2026 — Official 4-Problem Set & Editorials',
+    category: 'Problem Statements',
+    countLabel: '4 Problems + Test Cases',
+    format: 'Competitive Sheet',
+    updatedAt: 'Aug 2026',
+    tags: ['DSA', 'Unstop', 'Editorials'],
+    summary:
+      'Complete problem statements, constraints, sample I/O, and optimal complexity proofs from CodeNeuraX AlgoRush 2026.',
+    sampleTopics: [
+      'P1: Windowed Telemetry Stabilization (O(N) Sliding Window)',
+      'P2: Campus Bus Graph Routing (Dijkstra on Time Windows)',
+      'P3: Bitmask Squad Allocation (DP over Subsets)',
+    ],
+    previewSnippet:
+      'Problem B Constraint Check: N <= 2e5, Edges <= 4e5 -> Avoid O(N^2) adjacency matrix; use min-heap priority queue.',
+  },
+  {
+    id: 'lib-ps-neuraknockout',
+    title: 'NeuraKnockout — 7-Hour Web Engineering Briefs',
+    category: 'Problem Statements',
+    countLabel: '6 Timed Challenges',
+    format: 'Full-Stack Spec Prompts',
+    updatedAt: 'Nov 2026',
+    tags: ['Frontend', 'APIs', 'Accessibility', 'Speed'],
+    summary:
+      'Practice prompt specs structured around 7-hour solo web build constraints: state persistence, crisp UI, and live deploy.',
+    sampleTopics: [
+      'Build a Zero-Latency Exam Timer & Telemetry Matrix',
+      'Build an Offline-First Campus Lost & Found Index',
+      'Build a Real-Time Hackathon Judge Rubric Scorer',
+    ],
+    previewSnippet:
+      'Evaluation Rubric: 35% Functional Completeness · 25% Visual Hierarchy · 20% Code Modularity · 20% Edge-State Handling.',
+  },
+  {
+    id: 'lib-ps-sih',
+    title: 'SIH & National Hackathon Winning Blueprints',
+    category: 'Problem Statements',
+    countLabel: '12 Curated Prompts',
+    format: 'Architecture + Pitch Pack',
+    updatedAt: 'Sep 2026',
+    tags: ['SIH', 'Hardware', 'AI/ML', 'GovTech'],
+    summary:
+      'Problem breakdown templates and evaluation checklists adapted from CodeNeuraX’s Smart India Hackathon strategy talk.',
+    sampleTopics: [
+      'Validating ministry problem constraints before writing code',
+      '6-slide pitch structure: Problem -> Architecture -> Edge Cases -> Impact',
+      'Offline fallback strategies for live jury hardware/ML demos',
+    ],
+    previewSnippet:
+      'Jury Rule: Never lead with 4 slides of motivation. Show system architecture and a working slice within 90 seconds.',
+  },
+];
+
+export const LEETCODE_COMPANY_ROWS: LeetCodeProblem[] = [
+  {
+    id: 'lc-1',
+    number: 1,
+    title: 'Two Sum',
+    difficulty: 'Easy',
+    topic: 'Hash Map',
+    companies: ['Google', 'Amazon', 'Microsoft', 'Adobe', 'TCS'],
+    frequency: '98%',
+    url: 'https://leetcode.com/problems/two-sum/',
+  },
+  {
+    id: 'lc-146',
+    number: 146,
+    title: 'LRU Cache',
+    difficulty: 'Medium',
+    topic: 'Design · Linked List',
+    companies: ['Amazon', 'Microsoft', 'Google', 'LinkedIn'],
+    frequency: '96%',
+    url: 'https://leetcode.com/problems/lru-cache/',
+  },
+  {
+    id: 'lc-200',
+    number: 200,
+    title: 'Number of Islands',
+    difficulty: 'Medium',
+    topic: 'BFS / DFS · Grid',
+    companies: ['Amazon', 'Google', 'Microsoft', 'Adobe'],
+    frequency: '94%',
+    url: 'https://leetcode.com/problems/number-of-islands/',
+  },
+  {
+    id: 'lc-56',
+    number: 56,
+    title: 'Merge Intervals',
+    difficulty: 'Medium',
+    topic: 'Sorting · Intervals',
+    companies: ['Google', 'LinkedIn', 'Amazon', 'Microsoft'],
+    frequency: '92%',
+    url: 'https://leetcode.com/problems/merge-intervals/',
+  },
+  {
+    id: 'lc-42',
+    number: 42,
+    title: 'Trapping Rain Water',
+    difficulty: 'Hard',
+    topic: 'Two Pointers · Monotonic Stack',
+    companies: ['Google', 'Amazon', 'Microsoft', 'Adobe'],
+    frequency: '90%',
+    url: 'https://leetcode.com/problems/trapping-rain-water/',
+  },
+  {
+    id: 'lc-23',
+    number: 23,
+    title: 'Merge k Sorted Lists',
+    difficulty: 'Hard',
+    topic: 'Heap · Divide & Conquer',
+    companies: ['Google', 'Amazon', 'LinkedIn', 'Microsoft'],
+    frequency: '88%',
+    url: 'https://leetcode.com/problems/merge-k-sorted-lists/',
+  },
+  {
+    id: 'lc-207',
+    number: 207,
+    title: 'Course Schedule',
+    difficulty: 'Medium',
+    topic: 'Topological Sort · Graph',
+    companies: ['Amazon', 'Google', 'Microsoft'],
+    frequency: '86%',
+    url: 'https://leetcode.com/problems/course-schedule/',
+  },
+  {
+    id: 'lc-3',
+    number: 3,
+    title: 'Longest Substring Without Repeating Characters',
+    difficulty: 'Medium',
+    topic: 'Sliding Window',
+    companies: ['Amazon', 'Adobe', 'Microsoft', 'TCS', 'Deloitte'],
+    frequency: '91%',
+    url: 'https://leetcode.com/problems/longest-substring-without-repeating-characters/',
+  },
+  {
+    id: 'lc-295',
+    number: 295,
+    title: 'Find Median from Data Stream',
+    difficulty: 'Hard',
+    topic: 'Two Heaps',
+    companies: ['Google', 'Amazon', 'Microsoft'],
+    frequency: '82%',
+    url: 'https://leetcode.com/problems/find-median-from-data-stream/',
+  },
+  {
+    id: 'lc-432',
+    number: 432,
+    title: 'All O`one Data Structure',
+    difficulty: 'Hard',
+    topic: 'Design · Doubly Linked List',
+    companies: ['LinkedIn', 'Google'],
+    frequency: '85%',
+    url: 'https://leetcode.com/problems/all-oone-data-structure/',
+  },
+  {
+    id: 'lc-121',
+    number: 121,
+    title: 'Best Time to Buy and Sell Stock',
+    difficulty: 'Easy',
+    topic: 'Greedy · Prefix Min',
+    companies: ['Amazon', 'TCS', 'Capgemini', 'Deloitte', 'Adobe'],
+    frequency: '95%',
+    url: 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',
+  },
+  {
+    id: 'lc-322',
+    number: 322,
+    title: 'Coin Change',
+    difficulty: 'Medium',
+    topic: 'Dynamic Programming',
+    companies: ['Adobe', 'Amazon', 'Microsoft', 'Google'],
+    frequency: '87%',
+    url: 'https://leetcode.com/problems/coin-change/',
+  },
+  {
+    id: 'lc-364',
+    number: 339,
+    title: 'Nested List Weight Sum',
+    difficulty: 'Medium',
+    topic: 'DFS · BFS',
+    companies: ['LinkedIn', 'Google'],
+    frequency: '84%',
+    url: 'https://leetcode.com/problems/nested-list-weight-sum/',
+  },
+  {
+    id: 'lc-53',
+    number: 53,
+    title: 'Maximum Subarray',
+    difficulty: 'Medium',
+    topic: 'Kadane · DP',
+    companies: ['Microsoft', 'Amazon', 'LinkedIn', 'TCS', 'Capgemini'],
+    frequency: '93%',
+    url: 'https://leetcode.com/problems/maximum-subarray/',
+  },
+];
