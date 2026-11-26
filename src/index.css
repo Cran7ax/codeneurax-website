@@ -478,16 +478,36 @@
 
 .cnx-masked-wordmark {
   background-image: linear-gradient(
-      to bottom,
-      rgba(14, 14, 16, 0.12),
-      rgba(14, 14, 16, 0.28)
-    ),
-    url('/images/ai-sparks-stage.jpg');
-  background-size: cover;
-  background-position: center 42%;
+    180deg,
+    #FFFFFF 0%,
+    #E8EEFC 32%,
+    #B6C4F7 62%,
+    #6B7BFF 88%,
+    #4554DC 100%
+  );
+  background-size: 100% 100%;
+  background-position: center;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.16);
+  filter:
+    drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.25))
+    drop-shadow(0 4px 0 rgba(28, 36, 92, 0.88))
+    drop-shadow(0 16px 30px rgba(0, 0, 0, 0.86))
+    drop-shadow(0 4px 36px rgba(67, 83, 255, 0.28));
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cnx-masked-wordmark:hover {
+  transform: translate3d(0, -3px, 0);
+  filter:
+    drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.34))
+    drop-shadow(0 6px 0 rgba(28, 36, 92, 0.94))
+    drop-shadow(0 22px 38px rgba(0, 0, 0, 0.92))
+    drop-shadow(0 6px 46px rgba(88, 108, 255, 0.42));
 }
 
 .no-scrollbar {
