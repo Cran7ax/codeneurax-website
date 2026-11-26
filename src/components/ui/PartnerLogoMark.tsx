@@ -6,7 +6,7 @@ interface PartnerLogoMarkProps {
   surface?: 'light' | 'dark';
 }
 
-export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = ({
+export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = React.memo(({
   partner,
   surface = 'dark',
 }) => {
@@ -113,4 +113,4 @@ export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = ({
       />
     </div>
   );
-};
+});

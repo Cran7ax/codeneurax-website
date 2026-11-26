@@ -6,33 +6,29 @@ import { useSmoothScroll } from './context/ScrollContext';
 import { Layout } from './components/layout/Layout';
 import { EDITORIAL_EASE } from './components/ui/MotionPrimitives';
 import { HomePage } from './pages/HomePage';
+import {
+  loadAiSparksPage,
+  loadBuddyKidPage,
+  loadCampusAmbassadorsPage,
+  loadEventsPage,
+  loadFeedPage,
+  loadLibraryPage,
+  loadServicesPage,
+  loadWorkWithUsPage,
+} from './routes/preload';
 
-const FeedPage = lazy(() => import('./pages/FeedPage').then((m) => ({ default: m.FeedPage })));
-const EventsPage = lazy(() =>
-  import('./pages/EventsPage').then((m) => ({ default: m.EventsPage })),
-);
-const AiSparksPage = lazy(() =>
-  import('./pages/AiSparksPage').then((m) => ({ default: m.AiSparksPage })),
-);
-const WorkWithUsPage = lazy(() =>
-  import('./pages/WorkWithUsPage').then((m) => ({ default: m.WorkWithUsPage })),
-);
-const CampusAmbassadorsPage = lazy(() =>
-  import('./pages/CampusAmbassadorsPage').then((m) => ({ default: m.CampusAmbassadorsPage })),
-);
-const BuddyKidPage = lazy(() =>
-  import('./pages/BuddyKidPage').then((m) => ({ default: m.BuddyKidPage })),
-);
-const ServicesPage = lazy(() =>
-  import('./pages/ServicesPage').then((m) => ({ default: m.ServicesPage })),
-);
-const LibraryPage = lazy(() =>
-  import('./pages/LibraryPage').then((m) => ({ default: m.LibraryPage })),
-);
+const FeedPage = lazy(loadFeedPage);
+const EventsPage = lazy(loadEventsPage);
+const AiSparksPage = lazy(loadAiSparksPage);
+const WorkWithUsPage = lazy(loadWorkWithUsPage);
+const CampusAmbassadorsPage = lazy(loadCampusAmbassadorsPage);
+const BuddyKidPage = lazy(loadBuddyKidPage);
+const ServicesPage = lazy(loadServicesPage);
+const LibraryPage = lazy(loadLibraryPage);
 
 function AnimatedRoutes() {
   const location = useLocation();
-  const { scrollToTopInstant, scrollToElement } = useSmoothScroll();
+  const { scrollToTopInstant, scrollToElement, syncScrollLayout } = useSmoothScroll();
   const prevPathRef = useRef(location.pathname);
 
   useEffect(() => {
@@ -41,7 +37,7 @@ function AnimatedRoutes() {
 
     if (!location.hash) return;
     const id = location.hash.slice(1);
-    const delay = pathChanged ? 400 : 60;
+    const delay = pathChanged ? 320 : 40;
     const timer = window.setTimeout(() => {
       scrollToElement(id, -92);
     }, delay);
@@ -60,16 +56,17 @@ function AnimatedRoutes() {
     >
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{
           opacity: 1,
           y: 0,
-          transition: { duration: 0.42, ease: EDITORIAL_EASE },
+          transition: { duration: 0.34, ease: EDITORIAL_EASE },
         }}
+        onAnimationComplete={syncScrollLayout}
         exit={{
           opacity: 0,
-          y: -6,
-          transition: { duration: 0.22, ease: EDITORIAL_EASE },
+          y: -5,
+          transition: { duration: 0.18, ease: EDITORIAL_EASE },
         }}
       >
         <Suspense fallback={<div className="min-h-screen bg-[#0E0E10]" />}>

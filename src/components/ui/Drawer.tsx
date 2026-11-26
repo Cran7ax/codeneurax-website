@@ -29,11 +29,17 @@ export const Drawer: React.FC<DrawerProps> = ({
 
   useEffect(() => {
     if (!open) return;
+    const prevFocused = document.activeElement as HTMLElement | null;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      if (prevFocused && prevFocused.isConnected) {
+        prevFocused.focus({ preventScroll: true });
+      }
+    };
   }, [open, onClose]);
 
   return createPortal(
@@ -51,7 +57,7 @@ export const Drawer: React.FC<DrawerProps> = ({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
             onClick={onClose}
-            className="fixed inset-0 bg-[#07080F]/72 backdrop-blur-[7px]"
+            className="fixed inset-0 bg-[#06070D]/80"
           />
 
           <motion.div

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { Modal } from '../ui/Modal';
@@ -23,6 +23,16 @@ export const RoleApplicationModal: React.FC<RoleApplicationModalProps> = ({
   const [linkedin, setLinkedin] = useState('https://linkedin.com/in/');
   const [statement, setStatement] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (open) {
+      setError('');
+      setStatement('');
+      setName(user.name);
+      setEmail(user.email);
+      setCollege(user.college);
+    }
+  }, [open, roleId, user.name, user.email, user.college]);
 
   const isApplied = appliedRoles.includes(roleId);
 

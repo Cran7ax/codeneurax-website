@@ -158,7 +158,7 @@ const HOME_FAQS = [
   },
 ];
 
-const CircularPhotoMosaic: React.FC<{ items: PhotoBubble[] }> = ({ items }) => (
+const CircularPhotoMosaic: React.FC<{ items: PhotoBubble[] }> = React.memo(({ items }) => (
   <div className="grid grid-cols-5 gap-2">
     {items.map((person) => (
       <div
@@ -169,6 +169,8 @@ const CircularPhotoMosaic: React.FC<{ items: PhotoBubble[] }> = ({ items }) => (
         <img
           src={person.src}
           alt={person.name}
+          width={48}
+          height={48}
           loading="lazy"
           decoding="async"
           style={{ objectPosition: person.pos || '50% 20%' }}
@@ -177,7 +179,7 @@ const CircularPhotoMosaic: React.FC<{ items: PhotoBubble[] }> = ({ items }) => (
       </div>
     ))}
   </div>
-);
+));
 
 export const HomePage: React.FC = () => {
   const { pushToast, squads } = useApp();
@@ -239,7 +241,8 @@ export const HomePage: React.FC = () => {
             src="/images/ai-sparks-stage.jpg"
             alt="CodeNeuraX builders and speakers on stage at Marwadi University"
             loading="eager"
-            decoding="sync"
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover object-[center_36%]"
           />
         </motion.div>
@@ -672,7 +675,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 4. PORCELAIN CERAMIC CLAY ECOSYSTEM SECTION */}
-      <section className="py-28 sm:py-32 bg-[#F3F4F8] text-[#0E0E10]">
+      <section className="py-28 sm:py-32 bg-[#F3F4F8] text-[#0E0E10] cnx-defer-section">
         <div className="max-w-[1220px] mx-auto px-5 sm:px-8">
           <RevealBlock className="text-center max-w-xl mx-auto mb-16">
             <h2 className="text-[clamp(2rem,3.8vw,3rem)] font-bold tracking-[-0.03em] text-[#0E0E10] leading-[1.1]">
@@ -754,7 +757,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 5. OUR TEAM ONLY (Spacious & Minimal) */}
-      <section className="py-28 sm:py-32 bg-[#0E0E10]">
+      <section className="py-28 sm:py-32 bg-[#0E0E10] cnx-defer-section">
         <div className="max-w-[1220px] mx-auto px-5 sm:px-8">
           <RevealBlock className="text-center max-w-xl mx-auto mb-14">
             <h2 className="text-[clamp(2rem,3.6vw,2.9rem)] font-bold tracking-[-0.03em] text-white leading-[1.1]">

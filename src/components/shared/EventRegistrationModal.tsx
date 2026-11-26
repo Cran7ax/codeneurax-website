@@ -23,7 +23,12 @@ export const EventRegistrationModal: React.FC<EventRegistrationModalProps> = ({
 
   useEffect(() => {
     setError('');
-  }, [event?.id]);
+    if (event) {
+      setName(user.name);
+      setEmail(user.email);
+      setCollege(user.college);
+    }
+  }, [event, user.name, user.email, user.college]);
 
   if (!event) return null;
 

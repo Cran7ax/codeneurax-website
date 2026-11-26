@@ -16,10 +16,10 @@ export const RevealBlock: React.FC<RevealProps> = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 14, scale: 0.985 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.12 }}
-      transition={{ duration: 0.46, delay, ease: EDITORIAL_EASE }}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.42, delay, ease: EDITORIAL_EASE }}
       className={className}
     >
       {children}
@@ -34,9 +34,9 @@ export const HeroMount: React.FC<RevealProps> = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay, ease: EDITORIAL_EASE }}
+      transition={{ duration: 0.44, delay, ease: EDITORIAL_EASE }}
       className={className}
     >
       {children}

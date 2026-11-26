@@ -6,6 +6,7 @@ import { useApp } from '../../context/AppContext';
 import { useScrollLock, useSmoothScroll } from '../../context/ScrollContext';
 import { EDITORIAL_EASE } from '../ui/MotionPrimitives';
 import { WhatsAppJoinModal } from '../ui/WhatsAppJoinModal';
+import { preloadRoute } from '../../routes/preload';
 
 type MegaMenuKey = 'community' | 'events' | null;
 type NavKey = 'community' | 'events' | 'library' | 'services';
@@ -77,8 +78,14 @@ export const Navbar: React.FC = () => {
       }
     };
     updateScroll();
+    const rafId = requestAnimationFrame(updateScroll);
+    const timerId = window.setTimeout(updateScroll, 220);
     window.addEventListener('scroll', updateScroll, { passive: true });
-    return () => window.removeEventListener('scroll', updateScroll);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.clearTimeout(timerId);
+      window.removeEventListener('scroll', updateScroll);
+    };
   }, [location.pathname]);
 
   const clearHoverTimer = () => {
@@ -196,7 +203,15 @@ export const Navbar: React.FC = () => {
     const onResize = () => updateIndicator(false);
     window.addEventListener('resize', onResize, { passive: true });
     document.fonts?.ready?.then(() => updateIndicator(false));
-    return () => window.removeEventListener('resize', onResize);
+    let ro: ResizeObserver | null = null;
+    if (navRef.current && typeof ResizeObserver !== 'undefined') {
+      ro = new ResizeObserver(() => updateIndicator(false));
+      ro.observe(navRef.current);
+    }
+    return () => {
+      window.removeEventListener('resize', onResize);
+      ro?.disconnect();
+    };
   }, [updateIndicator]);
 
   const showScrollFill = isScrolled;
@@ -224,6 +239,8 @@ export const Navbar: React.FC = () => {
     >
       <Link
         to={item.to}
+        onMouseEnter={() => preloadRoute(item.to)}
+        onFocus={() => preloadRoute(item.to)}
         onClick={() => handleMenuLinkClick(item.to)}
         style={NAV_EASE_STYLE}
         className="group inline-flex items-center gap-2 text-[16px] font-medium text-white/[0.66] hover:text-white hover:translate-x-1.5 transition-[transform,color] duration-300 w-fit"
@@ -296,6 +313,8 @@ export const Navbar: React.FC = () => {
                 onMouseEnter={() => {
                   setHoveredNav('community');
                   openMenuWithIntent('community');
+                  preloadRoute('/feed');
+                  preloadRoute('/buddykid');
                 }}
                 onMouseLeave={scheduleCloseMenu}
                 onClick={() =>
@@ -334,6 +353,8 @@ export const Navbar: React.FC = () => {
                 onMouseEnter={() => {
                   setHoveredNav('events');
                   openMenuWithIntent('events');
+                  preloadRoute('/events');
+                  preloadRoute('/aispark');
                 }}
                 onMouseLeave={scheduleCloseMenu}
                 onClick={() => openMenuWithIntent(activeMenu === 'events' ? null : 'events')}
@@ -370,6 +391,7 @@ export const Navbar: React.FC = () => {
                 onMouseEnter={() => {
                   setHoveredNav('library');
                   scheduleCloseMenu();
+                  preloadRoute('/library');
                 }}
                 onClick={() => {
                   if (location.pathname === '/library') scrollToTopSmooth();
@@ -401,6 +423,7 @@ export const Navbar: React.FC = () => {
                 onMouseEnter={() => {
                   setHoveredNav('services');
                   scheduleCloseMenu();
+                  preloadRoute('/services');
                 }}
                 onClick={() => {
                   if (location.pathname === '/services') scrollToTopSmooth();

@@ -1,10 +1,10 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertCircle, Check, Info, X } from 'lucide-react';
-import { useApp } from '../../context/AppContext';
+import { useToasts } from '../../context/AppContext';
 
 export const ToastContainer: React.FC = () => {
-  const { toasts, dismissToast } = useApp();
+  const { toasts, dismissToast } = useToasts();
 
   return (
     <div

@@ -9,7 +9,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     <SmoothScrollProvider>
       <div className="min-h-screen flex flex-col bg-[#0E0E10] text-white relative">
         <Navbar />
-        <main className="flex-1">{children}</main>
+        <main id="cnx-main-content" className="flex-1">
+          {children}
+        </main>
         <Footer />
         <ToastContainer />
       </div>
