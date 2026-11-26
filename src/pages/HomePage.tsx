@@ -164,7 +164,7 @@ const CircularPhotoMosaic: React.FC<{ items: PhotoBubble[] }> = React.memo(({ it
       <div
         key={person.id}
         title={`${person.name} · ${person.sub}`}
-        className="relative aspect-square rounded-full overflow-hidden ring-1 ring-white/[0.12] hover:ring-white/[0.32] transition-[transform,box-shadow] duration-200 hover:scale-[1.08] hover:z-10 bg-[#1C1D24] shadow-[0_6px_14px_rgba(0,0,0,0.45)]"
+        className="relative aspect-square rounded-full overflow-hidden ring-1 ring-white/[0.12] hover:ring-white/[0.32] transition-[transform,box-shadow] duration-200 hover:scale-[1.08] hover:z-10 bg-[#1C1D24]"
       >
         <img
           src={person.src}
@@ -200,7 +200,7 @@ export const HomePage: React.FC = () => {
     target: heroRef,
     offset: ['start start', 'end start'],
   });
-  const heroBgY = useTransform(heroProgress, [0, 1], ['0%', '12%']);
+  const heroBgY = useTransform(heroProgress, [0, 1], [0, 72]);
   const heroContentOpacity = useTransform(heroProgress, [0, 0.75], [1, 0.2]);
 
   const neuraKnockout = UPCOMING_EVENTS[0];
@@ -675,7 +675,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 4. PORCELAIN CERAMIC CLAY ECOSYSTEM SECTION */}
-      <section className="py-28 sm:py-32 bg-[#F3F4F8] text-[#0E0E10] cnx-defer-section">
+      <section className="py-28 sm:py-32 bg-[#F3F4F8] text-[#0E0E10]">
         <div className="max-w-[1220px] mx-auto px-5 sm:px-8">
           <RevealBlock className="text-center max-w-xl mx-auto mb-16">
             <h2 className="text-[clamp(2rem,3.8vw,3rem)] font-bold tracking-[-0.03em] text-[#0E0E10] leading-[1.1]">
@@ -757,7 +757,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 5. OUR TEAM ONLY (Spacious & Minimal) */}
-      <section className="py-28 sm:py-32 bg-[#0E0E10] cnx-defer-section">
+      <section className="py-28 sm:py-32 bg-[#0E0E10]">
         <div className="max-w-[1220px] mx-auto px-5 sm:px-8">
           <RevealBlock className="text-center max-w-xl mx-auto mb-14">
             <h2 className="text-[clamp(2rem,3.6vw,2.9rem)] font-bold tracking-[-0.03em] text-white leading-[1.1]">

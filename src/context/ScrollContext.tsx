@@ -28,13 +28,12 @@ const ScrollContext = createContext<ScrollContextValue>({
   syncScrollLayout: () => {},
 });
 
-const QUARTIC_OUT = (t: number) => 1 - Math.pow(1 - t, 4);
+const SMOOTH_EASE = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
 
 export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { pathname } = useLocation();
   const lenisRef = useRef<Lenis | null>(null);
   const rafIdRef = useRef<number>(0);
-  const resizeRafRef = useRef<number>(0);
   const lockedRef = useRef<boolean>(false);
   const [lockCount, setLockCount] = useState(0);
 
@@ -55,29 +54,28 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
   }, []);
 
   const syncScrollLayout = useCallback(() => {
-    if (resizeRafRef.current) return;
-    resizeRafRef.current = requestAnimationFrame(() => {
-      resizeRafRef.current = 0;
-      lenisRef.current?.resize();
-    });
+    lenisRef.current?.resize();
   }, []);
 
   useEffect(() => {
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
 
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     if (prefersReduced) return;
 
     const lenis = new Lenis({
-      lerp: 0.085,
-      wheelMultiplier: 0.92,
-      touchMultiplier: 1.15,
+      duration: 1.2,
+      easing: SMOOTH_EASE,
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
       smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.2,
       syncTouch: false,
       autoResize: true,
     });
@@ -93,40 +91,22 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
       }
     };
 
-    // Observe main content height changes from route switches, tabs, filters, and accordions
-    let ro: ResizeObserver | null = null;
-    if (typeof ResizeObserver !== 'undefined') {
-      ro = new ResizeObserver(() => syncScrollLayout());
-      const mainEl = document.getElementById('cnx-main-content');
-      if (mainEl) ro.observe(mainEl);
-      ro.observe(document.body);
-    }
-
     document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
       document.removeEventListener('visibilitychange', onVisibilityChange);
-      ro?.disconnect();
-      if (resizeRafRef.current) {
-        cancelAnimationFrame(resizeRafRef.current);
-        resizeRafRef.current = 0;
-      }
       stopRaf();
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, [startRaf, stopRaf, syncScrollLayout]);
+  }, [startRaf, stopRaf]);
 
-  // Keep Lenis scroll limits synchronized after every route change
   useEffect(() => {
-    syncScrollLayout();
-    const t1 = window.setTimeout(syncScrollLayout, 180);
-    const t2 = window.setTimeout(syncScrollLayout, 450);
-    return () => {
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
-  }, [pathname, syncScrollLayout]);
+    const timer = window.setTimeout(() => {
+      lenisRef.current?.resize();
+    }, 260);
+    return () => window.clearTimeout(timer);
+  }, [pathname]);
 
   useEffect(() => {
     const isLocked = lockCount > 0;
@@ -139,14 +119,14 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } else {
       document.body.style.overflow = '';
       lenisRef.current?.start();
-      syncScrollLayout();
+      lenisRef.current?.resize();
       startRaf();
     }
 
     return () => {
       document.body.style.overflow = '';
     };
-  }, [lockCount, startRaf, stopRaf, syncScrollLayout]);
+  }, [lockCount, startRaf, stopRaf]);
 
   const acquireLock = useCallback(() => {
     setLockCount((c) => c + 1);
@@ -166,7 +146,7 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const scrollToTopSmooth = useCallback(() => {
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { duration: 0.95, easing: QUARTIC_OUT });
+      lenisRef.current.scrollTo(0, { duration: 1.1, easing: SMOOTH_EASE });
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -177,7 +157,7 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (!el) return;
     if (lenisRef.current) {
       lenisRef.current.resize();
-      lenisRef.current.scrollTo(el, { offset, duration: 1.05, easing: QUARTIC_OUT });
+      lenisRef.current.scrollTo(el, { offset, duration: 1.15, easing: SMOOTH_EASE });
     } else {
       const top = el.getBoundingClientRect().top + window.scrollY + offset;
       window.scrollTo({ top, behavior: 'smooth' });
