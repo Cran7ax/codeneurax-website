@@ -67,6 +67,10 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     if (prefersReduced) return;
 
     const lenis = new Lenis({

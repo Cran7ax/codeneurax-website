@@ -4,6 +4,7 @@ import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import { AppProvider } from './context/AppContext';
 import { useSmoothScroll } from './context/ScrollContext';
 import { Layout } from './components/layout/Layout';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { EDITORIAL_EASE } from './components/ui/MotionPrimitives';
 import { HomePage } from './pages/HomePage';
 import {
@@ -26,10 +27,26 @@ const BuddyKidPage = lazy(loadBuddyKidPage);
 const ServicesPage = lazy(loadServicesPage);
 const LibraryPage = lazy(loadLibraryPage);
 
+const ROUTE_TITLES: Record<string, string> = {
+  '/': 'CodeNeuraX | Student Engineering & AI Collective',
+  '/feed': 'Opportunity Feed | CodeNeuraX',
+  '/events': 'Events | CodeNeuraX',
+  '/aispark': "AI Sparks '26 | CodeNeuraX",
+  '/work-with-us': 'Work With Us | CodeNeuraX',
+  '/campus-ambassadors': 'Campus Ambassadors | CodeNeuraX',
+  '/buddykid': 'BuddyKid Squads | CodeNeuraX',
+  '/services': 'Services | CodeNeuraX',
+  '/library': 'Library | CodeNeuraX',
+};
+
 function AnimatedRoutes() {
   const location = useLocation();
   const { scrollToTopInstant, scrollToElement, syncScrollLayout } = useSmoothScroll();
   const prevPathRef = useRef(location.pathname);
+
+  useEffect(() => {
+    document.title = ROUTE_TITLES[location.pathname] || 'CodeNeuraX';
+  }, [location.pathname]);
 
   useEffect(() => {
     const pathChanged = prevPathRef.current !== location.pathname;
@@ -91,13 +108,15 @@ function AnimatedRoutes() {
 export function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <AppProvider>
-        <BrowserRouter>
-          <Layout>
-            <AnimatedRoutes />
-          </Layout>
-        </BrowserRouter>
-      </AppProvider>
+      <ErrorBoundary>
+        <AppProvider>
+          <BrowserRouter>
+            <Layout>
+              <AnimatedRoutes />
+            </Layout>
+          </BrowserRouter>
+        </AppProvider>
+      </ErrorBoundary>
     </MotionConfig>
   );
 }
