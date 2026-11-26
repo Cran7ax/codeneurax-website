@@ -128,7 +128,7 @@ export const WorkWithUsPage: React.FC = () => {
         footer={
           detailRole && (
             <div className="flex items-center justify-between gap-3">
-              <span className="text-xs font-medium text-neutral-400">
+              <span className="text-xs font-semibold text-neutral-600">
                 Apply by {detailRole.deadline}
               </span>
               <button
@@ -138,62 +138,62 @@ export const WorkWithUsPage: React.FC = () => {
                   setDetailRole(null);
                   setApplyRole(target);
                 }}
-                className="cnx-clay-btn-primary inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-semibold"
+                className="cnx-clay-btn-primary inline-flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs font-semibold"
               >
-                Apply Now
-                <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                <span>Apply Now</span>
+                <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.85} />
               </button>
             </div>
           )
         }
       >
         {detailRole && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-3 gap-2.5">
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Department</p>
-                <p className="mt-1 text-xs font-semibold text-white">{detailRole.department}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-[18px] cnx-bento-accent p-3.5">
+                  <p className="text-[11px] font-medium text-white/75">Deadline</p>
+                  <p className="mt-1 text-xs font-bold text-white">{detailRole.deadline}</p>
+                </div>
+                <div className="rounded-[18px] cnx-bento-tile p-3.5">
+                  <p className="text-[11px] font-semibold text-neutral-500">Team</p>
+                  <p className="mt-1 text-xs font-bold text-[#0E111B]">{detailRole.department}</p>
+                </div>
               </div>
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Type</p>
-                <p className="mt-1 text-xs font-medium text-neutral-300">{detailRole.type}</p>
+
+              <div className="rounded-[18px] cnx-bento-tile p-4">
+                <p className="text-[11px] font-semibold text-neutral-500 mb-1">Overview</p>
+                <p className="text-xs sm:text-[13px] text-neutral-700 leading-relaxed">
+                  {detailRole.summary}
+                </p>
               </div>
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Deadline</p>
-                <p className="mt-1 text-xs font-semibold text-[#60A5FA]">{detailRole.deadline}</p>
-              </div>
-            </div>
 
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-1.5">Overview</p>
-              <p className="text-sm text-neutral-300 leading-relaxed">{detailRole.summary}</p>
-            </div>
-
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-2.5">Responsibilities</p>
-              <ul className="space-y-2 text-xs sm:text-sm text-neutral-300">
-                {detailRole.responsibilities.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5">
-                    <Check className="w-3.5 h-3.5 text-[#60A5FA] mt-1 shrink-0" strokeWidth={2.25} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="rounded-xl cnx-popout-tile p-4">
-                <p className="text-[11px] font-medium text-neutral-500 mb-2">Perks</p>
-                <ul className="space-y-1.5 text-xs text-neutral-300">
-                  {detailRole.perks.map((item) => (
+              <div className="flex-1 rounded-[16px] cnx-bento-well p-4">
+                <p className="text-[11px] font-semibold text-neutral-600 mb-1.5">Eligibility</p>
+                <ul className="space-y-1 text-xs text-neutral-700 leading-relaxed">
+                  {detailRole.eligibility.slice(0, 3).map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
-              <div className="rounded-xl cnx-popout-tile p-4">
-                <p className="text-[11px] font-medium text-neutral-500 mb-2">Eligibility</p>
-                <ul className="space-y-1.5 text-xs text-neutral-300">
-                  {detailRole.eligibility.map((item) => (
+            </div>
+
+            <div className="lg:col-span-7 flex flex-col gap-3">
+              <div className="rounded-[18px] cnx-bento-tile p-4 sm:p-5">
+                <p className="text-[11px] font-semibold text-neutral-500 mb-2">Responsibilities</p>
+                <ul className="divide-y divide-black/[0.07] text-xs sm:text-[13px] text-neutral-700 leading-relaxed">
+                  {detailRole.responsibilities.map((item) => (
+                    <li key={item} className="py-2 first:pt-0 last:pb-0">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex-1 rounded-[16px] cnx-bento-well p-4">
+                <p className="text-[11px] font-semibold text-neutral-600 mb-1.5">Perks</p>
+                <ul className="space-y-1 text-xs text-neutral-700 leading-relaxed">
+                  {detailRole.perks.slice(0, 3).map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>

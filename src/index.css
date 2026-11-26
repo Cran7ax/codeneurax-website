@@ -45,6 +45,11 @@
     color: #FFFFFF;
   }
 
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
   :focus-visible {
     outline: 2px solid #4353FF;
     outline-offset: 2px;
@@ -66,10 +71,6 @@
 }
 
 @layer components {
-  /* ============================================================================
-     UNIFIED BRAND PRISM GRADIENTS (Derived from CodeNeuraX Logo)
-     ============================================================================ */
-
   .cnx-accent-gradient-dark {
     background-image: linear-gradient(110deg, #60A5FA 0%, #6374FF 58%, #A5B4FC 100%);
     -webkit-background-clip: text;
@@ -107,10 +108,6 @@
       inset 0 -10px 22px rgba(0, 0, 0, 0.42),
       0 22px 48px -18px rgba(0, 0, 0, 0.78);
   }
-
-  /* ============================================================================
-     CLEAN MATTE SCULPTED CLAYMORPHISM (Zero Mouse Backlight, Pure Tactile Depth)
-     ============================================================================ */
 
   .cnx-clay-dark {
     background: linear-gradient(160deg, #1B1C23 0%, #141419 100%);
@@ -191,7 +188,6 @@
       0 18px 40px -18px rgba(14, 18, 40, 0.13);
   }
 
-  /* Static Pill Fill for Measured Sliding Tab Bars (Zero conflicting CSS transforms) */
   .cnx-clay-pill-fill {
     background: linear-gradient(135deg, #2F7CF6 0%, #4353FF 58%, #5855FF 100%);
     box-shadow:
@@ -200,7 +196,6 @@
       0 8px 18px -6px rgba(67, 83, 255, 0.5);
   }
 
-  /* Tactile Sculpted Clay Buttons */
   .cnx-clay-btn-primary {
     background: linear-gradient(135deg, #2F7CF6 0%, #4353FF 58%, #5855FF 100%);
     color: #FFFFFF;
@@ -273,6 +268,183 @@
 
   .cnx-clay-btn-dark:active {
     transform: translateY(0) scale(0.975);
+  }
+
+  /* ============================================================================
+     COOL SMOKED MIST CLAY + DEEP SAPPHIRE BENTO POP-OUT SYSTEM
+     ============================================================================ */
+
+  .cnx-bento-popout {
+    background-color: #D4DAE8;
+    background-image:
+      radial-gradient(ellipse 85% 65% at 0% 0%, rgba(47, 108, 232, 0.14), transparent 60%),
+      radial-gradient(ellipse 75% 60% at 100% 100%, rgba(196, 68, 128, 0.08), transparent 62%),
+      linear-gradient(158deg, #DFE4F0 0%, #CFD6E6 100%);
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    box-shadow:
+      inset 0 2px 3px rgba(255, 255, 255, 0.78),
+      inset 0 -10px 22px rgba(18, 26, 64, 0.12),
+      0 34px 86px -18px rgba(4, 6, 16, 0.72),
+      0 12px 28px -10px rgba(4, 6, 16, 0.36);
+  }
+
+  .cnx-bento-popout-dark {
+    background: linear-gradient(162deg, #1A1C26 0%, #111218 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      inset 0 1.5px 1px rgba(255, 255, 255, 0.15),
+      inset 0 -10px 22px rgba(0, 0, 0, 0.5),
+      0 28px 64px -16px rgba(0, 0, 0, 0.85);
+  }
+
+  .cnx-bento-tile {
+    background: linear-gradient(160deg, #F1F3FA 0%, #E6EAF5 100%);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow:
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.88),
+      inset 0 -6px 12px rgba(20, 30, 76, 0.065),
+      0 10px 22px -12px rgba(16, 24, 64, 0.2),
+      0 2px 6px -2px rgba(16, 24, 64, 0.08);
+  }
+
+  .cnx-bento-tile-hover {
+    background: linear-gradient(160deg, #F1F3FA 0%, #E6EAF5 100%);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow:
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.88),
+      inset 0 -6px 12px rgba(20, 30, 76, 0.065),
+      0 10px 22px -12px rgba(16, 24, 64, 0.2);
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 240ms ease;
+  }
+
+  .cnx-bento-tile-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.94),
+      inset 0 -6px 12px rgba(20, 30, 76, 0.075),
+      0 16px 30px -12px rgba(20, 30, 76, 0.26);
+  }
+
+  /* Deep Architectural Sapphire-Indigo Clay Focal Tile */
+  .cnx-bento-accent {
+    background-color: #1D2766;
+    background-image:
+      radial-gradient(ellipse 95% 85% at 0% 0%, rgba(56, 152, 248, 0.3), transparent 60%),
+      radial-gradient(ellipse 80% 75% at 100% 100%, rgba(204, 64, 132, 0.22), transparent 62%),
+      linear-gradient(150deg, #2744B5 0%, #2C369E 52%, #191F5C 100%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
+    box-shadow:
+      inset 0 1.5px 1.5px rgba(255, 255, 255, 0.26),
+      inset 0 -8px 18px rgba(10, 14, 48, 0.48),
+      0 14px 28px -12px rgba(24, 34, 110, 0.48);
+  }
+
+  .cnx-bento-well {
+    background: #C7CEE0;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+      inset 0 3px 7px rgba(16, 24, 62, 0.13),
+      inset 0 -1.5px 2px rgba(255, 255, 255, 0.72);
+  }
+
+  .cnx-bento-well-dark {
+    background: #0F1016;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6);
+  }
+
+  .cnx-bento-close {
+    background: linear-gradient(160deg, #F1F3FA 0%, #D9DFEE 100%);
+    color: #3E475C;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    box-shadow:
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
+      inset 0 -3px 6px rgba(18, 26, 68, 0.1),
+      0 6px 14px -6px rgba(16, 24, 64, 0.26);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms ease;
+  }
+
+  .cnx-bento-close:hover {
+    color: #0E111B;
+    transform: translateY(-1px);
+  }
+
+  .cnx-bento-close:active {
+    transform: scale(0.94);
+  }
+
+  .cnx-bento-btn-muted {
+    background: linear-gradient(160deg, #F1F3FA 0%, #DAE0EE 100%);
+    color: #1A1F2E;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    box-shadow:
+      inset 0 1.5px 2px rgba(255, 255, 255, 0.9),
+      inset 0 -3px 6px rgba(18, 26, 68, 0.09),
+      0 8px 16px -8px rgba(16, 24, 64, 0.24);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms ease;
+  }
+
+  .cnx-bento-btn-muted:hover {
+    color: #3546E0;
+    transform: translateY(-1px);
+  }
+
+  .cnx-bento-btn-muted:active {
+    transform: scale(0.97);
+  }
+
+  .cnx-bento-input {
+    width: 100%;
+    background: #D4DAEA;
+    border: 1px solid rgba(255, 255, 255, 0.56);
+    border-radius: 11px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    color: #0E111B;
+    outline: none;
+    box-shadow:
+      inset 0 2.5px 6px rgba(16, 24, 62, 0.12),
+      inset 0 -1.5px 2px rgba(255, 255, 255, 0.72);
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  select.cnx-bento-input {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%233E475C' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  .cnx-bento-input::placeholder {
+    color: rgba(14, 17, 27, 0.42);
+  }
+
+  .cnx-bento-input:focus {
+    background: #F4F6FC;
+    border-color: rgba(53, 70, 224, 0.6);
+    box-shadow:
+      inset 0 1px 2px rgba(16, 24, 62, 0.05),
+      0 0 0 3px rgba(67, 83, 255, 0.16);
+  }
+
+  /* High-Contrast Smoked Liquid-Glass + Tactile Clay Notification */
+  .cnx-toast-liquid-clay {
+    background: linear-gradient(
+      155deg,
+      rgba(26, 29, 41, 0.92) 0%,
+      rgba(13, 14, 20, 0.94) 100%
+    );
+    backdrop-filter: blur(24px) saturate(185%);
+    -webkit-backdrop-filter: blur(24px) saturate(185%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+      inset 0 1.5px 1px rgba(255, 255, 255, 0.32),
+      inset 0 -7px 14px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(10, 11, 16, 0.22),
+      0 22px 48px -12px rgba(6, 8, 18, 0.62);
   }
 }
 
@@ -389,41 +561,175 @@
 }
 
 /* ============================================================================
-   BENTO-INSPIRED DARK OBSIDIAN POP-OUT SYSTEM (Crisp Geometry, Zero Fluff)
+   SITEWIDE SOPHISTICATED BUTTON HOVER CHOREOGRAPHY
    ============================================================================ */
-.cnx-popout-shell {
-  background: linear-gradient(165deg, #16171E 0%, #101116 100%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+
+.cnx-clay-btn-primary,
+.cnx-clay-btn-white,
+.cnx-clay-btn-dark,
+.cnx-bento-btn-muted,
+.cnx-clay-btn-soft {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  will-change: transform;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 240ms ease,
+    border-color 240ms ease,
+    color 200ms ease !important;
+}
+
+/* Whisper-soft studio light sweep across button surface */
+.cnx-clay-btn-primary::after,
+.cnx-clay-btn-white::after,
+.cnx-clay-btn-dark::after,
+.cnx-bento-btn-muted::after,
+.cnx-clay-btn-soft::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-120%, 0, 0) skewX(-16deg);
+  transition:
+    transform 620ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 260ms ease;
+}
+
+.cnx-clay-btn-primary::after,
+.cnx-clay-btn-dark::after {
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.22) 48%,
+    rgba(255, 255, 255, 0.05) 62%,
+    transparent 80%
+  );
+}
+
+.cnx-clay-btn-white::after,
+.cnx-bento-btn-muted::after,
+.cnx-clay-btn-soft::after {
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(67, 83, 255, 0.09) 48%,
+    rgba(255, 255, 255, 0.45) 58%,
+    transparent 80%
+  );
+}
+
+.cnx-clay-btn-primary:hover:not(:disabled)::after,
+.cnx-clay-btn-white:hover:not(:disabled)::after,
+.cnx-clay-btn-dark:hover:not(:disabled)::after,
+.cnx-bento-btn-muted:hover:not(:disabled)::after,
+.cnx-clay-btn-soft:hover:not(:disabled)::after {
+  opacity: 1;
+  transform: translate3d(125%, 0, 0) skewX(-16deg);
+}
+
+/* Tactile micro-elevation and crisp press compression */
+.cnx-clay-btn-primary:hover:not(:disabled) {
+  transform: translate3d(0, -1.5px, 0);
+  filter: brightness(1.045);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -10px 24px rgba(0, 0, 0, 0.45),
-    0 32px 84px -18px rgba(0, 0, 0, 0.88);
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 0.38),
+    inset 0 -3px 6px rgba(18, 24, 118, 0.38),
+    0 16px 30px -10px rgba(67, 83, 255, 0.62);
 }
 
-.cnx-popout-tile {
-  background: #0C0D11;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.48);
+.cnx-clay-btn-white:hover:not(:disabled) {
+  transform: translate3d(0, -1.5px, 0);
+  box-shadow:
+    inset 0 1.5px 1.5px rgba(255, 255, 255, 1),
+    inset 0 -3px 7px rgba(14, 14, 16, 0.11),
+    0 16px 32px -10px rgba(0, 0, 0, 0.52);
 }
 
-.cnx-popout-input {
-  width: 100%;
-  background: #0C0D11;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 14px;
-  color: #FFFFFF;
-  outline: none;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
-  transition: border-color 180ms ease, background-color 180ms ease;
+.cnx-clay-btn-dark:hover:not(:disabled) {
+  transform: translate3d(0, -1.5px, 0);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.24),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.56),
+    0 16px 30px -10px rgba(14, 14, 16, 0.54);
 }
 
-.cnx-popout-input::placeholder {
-  color: #6B7280;
+.cnx-bento-btn-muted:hover:not(:disabled),
+.cnx-clay-btn-soft:hover:not(:disabled) {
+  transform: translate3d(0, -1.5px, 0);
 }
 
-.cnx-popout-input:focus {
-  border-color: #5B6BFF;
-  background: #0F1016;
+.cnx-clay-btn-primary:active:not(:disabled),
+.cnx-clay-btn-white:active:not(:disabled),
+.cnx-clay-btn-dark:active:not(:disabled),
+.cnx-bento-btn-muted:active:not(:disabled),
+.cnx-clay-btn-soft:active:not(:disabled) {
+  transform: translate3d(0, 0.5px, 0) scale(0.978);
+  transition-duration: 110ms !important;
+}
+
+.cnx-clay-btn-primary:disabled,
+.cnx-clay-btn-white:disabled,
+.cnx-clay-btn-dark:disabled,
+.cnx-bento-btn-muted:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none !important;
+}
+
+/* Smooth automatic icon micro-motion inside all site buttons */
+.cnx-clay-btn-primary svg,
+.cnx-clay-btn-white svg,
+.cnx-clay-btn-dark svg,
+.cnx-bento-btn-muted svg,
+.cnx-clay-btn-soft svg {
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cnx-clay-btn-primary:hover:not(:disabled) svg:last-child,
+.cnx-clay-btn-white:hover:not(:disabled) svg:last-child,
+.cnx-clay-btn-dark:hover:not(:disabled) svg:last-child,
+.cnx-bento-btn-muted:hover:not(:disabled) svg:last-child,
+.cnx-clay-btn-soft:hover:not(:disabled) svg:last-child {
+  transform: translate3d(2.5px, 0, 0);
+}
+
+.cnx-clay-btn-primary:hover:not(:disabled) svg:first-child:not(:last-child),
+.cnx-clay-btn-white:hover:not(:disabled) svg:first-child:not(:last-child),
+.cnx-clay-btn-dark:hover:not(:disabled) svg:first-child:not(:last-child),
+.cnx-bento-btn-muted:hover:not(:disabled) svg:first-child:not(:last-child),
+.cnx-clay-btn-soft:hover:not(:disabled) svg:first-child:not(:last-child) {
+  transform: scale(1.07);
+}
+
+/* Subtle tactile hover & press for compact filter/outline buttons */
+button.rounded-xl:not([class*="cnx-clay-btn"]):not([class*="cnx-bento-btn"]):not([class*="cnx-clay-light"]):not([class*="cnx-clay-dark"]),
+button.rounded-lg:not([class*="cnx-clay-btn"]):not([class*="cnx-bento-btn"]):not([class*="cnx-clay-light"]):not([class*="cnx-clay-dark"]) {
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 180ms ease;
+}
+
+button.rounded-xl:not([class*="cnx-clay-btn"]):not([class*="cnx-bento-btn"]):not([class*="cnx-clay-light"]):not([class*="cnx-clay-dark"]):hover:not(:disabled),
+button.rounded-lg:not([class*="cnx-clay-btn"]):not([class*="cnx-bento-btn"]):not([class*="cnx-clay-light"]):not([class*="cnx-clay-dark"]):hover:not(:disabled) {
+  transform: translate3d(0, -1px, 0);
+}
+
+button.rounded-xl:not([class*="cnx-clay-btn"]):not([class*="cnx-bento-btn"]):not([class*="cnx-clay-light"]):not([class*="cnx-clay-dark"]):active:not(:disabled),
+button.rounded-lg:not([class*="cnx-clay-btn"]):not([class*="cnx-bento-btn"]):not([class*="cnx-clay-light"]):not([class*="cnx-clay-dark"]):active:not(:disabled) {
+  transform: translate3d(0, 0, 0) scale(0.975);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cnx-clay-btn-primary::after,
+  .cnx-clay-btn-white::after,
+  .cnx-clay-btn-dark::after,
+  .cnx-bento-btn-muted::after,
+  .cnx-clay-btn-soft::after {
+    display: none;
+  }
 }

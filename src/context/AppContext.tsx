@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { INITIAL_INCOMING_REQUESTS, INITIAL_SQUADS } from '../data/buddykid';
 import type { JoinRequest, Squad, UserProfile } from '../types';
 
@@ -88,12 +88,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     readStorage('cnx_applied_roles_v1', []),
   );
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const lastToastRef = useRef<{ key: string; ts: number }>({ key: '', ts: 0 });
 
   useEffect(() => {
     try {
       localStorage.setItem('cnx_user_v1', JSON.stringify(user));
     } catch {
-      /* ignore storage quota issues */
+      /* ignore */
     }
   }, [user]);
 
@@ -145,28 +146,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [appliedRoles]);
 
-  const dismissToast = (id: string) => {
+  const dismissToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
-  };
+  }, []);
 
-  const pushToast = (toast: Omit<ToastMessage, 'id'>) => {
-    const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-    setToasts((prev) => [...prev.slice(-3), { ...toast, id }]);
-    window.setTimeout(() => {
-      dismissToast(id);
-    }, 4200);
-  };
+  const pushToast = useCallback(
+    (toast: Omit<ToastMessage, 'id'>) => {
+      const dedupeKey = `${toast.title}::${toast.description ?? ''}`;
+      const now = Date.now();
+      if (lastToastRef.current.key === dedupeKey && now - lastToastRef.current.ts < 500) {
+        return;
+      }
+      lastToastRef.current = { key: dedupeKey, ts: now };
+
+      const id = `toast-${now}-${Math.random().toString(36).slice(2, 6)}`;
+      setToasts((prev) => [
+        ...prev.filter((t) => `${t.title}::${t.description ?? ''}` !== dedupeKey).slice(-1),
+        { ...toast, id },
+      ]);
+
+      window.setTimeout(() => {
+        dismissToast(id);
+      }, 3600);
+    },
+    [dismissToast],
+  );
 
   const toggleSignIn = () => {
-    setUser((prev) => {
-      const nextSignedIn = !prev.signedIn;
-      pushToast({
-        title: nextSignedIn ? `Signed in as ${prev.name}` : 'Signed out of BuddyKid session',
-        description: nextSignedIn
-          ? 'Squad approvals and join requests are now active.'
-          : 'Sign back in anytime from the top bar.',
-      });
-      return { ...prev, signedIn: nextSignedIn };
+    const nextSignedIn = !user.signedIn;
+    setUser((prev) => ({ ...prev, signedIn: nextSignedIn }));
+    pushToast({
+      title: nextSignedIn ? `Signed in as ${user.name}` : 'Switched to guest mode',
+      description: nextSignedIn
+        ? 'Squad approvals and join requests are active.'
+        : 'Sign back in anytime from the header.',
     });
   };
 
@@ -175,14 +188,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const toggleBookmark = (id: string) => {
-    setBookmarkedIds((prev) => {
-      const exists = prev.includes(id);
-      const next = exists ? prev.filter((x) => x !== id) : [...prev, id];
-      pushToast({
-        title: exists ? 'Removed from saved feed' : 'Saved to your Opportunity Feed',
-        variant: exists ? 'default' : 'success',
-      });
-      return next;
+    const exists = bookmarkedIds.includes(id);
+    setBookmarkedIds((prev) => (exists ? prev.filter((x) => x !== id) : [...prev, id]));
+    pushToast({
+      title: exists ? 'Removed from saved feed' : 'Saved to Opportunity Feed',
+      variant: exists ? 'default' : 'success',
     });
   };
 
@@ -190,7 +200,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!user.signedIn) {
       pushToast({
         title: 'Sign in required',
-        description: 'Enable your Dev Parmar profile in the header to request squad membership.',
+        description: 'Activate your profile in the header to request squad membership.',
         variant: 'warning',
       });
       return false;
@@ -202,7 +212,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (squad.createdByMe || squad.leader === user.name) {
       pushToast({
         title: 'You already lead this squad',
-        description: 'Check My Squads & Approvals to review incoming builders.',
+        description: 'Open My Squads to review incoming builders.',
         variant: 'warning',
       });
       return false;
@@ -223,7 +233,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (alreadyRequested) {
       pushToast({
         title: 'Request already sent',
-        description: `Your join request to ${squad.name} is pending review.`,
+        description: `Your request to ${squad.name} is pending review.`,
       });
       return false;
     }
@@ -245,7 +255,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setOutgoingRequests((prev) => [newReq, ...prev]);
     pushToast({
       title: `Request sent to ${squad.name}`,
-      description: `Leader ${squad.leader} has been notified. Track status in My Squads & Approvals.`,
+      description: `${squad.leader} has been notified.`,
       variant: 'success',
     });
     return true;
@@ -257,7 +267,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!user.signedIn) {
       return {
         ok: false,
-        message: 'Sign in from the top navigation menu before redeeming an invite code.',
+        message: 'Sign in from the header before redeeming an invite code.',
       };
     }
 
@@ -270,7 +280,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!match) {
       return {
         ok: false,
-        message: `No active squad matched invite code "${normalized}". Try CNX-ROACH or CNX-AI26.`,
+        message: `No active squad matched "${normalized}". Try CNX-ROACH or CNX-AI26.`,
       };
     }
 
@@ -288,7 +298,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (alreadyJoined || match.createdByMe) {
       return {
         ok: true,
-        message: `You are already an active member of ${match.name}.`,
+        message: `You are already a member of ${match.name}.`,
         squad: match,
       };
     }
@@ -317,13 +327,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     pushToast({
       title: `Joined ${match.name}`,
-      description: `Verified code ${normalized} for ${match.hackathon}.`,
+      description: `Code ${normalized} verified.`,
       variant: 'success',
     });
 
     return {
       ok: true,
-      message: `Joined ${match.name} (${match.hackathon}) using invite code ${normalized}.`,
+      message: `Joined ${match.name} (${match.hackathon}) using ${normalized}.`,
       squad: { ...match, currentSize: match.currentSize + 1 },
     };
   };
@@ -351,7 +361,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setSquads((prev) => [newSquad, ...prev]);
     pushToast({
       title: `Squad "${newSquad.name}" created`,
-      description: `Share invite code ${newSquad.inviteCode} with teammates.`,
+      description: `Invite code: ${newSquad.inviteCode}`,
       variant: 'success',
     });
     return newSquad;
@@ -388,8 +398,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     pushToast({
       title:
         action === 'accept'
-          ? `Approved ${req.applicantName} into ${req.squadName}`
-          : `Declined ${req.applicantName}'s request`,
+          ? `Approved ${req.applicantName}`
+          : `Declined ${req.applicantName}`,
       variant: action === 'accept' ? 'success' : 'default',
     });
   };
@@ -402,8 +412,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const registerForEvent = (eventId: string, eventTitle: string) => {
     setRegisteredEvents((prev) => (prev.includes(eventId) ? prev : [...prev, eventId]));
     pushToast({
-      title: `Registration confirmed: ${eventTitle}`,
-      description: 'Event pass and venue instructions queued to your profile.',
+      title: `Registered for ${eventTitle}`,
+      description: 'Event pass queued to your profile.',
       variant: 'success',
     });
   };
@@ -411,8 +421,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const applyForRole = (roleId: string, roleTitle: string) => {
     setAppliedRoles((prev) => (prev.includes(roleId) ? prev : [...prev, roleId]));
     pushToast({
-      title: `Application submitted: ${roleTitle}`,
-      description: 'Core Team reviewers respond within 5–7 business days.',
+      title: `Applied for ${roleTitle}`,
+      description: 'Core Team reviews applications weekly.',
       variant: 'success',
     });
   };

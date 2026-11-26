@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, Check } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SERVICE_KPIS, SERVICE_OFFERINGS, SERVICE_PRINCIPLES } from '../data/services';
 import type { ServiceOffering } from '../types';
@@ -85,7 +85,7 @@ export const ServicesPage: React.FC = () => {
                 <p className="text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-white">
                   {kpi.value}
                 </p>
-                <p className="mt-2 text-xs sm:text-sm text-neutral-400 leading-snug">
+                <p className="mt-2 text-xs sm:text-sm text-neutral-500 leading-snug">
                   {kpi.label}
                 </p>
               </div>
@@ -126,7 +126,7 @@ export const ServicesPage: React.FC = () => {
                         {service.title}
                       </h3>
                       <ArrowUpRight
-                        className="w-5 h-5 text-neutral-400 group-hover:text-[#4353FF] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[transform,color] shrink-0 mt-1"
+                        className="w-5 h-5 text-neutral-500 group-hover:text-[#4353FF] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[transform,color] shrink-0 mt-1"
                         strokeWidth={1.75}
                       />
                     </div>
@@ -185,7 +185,7 @@ export const ServicesPage: React.FC = () => {
               Have a product, workflow, or brand to{' '}
               <span className="cnx-accent-gradient-dark">build</span>?
             </h2>
-            <p className="mt-3 text-base text-neutral-400 leading-relaxed">
+            <p className="mt-3 text-base text-neutral-500 leading-relaxed">
               Book a 30-minute scoping call or write to team@codeneurax.in.
             </p>
           </div>
@@ -206,13 +206,13 @@ export const ServicesPage: React.FC = () => {
       <Drawer
         open={Boolean(selectedService)}
         onClose={() => setSelectedService(null)}
-        subtitle={selectedService ? `Sprint window · ${selectedService.timeline}` : ""}
+        subtitle={selectedService ? `Sprint · ${selectedService.timeline}` : ""}
         title={selectedService?.title || ""}
         footer={
           selectedService && (
             <div className="flex items-center justify-between gap-3">
-              <span className="text-xs font-medium text-neutral-400">
-                Typical delivery: {selectedService.timeline}
+              <span className="text-xs font-semibold text-neutral-600">
+                Delivery: {selectedService.timeline}
               </span>
               <button
                 type="button"
@@ -222,7 +222,7 @@ export const ServicesPage: React.FC = () => {
                   setBooked(false);
                   setConsultOpen(true);
                 }}
-                className="cnx-clay-btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold"
+                className="cnx-clay-btn-primary px-5 py-2 rounded-xl text-xs font-semibold"
               >
                 Start a project
               </button>
@@ -231,46 +231,45 @@ export const ServicesPage: React.FC = () => {
         }
       >
         {selectedService && (
-          <div className="space-y-4">
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-1.5">Overview</p>
-              <p className="text-sm text-neutral-300 leading-relaxed">
-                {selectedService.shortDescription}
-              </p>
-            </div>
-
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-2.5">Deliverables</p>
-              <ul className="space-y-2 text-xs sm:text-sm text-neutral-300 leading-relaxed">
-                {selectedService.deliverables.map((d) => (
-                  <li key={d} className="flex items-start gap-2.5">
-                    <Check className="w-3.5 h-3.5 text-[#60A5FA] mt-1 shrink-0" strokeWidth={2.25} />
-                    <span>{d}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="rounded-xl cnx-popout-tile p-4">
-                <p className="text-[11px] font-medium text-neutral-500 mb-2">Core stack</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedService.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-0.5 rounded-md bg-white/[0.05] text-[11px] font-medium text-neutral-200"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="rounded-[18px] cnx-bento-accent p-4">
+                <p className="text-[11px] font-medium text-white/75">Timeline</p>
+                <p className="mt-1.5 text-base font-bold text-white">{selectedService.timeline}</p>
               </div>
 
-              <div className="rounded-xl cnx-popout-tile p-4">
-                <p className="text-[11px] font-medium text-neutral-500 mb-1.5">Best fit</p>
-                <p className="text-xs text-neutral-300 leading-relaxed">
+              <div className="rounded-[18px] cnx-bento-tile p-4">
+                <p className="text-[11px] font-semibold text-neutral-500">Core stack</p>
+                <p className="mt-1.5 text-xs font-bold text-[#0E111B] leading-relaxed">
+                  {selectedService.stack.join("  ·  ")}
+                </p>
+              </div>
+
+              <div className="flex-1 rounded-[18px] cnx-bento-well p-4">
+                <p className="text-[11px] font-semibold text-neutral-600 mb-1">Best fit</p>
+                <p className="text-xs text-neutral-700 leading-relaxed">
                   {selectedService.idealFor}
                 </p>
+              </div>
+            </div>
+
+            <div className="lg:col-span-7 flex flex-col gap-3">
+              <div className="rounded-[18px] cnx-bento-tile p-4 sm:p-5">
+                <p className="text-[11px] font-semibold text-neutral-500 mb-1.5">Overview</p>
+                <p className="text-[13.5px] text-neutral-700 leading-relaxed">
+                  {selectedService.shortDescription}
+                </p>
+              </div>
+
+              <div className="flex-1 rounded-[18px] cnx-bento-tile p-4 sm:p-5">
+                <p className="text-[11px] font-semibold text-neutral-500 mb-2">Deliverables</p>
+                <ul className="divide-y divide-black/[0.07] text-xs sm:text-[13px] text-neutral-700 leading-relaxed">
+                  {selectedService.deliverables.map((d) => (
+                    <li key={d} className="py-2 first:pt-0 last:pb-0">
+                      {d}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
@@ -282,121 +281,141 @@ export const ServicesPage: React.FC = () => {
         onClose={() => setConsultOpen(false)}
         subtitle="30-minute scoping call"
         title="Book a Free Consultation"
-        maxWidthClass="max-w-lg"
-      >
-        {booked ? (
-          <div className="space-y-5">
-            <div className="rounded-xl cnx-popout-tile p-5 flex items-start gap-3.5">
-              <span className="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 flex items-center justify-center shrink-0 mt-0.5">
-                <Check className="w-4 h-4" strokeWidth={2.25} />
-              </span>
-              <div>
-                <h4 className="text-sm font-bold text-white">Consultation scheduled</h4>
-                <p className="mt-1 text-xs text-neutral-400 leading-relaxed">
-                  Scoping invite for <strong className="text-white">{projectScope}</strong> (
-                  {preferredDate}) queued to {clientEmail}.
-                </p>
-              </div>
-            </div>
+        maxWidthClass="max-w-[840px]"
+        footer={
+          booked ? (
             <div className="flex justify-end">
               <button
                 type="button"
                 onClick={() => setConsultOpen(false)}
-                className="cnx-clay-btn-white px-5 py-2 rounded-lg text-xs font-semibold"
+                className="cnx-clay-btn-dark px-5 py-2 rounded-xl text-xs font-semibold"
               >
                 Done
               </button>
             </div>
-          </div>
-        ) : (
-          <form onSubmit={handleBookConsultation} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div>
-                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
-                  Your name
-                </label>
-                <input
-                  type="text"
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
-                  placeholder="Full name"
-                  className="cnx-popout-input"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
-                  Work email
-                </label>
-                <input
-                  type="email"
-                  value={clientEmail}
-                  onChange={(e) => setClientEmail(e.target.value)}
-                  placeholder="founder@company.com"
-                  className="cnx-popout-input"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div>
-                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
-                  Service track
-                </label>
-                <select
-                  value={projectScope}
-                  onChange={(e) => setProjectScope(e.target.value)}
-                  className="cnx-popout-input"
-                >
-                  {SERVICE_OFFERINGS.map((s) => (
-                    <option key={s.id} value={s.title}>
-                      {s.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
-                  Preferred date
-                </label>
-                <input
-                  type="date"
-                  value={preferredDate}
-                  onChange={(e) => setPreferredDate(e.target.value)}
-                  className="cnx-popout-input"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-neutral-400 mb-1.5">
-                Project scope
-              </label>
-              <textarea
-                rows={3}
-                value={brief}
-                onChange={(e) => setBrief(e.target.value)}
-                placeholder="Outline deliverables, target launch window, or existing stack..."
-                className="cnx-popout-input resize-none"
-              />
-            </div>
-
-            <div className="flex justify-end gap-3 pt-1">
+          ) : (
+            <div className="flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => setConsultOpen(false)}
-                className="px-4 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors"
+                className="cnx-bento-btn-muted px-4 py-2 rounded-xl text-xs font-semibold"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="cnx-clay-btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold"
+                form="cnx-consult-form"
+                className="cnx-clay-btn-primary px-5 py-2 rounded-xl text-xs font-semibold"
               >
                 Confirm booking
               </button>
             </div>
-          </form>
-        )}
+          )
+        }
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+          <div className="lg:col-span-4 rounded-[18px] cnx-bento-accent p-5 flex flex-col justify-between gap-4">
+            <div>
+              <p className="text-[11px] font-medium text-white/75">CNX Studio</p>
+              <p className="mt-1.5 text-base font-bold text-white leading-snug">
+                Scope your product directly with lead builders.
+              </p>
+            </div>
+            <div className="pt-3 border-t border-white/15 space-y-1 text-xs text-white/80">
+              <p>Track: <strong className="text-white">{projectScope}</strong></p>
+              <p className="text-white/70">Weekly staging sprints</p>
+            </div>
+          </div>
+
+          <div className="lg:col-span-8">
+            {booked ? (
+              <div className="h-full rounded-[18px] cnx-bento-tile p-6 flex flex-col justify-center gap-1.5">
+                <span className="text-xs font-bold text-emerald-600">Booked</span>
+                <h4 className="text-lg font-bold text-[#0E111B]">Consultation scheduled</h4>
+                <p className="text-xs text-neutral-600 leading-relaxed">
+                  Scoping invite for <strong className="text-[#0E111B]">{projectScope}</strong> (
+                  {preferredDate}) queued to {clientEmail}.
+                </p>
+              </div>
+            ) : (
+              <form
+                id="cnx-consult-form"
+                onSubmit={handleBookConsultation}
+                className="h-full rounded-[18px] cnx-bento-tile p-4 sm:p-5 space-y-3"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-neutral-500 mb-1">
+                      Your name
+                    </label>
+                    <input
+                      type="text"
+                      value={clientName}
+                      onChange={(e) => setClientName(e.target.value)}
+                      placeholder="Full name"
+                      className="cnx-bento-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-neutral-500 mb-1">
+                      Work email
+                    </label>
+                    <input
+                      type="email"
+                      value={clientEmail}
+                      onChange={(e) => setClientEmail(e.target.value)}
+                      placeholder="founder@company.com"
+                      className="cnx-bento-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-neutral-500 mb-1">
+                      Service track
+                    </label>
+                    <select
+                      value={projectScope}
+                      onChange={(e) => setProjectScope(e.target.value)}
+                      className="cnx-bento-input"
+                    >
+                      {SERVICE_OFFERINGS.map((s) => (
+                        <option key={s.id} value={s.title}>
+                          {s.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-neutral-500 mb-1">
+                      Preferred date
+                    </label>
+                    <input
+                      type="date"
+                      value={preferredDate}
+                      onChange={(e) => setPreferredDate(e.target.value)}
+                      className="cnx-bento-input"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-semibold text-neutral-500 mb-1">
+                    Project scope
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={brief}
+                    onChange={(e) => setBrief(e.target.value)}
+                    placeholder="Outline deliverables, target launch window, or existing stack..."
+                    className="cnx-bento-input resize-none"
+                  />
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
       </Modal>
     </div>
   );

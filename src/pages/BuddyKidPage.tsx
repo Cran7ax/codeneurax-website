@@ -193,7 +193,7 @@ export const BuddyKidPage: React.FC = () => {
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                 <div className="relative w-full lg:w-96">
                   <Search
-                    className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+                    className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2"
                     strokeWidth={1.75}
                   />
                   <input
@@ -201,7 +201,7 @@ export const BuddyKidPage: React.FC = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search hackathon, skill, or college..."
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-400 focus:border-[#4353FF] focus:outline-none"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
                   />
                 </div>
 
@@ -255,7 +255,7 @@ export const BuddyKidPage: React.FC = () => {
                                 <p className="text-xs font-bold text-[#0E0E10]">
                                   {squad.currentSize}/{squad.maxSize} filled
                                 </p>
-                                <p className="font-mono text-[11px] text-neutral-400 mt-0.5">
+                                <p className="font-mono text-[11px] text-neutral-500 mt-0.5">
                                   {squad.inviteCode}
                                 </p>
                               </div>
@@ -373,7 +373,7 @@ export const BuddyKidPage: React.FC = () => {
                         value={inviteCode}
                         onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
                         placeholder="e.g. CNX-ROACH"
-                        className="flex-1 px-4 py-3 rounded-xl bg-[#F3F4F8] border border-black/[0.09] font-mono text-sm font-semibold text-[#0E0E10] uppercase placeholder:text-neutral-400 focus:border-[#4353FF] focus:bg-white focus:outline-none"
+                        className="flex-1 px-4 py-3 rounded-xl bg-[#F3F4F8] border border-black/[0.09] font-mono text-sm font-semibold text-[#0E0E10] uppercase placeholder:text-neutral-500 focus:border-[#4353FF] focus:bg-white focus:outline-none"
                       />
                       <button
                         type="submit"
@@ -476,7 +476,7 @@ export const BuddyKidPage: React.FC = () => {
                         value={newName}
                         onChange={(e) => setNewName(e.target.value)}
                         placeholder="e.g. TensorGuild"
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-400 focus:border-[#4353FF] focus:bg-white focus:outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-500 focus:border-[#4353FF] focus:bg-white focus:outline-none"
                       />
                     </div>
                     <div>
@@ -488,7 +488,7 @@ export const BuddyKidPage: React.FC = () => {
                         value={newHackathon}
                         onChange={(e) => setNewHackathon(e.target.value)}
                         placeholder="e.g. Smart India Hackathon 2026"
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-400 focus:border-[#4353FF] focus:bg-white focus:outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-500 focus:border-[#4353FF] focus:bg-white focus:outline-none"
                       />
                     </div>
                   </div>
@@ -535,7 +535,7 @@ export const BuddyKidPage: React.FC = () => {
                         value={newLookingFor}
                         onChange={(e) => setNewLookingFor(e.target.value)}
                         placeholder="e.g. Frontend / Design"
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-400 focus:border-[#4353FF] focus:bg-white focus:outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-500 focus:border-[#4353FF] focus:bg-white focus:outline-none"
                       />
                     </div>
                   </div>
@@ -586,7 +586,7 @@ export const BuddyKidPage: React.FC = () => {
                       value={newDescription}
                       onChange={(e) => setNewDescription(e.target.value)}
                       placeholder="Describe the problem statement or stack direction..."
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-400 focus:border-[#4353FF] focus:bg-white focus:outline-none resize-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#F3F4F8] border border-black/[0.08] text-sm text-[#0E0E10] placeholder:text-neutral-500 focus:border-[#4353FF] focus:bg-white focus:outline-none resize-none"
                     />
                   </div>
 
@@ -679,7 +679,7 @@ export const BuddyKidPage: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => withdrawOutgoingRequest(req.id)}
-                                className="p-1.5 rounded-lg text-neutral-400 hover:text-[#0E0E10]"
+                                className="p-1.5 rounded-lg text-neutral-500 hover:text-[#0E0E10]"
                                 title="Withdraw request"
                               >
                                 <X className="w-3.5 h-3.5" strokeWidth={1.75} />
@@ -765,7 +765,7 @@ export const BuddyKidPage: React.FC = () => {
         footer={
           selectedSquad && (
             <div className="flex items-center justify-between gap-3">
-              <span className="text-xs font-medium text-neutral-400">
+              <span className="text-xs font-semibold text-neutral-600">
                 {selectedSquad.currentSize}/{selectedSquad.maxSize} seats filled
               </span>
               <button
@@ -779,83 +779,81 @@ export const BuddyKidPage: React.FC = () => {
                   const ok = requestJoinSquad(selectedSquad.id, joinNote, joinRole);
                   if (ok) setSelectedSquad(null);
                 }}
-                className="cnx-clay-btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+                className="cnx-clay-btn-primary px-5 py-2 rounded-xl text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Send Join Request
+                Send join request
               </button>
             </div>
           )
         }
       >
         {selectedSquad && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Squad leader</p>
-                <p className="mt-1 text-xs font-semibold text-white">{selectedSquad.leader}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="rounded-[18px] cnx-bento-accent p-4">
+                <p className="text-[11px] font-medium text-white/75">Open role</p>
+                <p className="mt-1.5 text-sm font-bold text-white">{selectedSquad.lookingFor}</p>
               </div>
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Open role</p>
-                <p className="mt-1 text-xs font-semibold text-[#60A5FA]">
-                  {selectedSquad.lookingFor}
+
+              <div className="rounded-[18px] cnx-bento-tile p-4">
+                <p className="text-[11px] font-semibold text-neutral-500">Squad leader</p>
+                <p className="mt-1 text-xs font-bold text-[#0E111B]">{selectedSquad.leader}</p>
+                <p className="mt-0.5 text-[11px] text-neutral-500">
+                  {selectedSquad.college} · {selectedSquad.mode}
                 </p>
               </div>
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Campus / Base</p>
-                <p className="mt-1 text-xs text-neutral-300">{selectedSquad.college}</p>
-              </div>
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Mode</p>
-                <p className="mt-1 text-xs text-neutral-300">{selectedSquad.mode}</p>
+
+              <div className="flex-1 rounded-[18px] cnx-bento-well px-4 py-3 flex items-center text-xs font-medium text-neutral-700">
+                {selectedSquad.skills.join("  ·  ")}
               </div>
             </div>
 
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-1.5">Squad brief</p>
-              <p className="text-sm text-neutral-300 leading-relaxed">{selectedSquad.description}</p>
-            </div>
-
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-2">Core stack</p>
-              <div className="flex flex-wrap gap-1.5">
-                {selectedSquad.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-2.5 py-1 rounded-md bg-white/[0.05] text-xs font-medium text-neutral-200"
-                  >
-                    {skill}
-                  </span>
-                ))}
+            <div className="lg:col-span-7 flex flex-col gap-3">
+              <div className="rounded-[18px] cnx-bento-tile p-4">
+                <p className="text-[11px] font-semibold text-neutral-500 mb-1">Squad brief</p>
+                <p className="text-[13px] text-neutral-700 leading-relaxed">
+                  {selectedSquad.description}
+                </p>
               </div>
-            </div>
 
-            {!selectedSquad.createdByMe && selectedSquad.leader !== user.name && (
-              <div className="pt-2 space-y-3.5">
-                <div>
-                  <label className="block text-xs font-medium text-neutral-400 mb-1.5">
-                    Role you offer
-                  </label>
-                  <input
-                    type="text"
-                    value={joinRole}
-                    onChange={(e) => setJoinRole(e.target.value)}
-                    className="cnx-popout-input"
-                  />
+              {!selectedSquad.createdByMe && selectedSquad.leader !== user.name ? (
+                <div className="flex-1 rounded-[18px] cnx-bento-tile p-4 space-y-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-neutral-600 mb-1">
+                      Role you offer
+                    </label>
+                    <input
+                      type="text"
+                      value={joinRole}
+                      onChange={(e) => setJoinRole(e.target.value)}
+                      className="cnx-bento-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-semibold text-neutral-600 mb-1">
+                      Intro note to {selectedSquad.leader}
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={joinNote}
+                      onChange={(e) => setJoinNote(e.target.value)}
+                      placeholder="Share relevant repos, hackathon experience, or what you can ship..."
+                      className="cnx-bento-input resize-none"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-neutral-400 mb-1.5">
-                    Intro note to {selectedSquad.leader}
-                  </label>
-                  <textarea
-                    rows={3}
-                    value={joinNote}
-                    onChange={(e) => setJoinNote(e.target.value)}
-                    placeholder="Share relevant repos, hackathon experience, or what you can ship..."
-                    className="cnx-popout-input resize-none"
-                  />
+              ) : (
+                <div className="flex-1 rounded-[18px] cnx-bento-tile p-5 flex flex-col justify-center gap-1">
+                  <p className="text-xs font-bold text-[#3242D6]">Your squad</p>
+                  <p className="text-sm font-bold text-[#0E111B]">
+                    Invite code: <span className="font-mono">{selectedSquad.inviteCode}</span>
+                  </p>
+                  <p className="text-xs text-neutral-600">
+                    Share this code with teammates or review incoming requests under My Squads.
+                  </p>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         )}
       </Drawer>

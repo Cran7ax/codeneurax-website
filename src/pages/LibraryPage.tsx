@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowUpRight, BookOpen, Check, Download, Search } from 'lucide-react';
+import { ArrowUpRight, Download, Search } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { LEETCODE_COMPANY_ROWS, LIBRARY_RESOURCES } from '../data/library';
 import type { LibraryCategory, LibraryResource } from '../types';
@@ -131,7 +131,7 @@ export const LibraryPage: React.FC = () => {
 
             <div className="relative w-full lg:w-80">
               <Search
-                className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+                className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2"
                 strokeWidth={1.75}
               />
               <input
@@ -139,7 +139,7 @@ export const LibraryPage: React.FC = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search company, GATE, OS, DBMS..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.08] text-xs text-[#0E0E10] placeholder:text-neutral-400 focus:border-[#4353FF] focus:outline-none"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-black/[0.08] text-xs text-[#0E0E10] placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
               />
             </div>
           </div>
@@ -159,7 +159,7 @@ export const LibraryPage: React.FC = () => {
                             {res.countLabel} · <span className="text-neutral-500">{res.format}</span>
                           </p>
                         </div>
-                        <span className="text-xs text-neutral-400 shrink-0">{res.updatedAt}</span>
+                        <span className="text-xs text-neutral-500 shrink-0">{res.updatedAt}</span>
                       </div>
 
                       
@@ -219,65 +219,66 @@ export const LibraryPage: React.FC = () => {
         footer={
           previewResource && (
             <div className="flex items-center justify-between gap-3">
-              <span className="text-xs font-medium text-neutral-400">{previewResource.format}</span>
+              <span className="text-xs font-semibold text-neutral-600">
+                {previewResource.format}
+              </span>
               <button
                 type="button"
                 onClick={() => handleDownloadPack(previewResource)}
-                className="cnx-clay-btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold"
+                className="cnx-clay-btn-primary inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-semibold"
               >
-                <Download className="w-3.5 h-3.5" strokeWidth={1.75} />
-                Download Study Pack
+                <Download className="w-3.5 h-3.5" strokeWidth={1.85} />
+                <span>Download pack</span>
               </button>
             </div>
           )
         }
       >
         {previewResource && (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Volume</p>
-                <p className="mt-1 text-sm font-bold text-[#60A5FA]">
-                  {previewResource.countLabel}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-stretch">
+            <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-[18px] cnx-bento-accent p-4">
+                  <p className="text-[11px] font-medium text-white/75">Volume</p>
+                  <p className="mt-1.5 text-sm font-bold text-white">
+                    {previewResource.countLabel}
+                  </p>
+                </div>
+
+                <div className="rounded-[18px] cnx-bento-tile p-4">
+                  <p className="text-[11px] font-semibold text-neutral-500">Updated</p>
+                  <p className="mt-1.5 text-sm font-bold text-[#0E111B]">
+                    {previewResource.updatedAt}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex-1 rounded-[18px] cnx-bento-tile p-4">
+                <p className="text-[11px] font-semibold text-neutral-500 mb-1.5">Overview</p>
+                <p className="text-[13px] text-neutral-700 leading-relaxed">
+                  {previewResource.summary}
                 </p>
               </div>
-              <div className="rounded-xl cnx-popout-tile p-3.5">
-                <p className="text-[11px] font-medium text-neutral-500">Last updated</p>
-                <p className="mt-1 text-sm font-bold text-white">{previewResource.updatedAt}</p>
+            </div>
+
+            <div className="lg:col-span-7 flex flex-col gap-3">
+              <div className="rounded-[18px] cnx-bento-tile p-4 sm:p-5">
+                <p className="text-[11px] font-semibold text-neutral-500 mb-2">Included modules</p>
+                <ul className="divide-y divide-black/[0.07] text-xs sm:text-[13px] text-neutral-700 leading-relaxed">
+                  {previewResource.sampleTopics.map((topic) => (
+                    <li key={topic} className="py-2 first:pt-0 last:pb-0">
+                      {topic}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
 
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-1.5">Overview</p>
-              <p className="text-sm text-neutral-300 leading-relaxed">{previewResource.summary}</p>
-            </div>
-
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-2.5">
-                Included modules &amp; patterns
-              </p>
-              <ul className="space-y-2 text-xs sm:text-sm text-neutral-300">
-                {previewResource.sampleTopics.map((topic) => (
-                  <li key={topic} className="flex items-start gap-2.5">
-                    <Check className="w-3.5 h-3.5 text-[#60A5FA] mt-1 shrink-0" strokeWidth={2.25} />
-                    <span>{topic}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-xl cnx-popout-tile p-4">
-              <p className="text-[11px] font-medium text-neutral-500 mb-2">Technical checkpoint</p>
-              <pre className="font-mono text-xs text-neutral-200 whitespace-pre-wrap leading-relaxed overflow-x-auto">
-                {previewResource.previewSnippet}
-              </pre>
-            </div>
-
-            <div className="rounded-xl cnx-popout-tile p-4 flex items-center gap-3">
-              <BookOpen className="w-4 h-4 text-[#60A5FA] shrink-0" strokeWidth={1.75} />
-              <p className="text-xs text-neutral-400">
-                Pair this pack with weekly problem drills in the CodeNeuraX DSA WhatsApp group.
-              </p>
+              <div className="flex-1 rounded-[16px] bg-[#141620] text-neutral-200 p-4 space-y-1.5 shadow-[inset_0_2px_6px_rgba(0,0,0,0.5)]">
+                <p className="text-[11px] font-medium text-neutral-400">Technical checkpoint</p>
+                <pre className="font-mono text-[11.5px] text-neutral-200 whitespace-pre-wrap leading-relaxed overflow-x-auto">
+                  {previewResource.previewSnippet}
+                </pre>
+              </div>
             </div>
           </div>
         )}
@@ -286,22 +287,22 @@ export const LibraryPage: React.FC = () => {
       <Modal
         open={leetcodeModalOpen}
         onClose={() => setLeetcodeModalOpen(false)}
-        subtitle="Interactive Sheet · Direct LeetCode URLs"
-        title="Company-Wise LeetCode Questions"
+        subtitle="Direct LeetCode problem links"
+        title="Company-Wise LeetCode Sheet"
         maxWidthClass="max-w-4xl"
       >
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="space-y-3.5">
+          <div className="rounded-[16px] cnx-bento-well p-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div className="flex flex-wrap gap-1.5">
               {["All", "Google", "Amazon", "Microsoft", "LinkedIn", "Adobe", "TCS"].map((comp) => (
                 <button
                   key={comp}
                   type="button"
                   onClick={() => setLcCompanyFilter(comp)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                     lcCompanyFilter === comp
-                      ? "bg-white text-[#0E0E10] border-white"
-                      : "cnx-popout-tile text-neutral-300 hover:text-white"
+                      ? "cnx-clay-btn-dark"
+                      : "text-neutral-600 hover:text-[#0E111B] hover:bg-white/60"
                   }`}
                 >
                   {comp}
@@ -315,10 +316,10 @@ export const LibraryPage: React.FC = () => {
                   key={diff}
                   type="button"
                   onClick={() => setLcDifficultyFilter(diff)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                     lcDifficultyFilter === diff
-                      ? "bg-[#4353FF] text-white border-[#4353FF]"
-                      : "cnx-popout-tile text-neutral-400 hover:text-white"
+                      ? "cnx-clay-btn-primary"
+                      : "text-neutral-600 hover:text-[#0E111B] hover:bg-white/60"
                   }`}
                 >
                   {diff}
@@ -327,10 +328,13 @@ export const LibraryPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-xl cnx-popout-tile overflow-hidden overflow-x-auto">
+          <div
+            data-lenis-prevent
+            className="rounded-[18px] cnx-bento-tile overflow-auto max-h-[52vh] overscroll-contain"
+          >
             <table className="w-full text-left border-collapse text-xs">
-              <thead>
-                <tr className="border-b border-white/[0.08] bg-white/[0.03] text-neutral-400 font-medium">
+              <thead className="sticky top-0 z-10 bg-[#DFE4F0]">
+                <tr className="border-b border-black/[0.06] text-neutral-500 font-semibold">
                   <th className="py-3 px-4">#</th>
                   <th className="py-3 px-4">Problem</th>
                   <th className="py-3 px-4">Topic</th>
@@ -339,37 +343,37 @@ export const LibraryPage: React.FC = () => {
                   <th className="py-3 px-4 text-right">Solve</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.06]">
+              <tbody className="divide-y divide-black/[0.05]">
                 {filteredLeetCode.map((row) => (
-                  <tr key={row.id} className="hover:bg-white/[0.03] transition-colors">
-                    <td className="py-3 px-4 font-semibold text-neutral-500">{row.number}</td>
-                    <td className="py-3 px-4 font-semibold text-white">{row.title}</td>
-                    <td className="py-3 px-4 text-neutral-400">{row.topic}</td>
-                    <td className="py-3 px-4">
+                  <tr key={row.id} className="hover:bg-[#E2E7F4] transition-colors">
+                    <td className="py-2.5 px-4 font-semibold text-neutral-500">{row.number}</td>
+                    <td className="py-2.5 px-4 font-bold text-[#0E111B]">{row.title}</td>
+                    <td className="py-2.5 px-4 text-neutral-600">{row.topic}</td>
+                    <td className="py-2.5 px-4">
                       <span
                         className={`text-xs font-semibold ${
                           row.difficulty === "Hard"
-                            ? "text-[#F472B6]"
+                            ? "text-[#E1498A]"
                             : row.difficulty === "Medium"
-                              ? "text-[#60A5FA]"
-                              : "text-emerald-400"
+                              ? "text-[#4353FF]"
+                              : "text-emerald-600"
                         }`}
                       >
                         {row.difficulty}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-xs text-neutral-300">
+                    <td className="py-2.5 px-4 text-xs text-neutral-600">
                       {row.companies.join(", ")}
                     </td>
-                    <td className="py-3 px-4 text-right">
+                    <td className="py-2.5 px-4 text-right">
                       <a
                         href={row.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-[#818CF8] hover:text-white font-semibold transition-colors"
+                        className="inline-flex items-center gap-1 text-[#4353FF] hover:text-[#0E111B] font-semibold transition-colors"
                       >
-                        LeetCode
-                        <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                        <span>LeetCode</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.85} />
                       </a>
                     </td>
                   </tr>

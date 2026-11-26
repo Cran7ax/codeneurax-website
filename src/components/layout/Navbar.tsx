@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, ChevronDown, Menu, Search, X } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useScrollLock, useSmoothScroll } from '../../context/ScrollContext';
-import { CommandPalette } from '../ui/CommandPalette';
 import { EDITORIAL_EASE } from '../ui/MotionPrimitives';
 import { WhatsAppJoinModal } from '../ui/WhatsAppJoinModal';
 
@@ -44,13 +43,11 @@ export const Navbar: React.FC = () => {
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [whatsAppOpen, setWhatsAppOpen] = useState(false);
-  const [commandOpen, setCommandOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const hoverTimeoutRef = useRef<number | null>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
-  // Measure the exact text label spans (excluding chevrons) so the underline is always dead-center
   const labelRefs = useRef<Record<NavKey, HTMLSpanElement | null>>({
     community: null,
     events: null,
@@ -126,15 +123,6 @@ export const Navbar: React.FC = () => {
       }
     };
     const onKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        const tag = (e.target as HTMLElement | null)?.tagName;
-        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-        e.preventDefault();
-        setActiveMenu(null);
-        setProfileOpen(false);
-        setCommandOpen((o) => !o);
-        return;
-      }
       if (e.key === 'Escape') {
         setActiveMenu(null);
         setProfileOpen(false);
@@ -211,7 +199,6 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('resize', onResize);
   }, [updateIndicator]);
 
-  // Transparent at the top of EVERY webpage; solid #0E0E10 flows in on scroll or menu lock
   const showScrollFill = isScrolled;
   const showMenuSolidLock = Boolean(activeMenu) || profileOpen || mobileOpen;
   const isSolid = showScrollFill || showMenuSolidLock;
@@ -257,7 +244,7 @@ export const Navbar: React.FC = () => {
     <>
       <div ref={headerRef} className="fixed top-0 left-0 right-0 z-50 w-full">
         <header className="relative z-50 h-[68px] w-full">
-          {/* Layer 1: Smooth downward flow-in solid #0E0E10 on scroll (every page) */}
+          {/* Layer 1: Smooth downward flow-in solid #0E0E10 on scroll */}
           <div
             aria-hidden="true"
             className="absolute inset-0 overflow-hidden pointer-events-none"
@@ -270,7 +257,7 @@ export const Navbar: React.FC = () => {
             />
           </div>
 
-          {/* Layer 2: Instant synchronized solid #0E0E10 lock when dropdown opens */}
+          {/* Layer 2: Synchronized solid #0E0E10 lock when dropdown opens */}
           <div
             aria-hidden="true"
             className="absolute inset-0 bg-[#0E0E10] pointer-events-none transition-opacity duration-200"
@@ -297,7 +284,7 @@ export const Navbar: React.FC = () => {
               </span>
             </Link>
 
-            {/* Center: 4 Clean Triggers — Constant font-medium + Label-Locked Underline */}
+            {/* Center: 4 Clean Triggers */}
             <nav
               ref={navRef}
               className="relative hidden lg:flex items-center gap-8"
@@ -455,23 +442,8 @@ export const Navbar: React.FC = () => {
               />
             </nav>
 
-            {/* Right: Search + 2 Sculpted Actions */}
+            {/* Right: 2 Clean Sculpted Actions (Search Removed) */}
             <div className="hidden lg:flex items-center gap-2.5 shrink-0">
-              <button
-                type="button"
-                onClick={() => {
-                  setActiveMenu(null);
-                  setProfileOpen(false);
-                  setCommandOpen(true);
-                }}
-                aria-label="Quick search (Ctrl+K)"
-                title="Quick search (⌘K / Ctrl+K)"
-                style={NAV_EASE_STYLE}
-                className="p-2 text-white/75 hover:text-white hover:-translate-y-[1px] transition-[transform,color] duration-250 mr-0.5"
-              >
-                <Search className="w-4 h-4" strokeWidth={1.75} />
-              </button>
-
               <button
                 type="button"
                 onClick={() => setWhatsAppOpen(true)}
@@ -501,9 +473,9 @@ export const Navbar: React.FC = () => {
                       exit={{ opacity: 0, y: 5, scale: 0.97 }}
                       transition={{ duration: 0.22, ease: EDITORIAL_EASE }}
                       style={{ transformOrigin: 'top right' }}
-                      className="absolute right-0 mt-3 w-64 rounded-2xl cnx-popout-shell overflow-hidden z-50 p-2"
+                      className="absolute right-0 mt-3 w-64 rounded-[22px] cnx-bento-popout-dark overflow-hidden z-50 p-3"
                     >
-                      <div className="rounded-xl cnx-popout-tile px-3.5 py-3 mb-1.5">
+                      <div className="rounded-[14px] cnx-bento-well-dark px-3.5 py-3 mb-2.5">
                         <p className="text-xs font-semibold text-white">
                           {user.signedIn ? user.name : 'Guest session'}
                         </p>
@@ -555,14 +527,6 @@ export const Navbar: React.FC = () => {
             <div className="flex lg:hidden items-center gap-2">
               <button
                 type="button"
-                onClick={() => setCommandOpen(true)}
-                aria-label="Quick search"
-                className="p-2 text-white/85 hover:text-white"
-              >
-                <Search className="w-4 h-4" strokeWidth={1.75} />
-              </button>
-              <button
-                type="button"
                 onClick={() => setWhatsAppOpen(true)}
                 className="cnx-clay-btn-primary px-3.5 py-1.5 rounded-xl text-xs font-medium"
               >
@@ -580,7 +544,7 @@ export const Navbar: React.FC = () => {
           </div>
         </header>
 
-        {/* Full-Width Opaque Mega-Menu with Silky Slideout */}
+        {/* Full-Width Opaque Mega-Menu */}
         <AnimatePresence>
           {activeMenu && (
             <>
@@ -733,14 +697,14 @@ export const Navbar: React.FC = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.24 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 bg-black/75"
+              className="fixed inset-0 bg-[#060608]/75 backdrop-blur-[5px]"
             />
             <motion.div
               initial={{ x: '104%' }}
               animate={{ x: 0 }}
               exit={{ x: '104%' }}
               transition={{ duration: 0.36, ease: EDITORIAL_EASE }}
-              className="relative z-10 w-full max-w-sm rounded-2xl cnx-popout-shell h-full flex flex-col text-white overflow-hidden"
+              className="relative z-10 w-full max-w-sm rounded-[26px] cnx-bento-popout-dark h-full flex flex-col text-white overflow-hidden"
             >
               <div className="h-[64px] px-5 flex items-center justify-between border-b border-white/[0.08]">
                 <div className="flex items-center gap-2.5">
@@ -756,13 +720,13 @@ export const Navbar: React.FC = () => {
                   type="button"
                   onClick={() => setMobileOpen(false)}
                   aria-label="Close navigation menu"
-                  className="w-8 h-8 rounded-lg cnx-popout-tile text-neutral-300 hover:text-white flex items-center justify-center"
+                  className="w-8 h-8 rounded-lg bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.08] text-neutral-300 hover:text-white flex items-center justify-center"
                 >
                   <X className="w-4 h-4" strokeWidth={1.75} />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+              <div data-lenis-prevent className="flex-1 overflow-y-auto overscroll-contain px-5 py-6 space-y-6">
                 <div>
                   <p className="text-xs font-medium text-neutral-500 mb-3">Community</p>
                   <div className="space-y-1">
@@ -846,7 +810,6 @@ export const Navbar: React.FC = () => {
       </AnimatePresence>
 
       <WhatsAppJoinModal open={whatsAppOpen} onClose={() => setWhatsAppOpen(false)} />
-      <CommandPalette open={commandOpen} onClose={() => setCommandOpen(false)} />
     </>
   );
 };
