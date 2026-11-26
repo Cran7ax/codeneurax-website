@@ -1,0 +1,4410 @@
+=== PUBLIC IMAGES ===
+ai-sparks-audience.jpg
+ai-sparks-closing.jpg
+ai-sparks-speaker.jpg
+ai-sparks-speakers-banner.webp
+ai-sparks-stage.jpg
+codeneurax-mark.jpg
+dinesh-yadav.jpg
+intellify-win.jpg
+isha-thaker.jpg
+mitali-desai.jpg
+partners
+prachi-doshi.jpg
+speaker-akshay.jpg
+speaker-dev.jpg
+speaker-parth.jpg
+speaker-varun.jpg
+
+
+===== FILE: src/index.css =====
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --color-dark-canvas: #0E0E10;
+  --color-dark-card: #16161A;
+  --color-light-canvas: #FFFFFF;
+  --color-light-subtle: #F4F4F6;
+  --color-indigo: #4353FF;
+  --color-indigo-hover: #3442E6;
+  --color-rose-spark: #E1498A;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html {
+    background-color: #0E0E10;
+    color: #FFFFFF;
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  body {
+    background-color: #0E0E10;
+    color: #FFFFFF;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: rgba(67, 83, 255, 0.28);
+    color: #FFFFFF;
+  }
+
+  :focus-visible {
+    outline: 2px solid #4353FF;
+    outline-offset: 2px;
+  }
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.cnx-section-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cnx-silk-spotlight {
+  background-color: #16161A;
+  background-image:
+    radial-gradient(ellipse 85% 75% at 15% 20%, rgba(67, 83, 255, 0.42), transparent 60%),
+    radial-gradient(ellipse 75% 75% at 88% 82%, rgba(225, 73, 138, 0.28), transparent 62%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+}
+
+.cnx-midnight-hero {
+  background-color: #0E0E10;
+  background-image:
+    radial-gradient(ellipse 65% 55% at 20% 10%, rgba(67, 83, 255, 0.22), transparent 62%),
+    radial-gradient(ellipse 50% 45% at 85% 25%, rgba(225, 73, 138, 0.14), transparent 65%);
+}
+
+.cnx-masked-wordmark {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(14, 14, 16, 0.12),
+      rgba(14, 14, 16, 0.28)
+    ),
+    url('/images/ai-sparks-stage.jpg');
+  background-size: cover;
+  background-position: center 42%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0E0E10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+
+===== FILE: src/types/index.ts =====
+export type OpportunityCategory =
+  | 'Hackathons'
+  | 'Internships'
+  | 'Workshops'
+  | 'Tech Updates';
+
+export interface OpportunityItem {
+  id: string;
+  title: string;
+  organization: string;
+  category: OpportunityCategory;
+  deadline: string;
+  locationOrMode: string;
+  summary: string;
+  details: string[];
+  tags: string[];
+  featured?: boolean;
+  externalUrl: string;
+  ctaLabel: string;
+  stipendOrPrize?: string;
+}
+
+export interface Speaker {
+  id: string;
+  name: string;
+  role: string;
+  organization: string;
+  topic: string;
+  eventTag: string;
+  day?: 'Day 1' | 'Day 2';
+  avatar?: string;
+  initials: string;
+  linkedinUrl: string;
+  bio: string;
+}
+
+export interface CnxEvent {
+  id: string;
+  title: string;
+  subtitle: string;
+  status: 'Upcoming' | 'Completed';
+  date: string;
+  time?: string;
+  mode: 'Online' | 'Offline' | 'Hybrid';
+  venueOrPlatform: string;
+  attendeesOrTarget: string;
+  speaker?: string;
+  speakerTitle?: string;
+  category: string;
+  highlights: string[];
+  prizePool?: string;
+  deadline?: string;
+  externalUrl?: string;
+  internalRoute?: string;
+  image?: string;
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  affiliation: string;
+  avatar?: string;
+  initials: string;
+  linkedinUrl: string;
+}
+
+export interface PartnerItem {
+  id: string;
+  name: string;
+  role: string;
+  logo?: string;
+  invertOnDark?: boolean;
+  website?: string;
+}
+
+export interface Ambassador {
+  id: string;
+  name: string;
+  college: string;
+  shortCollege: string;
+  city: string;
+  cohort: string;
+  initials: string;
+  focus: string;
+  linkedinUrl: string;
+}
+
+export interface Squad {
+  id: string;
+  name: string;
+  hackathon: string;
+  leader: string;
+  college: string;
+  mode: 'Offline' | 'Online' | 'Hybrid';
+  currentSize: number;
+  maxSize: number;
+  skills: string[];
+  lookingFor: string;
+  inviteCode: string;
+  description: string;
+  createdByMe?: boolean;
+}
+
+export interface JoinRequest {
+  id: string;
+  squadId: string;
+  squadName: string;
+  hackathon: string;
+  applicantName: string;
+  applicantCollege: string;
+  roleRequested: string;
+  skills: string[];
+  note: string;
+  status: 'Pending' | 'Accepted' | 'Declined';
+  timestamp: string;
+}
+
+export interface ServiceOffering {
+  id: string;
+  index: string;
+  title: string;
+  shortDescription: string;
+  deliverables: string[];
+  stack: string[];
+  timeline: string;
+  idealFor: string;
+}
+
+export type LibraryCategory =
+  | 'Previous Year Questions'
+  | 'Notes'
+  | 'Problem Statements';
+
+export interface LibraryResource {
+  id: string;
+  title: string;
+  category: LibraryCategory;
+  countLabel: string;
+  format: string;
+  updatedAt: string;
+  tags: string[];
+  summary: string;
+  sampleTopics: string[];
+  previewSnippet: string;
+}
+
+export interface LeetCodeProblem {
+  id: string;
+  number: number;
+  title: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  topic: string;
+  companies: string[];
+  frequency: string;
+  url: string;
+}
+
+export interface CareerRole {
+  id: string;
+  title: string;
+  department: 'Community' | 'Engineering' | 'Design' | 'Content';
+  type: string;
+  location: string;
+  tags: string[];
+  deadline: string;
+  status: 'Open' | 'Rolling';
+  summary: string;
+  responsibilities: string[];
+  perks: string[];
+  eligibility: string[];
+}
+
+export interface UserProfile {
+  name: string;
+  handle: string;
+  college: string;
+  role: string;
+  email: string;
+  signedIn: boolean;
+  skills: string[];
+}
+
+
+===== FILE: src/context/AppContext.tsx =====
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { INITIAL_INCOMING_REQUESTS, INITIAL_SQUADS } from '../data/buddykid';
+import type { JoinRequest, Squad, UserProfile } from '../types';
+
+export interface ToastMessage {
+  id: string;
+  title: string;
+  description?: string;
+  variant?: 'default' | 'success' | 'warning';
+}
+
+interface CreateSquadInput {
+  name: string;
+  hackathon: string;
+  maxSize: number;
+  skills: string[];
+  lookingFor: string;
+  college: string;
+  mode: 'Offline' | 'Online' | 'Hybrid';
+  description: string;
+}
+
+interface AppContextValue {
+  user: UserProfile;
+  toggleSignIn: () => void;
+  updateUserProfile: (partial: Partial<UserProfile>) => void;
+  bookmarkedIds: string[];
+  toggleBookmark: (id: string) => void;
+  squads: Squad[];
+  incomingRequests: JoinRequest[];
+  outgoingRequests: JoinRequest[];
+  requestJoinSquad: (squadId: string, note: string, roleRequested: string) => boolean;
+  joinWithCode: (code: string) => { ok: boolean; message: string; squad?: Squad };
+  createSquad: (input: CreateSquadInput) => Squad;
+  handleIncomingRequest: (requestId: string, action: 'accept' | 'decline') => void;
+  withdrawOutgoingRequest: (requestId: string) => void;
+  registeredEvents: string[];
+  registerForEvent: (eventId: string, eventTitle: string) => void;
+  appliedRoles: string[];
+  applyForRole: (roleId: string, roleTitle: string) => void;
+  toasts: ToastMessage[];
+  pushToast: (toast: Omit<ToastMessage, 'id'>) => void;
+  dismissToast: (id: string) => void;
+}
+
+const AppContext = createContext<AppContextValue | null>(null);
+
+const DEFAULT_USER: UserProfile = {
+  name: 'Dev Parmar',
+  handle: '@devparmar',
+  college: 'Marwadi University, Rajkot',
+  role: 'Full-Stack & AI Builder',
+  email: 'dev.parmar@codeneurax.in',
+  signedIn: true,
+  skills: ['React', 'TypeScript', 'Python', 'FastAPI', 'LLM Agents'],
+};
+
+function readStorage<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
+
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<UserProfile>(() =>
+    readStorage('cnx_user_v1', DEFAULT_USER),
+  );
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() =>
+    readStorage('cnx_bookmarks_v1', ['opp-neuraknockout-2026']),
+  );
+  const [squads, setSquads] = useState<Squad[]>(() =>
+    readStorage('cnx_buddykid_squads_v1', INITIAL_SQUADS),
+  );
+  const [incomingRequests, setIncomingRequests] = useState<JoinRequest[]>(() =>
+    readStorage('cnx_buddykid_incoming_v1', INITIAL_INCOMING_REQUESTS),
+  );
+  const [outgoingRequests, setOutgoingRequests] = useState<JoinRequest[]>(() =>
+    readStorage('cnx_buddykid_outgoing_v1', []),
+  );
+  const [registeredEvents, setRegisteredEvents] = useState<string[]>(() =>
+    readStorage('cnx_registered_events_v1', []),
+  );
+  const [appliedRoles, setAppliedRoles] = useState<string[]>(() =>
+    readStorage('cnx_applied_roles_v1', []),
+  );
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cnx_user_v1', JSON.stringify(user));
+    } catch {
+      /* ignore storage quota issues */
+    }
+  }, [user]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cnx_bookmarks_v1', JSON.stringify(bookmarkedIds));
+    } catch {
+      /* ignore */
+    }
+  }, [bookmarkedIds]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cnx_buddykid_squads_v1', JSON.stringify(squads));
+    } catch {
+      /* ignore */
+    }
+  }, [squads]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cnx_buddykid_incoming_v1', JSON.stringify(incomingRequests));
+    } catch {
+      /* ignore */
+    }
+  }, [incomingRequests]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cnx_buddykid_outgoing_v1', JSON.stringify(outgoingRequests));
+    } catch {
+      /* ignore */
+    }
+  }, [outgoingRequests]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cnx_registered_events_v1', JSON.stringify(registeredEvents));
+    } catch {
+      /* ignore */
+    }
+  }, [registeredEvents]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('cnx_applied_roles_v1', JSON.stringify(appliedRoles));
+    } catch {
+      /* ignore */
+    }
+  }, [appliedRoles]);
+
+  const dismissToast = (id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const pushToast = (toast: Omit<ToastMessage, 'id'>) => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    setToasts((prev) => [...prev.slice(-3), { ...toast, id }]);
+    window.setTimeout(() => {
+      dismissToast(id);
+    }, 4200);
+  };
+
+  const toggleSignIn = () => {
+    setUser((prev) => {
+      const nextSignedIn = !prev.signedIn;
+      pushToast({
+        title: nextSignedIn ? `Signed in as ${prev.name}` : 'Signed out of BuddyKid session',
+        description: nextSignedIn
+          ? 'Squad approvals and join requests are now active.'
+          : 'Sign back in anytime from the top bar.',
+      });
+      return { ...prev, signedIn: nextSignedIn };
+    });
+  };
+
+  const updateUserProfile = (partial: Partial<UserProfile>) => {
+    setUser((prev) => ({ ...prev, ...partial }));
+  };
+
+  const toggleBookmark = (id: string) => {
+    setBookmarkedIds((prev) => {
+      const exists = prev.includes(id);
+      const next = exists ? prev.filter((x) => x !== id) : [...prev, id];
+      pushToast({
+        title: exists ? 'Removed from saved feed' : 'Saved to your Opportunity Feed',
+        variant: exists ? 'default' : 'success',
+      });
+      return next;
+    });
+  };
+
+  const requestJoinSquad = (squadId: string, note: string, roleRequested: string): boolean => {
+    if (!user.signedIn) {
+      pushToast({
+        title: 'Sign in required',
+        description: 'Enable your Dev Parmar profile in the header to request squad membership.',
+        variant: 'warning',
+      });
+      return false;
+    }
+
+    const squad = squads.find((s) => s.id === squadId);
+    if (!squad) return false;
+
+    if (squad.createdByMe || squad.leader === user.name) {
+      pushToast({
+        title: 'You already lead this squad',
+        description: 'Check My Squads & Approvals to review incoming builders.',
+        variant: 'warning',
+      });
+      return false;
+    }
+
+    if (squad.currentSize >= squad.maxSize) {
+      pushToast({
+        title: 'Squad is already full',
+        description: `${squad.name} has filled all ${squad.maxSize} seats.`,
+        variant: 'warning',
+      });
+      return false;
+    }
+
+    const alreadyRequested = outgoingRequests.some(
+      (r) => r.squadId === squadId && r.status !== 'Declined',
+    );
+    if (alreadyRequested) {
+      pushToast({
+        title: 'Request already sent',
+        description: `Your join request to ${squad.name} is pending review.`,
+      });
+      return false;
+    }
+
+    const newReq: JoinRequest = {
+      id: `req-out-${Date.now()}`,
+      squadId: squad.id,
+      squadName: squad.name,
+      hackathon: squad.hackathon,
+      applicantName: user.name,
+      applicantCollege: user.college,
+      roleRequested: roleRequested || squad.lookingFor,
+      skills: user.skills,
+      note: note.trim() || `Interested in joining ${squad.name} for ${squad.lookingFor}.`,
+      status: 'Pending',
+      timestamp: 'Just now',
+    };
+
+    setOutgoingRequests((prev) => [newReq, ...prev]);
+    pushToast({
+      title: `Request sent to ${squad.name}`,
+      description: `Leader ${squad.leader} has been notified. Track status in My Squads & Approvals.`,
+      variant: 'success',
+    });
+    return true;
+  };
+
+  const joinWithCode = (
+    rawCode: string,
+  ): { ok: boolean; message: string; squad?: Squad } => {
+    if (!user.signedIn) {
+      return {
+        ok: false,
+        message: 'Sign in from the top navigation menu before redeeming an invite code.',
+      };
+    }
+
+    const normalized = rawCode.trim().toUpperCase();
+    if (!normalized) {
+      return { ok: false, message: 'Enter a valid invite code (for example CNX-ROACH).' };
+    }
+
+    const match = squads.find((s) => s.inviteCode.toUpperCase() === normalized);
+    if (!match) {
+      return {
+        ok: false,
+        message: `No active squad matched invite code "${normalized}". Try CNX-ROACH or CNX-AI26.`,
+      };
+    }
+
+    if (match.currentSize >= match.maxSize) {
+      return {
+        ok: false,
+        message: `${match.name} is already at capacity (${match.currentSize}/${match.maxSize}).`,
+        squad: match,
+      };
+    }
+
+    const alreadyJoined = outgoingRequests.some(
+      (r) => r.squadId === match.id && r.status === 'Accepted',
+    );
+    if (alreadyJoined || match.createdByMe) {
+      return {
+        ok: true,
+        message: `You are already an active member of ${match.name}.`,
+        squad: match,
+      };
+    }
+
+    setSquads((prev) =>
+      prev.map((s) =>
+        s.id === match.id ? { ...s, currentSize: Math.min(s.maxSize, s.currentSize + 1) } : s,
+      ),
+    );
+    setOutgoingRequests((prev) => [
+      {
+        id: `req-code-${Date.now()}`,
+        squadId: match.id,
+        squadName: match.name,
+        hackathon: match.hackathon,
+        applicantName: user.name,
+        applicantCollege: user.college,
+        roleRequested: match.lookingFor,
+        skills: user.skills,
+        note: `Joined directly via invite code ${normalized}.`,
+        status: 'Accepted',
+        timestamp: 'Just now',
+      },
+      ...prev.filter((r) => r.squadId !== match.id),
+    ]);
+
+    pushToast({
+      title: `Joined ${match.name}`,
+      description: `Verified code ${normalized} for ${match.hackathon}.`,
+      variant: 'success',
+    });
+
+    return {
+      ok: true,
+      message: `Joined ${match.name} (${match.hackathon}) using invite code ${normalized}.`,
+      squad: { ...match, currentSize: match.currentSize + 1 },
+    };
+  };
+
+  const createSquad = (input: CreateSquadInput): Squad => {
+    const codeSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const newSquad: Squad = {
+      id: `sq-${Date.now()}`,
+      name: input.name.trim(),
+      hackathon: input.hackathon.trim(),
+      leader: user.name,
+      college: input.college.trim() || user.college,
+      mode: input.mode,
+      currentSize: 1,
+      maxSize: input.maxSize,
+      skills: input.skills.length > 0 ? input.skills : ['React', 'Backend'],
+      lookingFor: input.lookingFor.trim(),
+      inviteCode: `CNX-${codeSuffix}`,
+      description:
+        input.description.trim() ||
+        `Building for ${input.hackathon.trim()} and recruiting ${input.lookingFor.trim()}.`,
+      createdByMe: true,
+    };
+
+    setSquads((prev) => [newSquad, ...prev]);
+    pushToast({
+      title: `Squad "${newSquad.name}" created`,
+      description: `Share invite code ${newSquad.inviteCode} with teammates.`,
+      variant: 'success',
+    });
+    return newSquad;
+  };
+
+  const handleIncomingRequest = (requestId: string, action: 'accept' | 'decline') => {
+    const req = incomingRequests.find((r) => r.id === requestId);
+    if (!req) return;
+
+    if (action === 'accept') {
+      const targetSquad = squads.find((s) => s.id === req.squadId);
+      if (targetSquad && targetSquad.currentSize >= targetSquad.maxSize) {
+        pushToast({
+          title: 'Squad is at max capacity',
+          description: `${targetSquad.name} cannot accept additional members.`,
+          variant: 'warning',
+        });
+        return;
+      }
+
+      setSquads((prev) =>
+        prev.map((s) =>
+          s.id === req.squadId ? { ...s, currentSize: Math.min(s.maxSize, s.currentSize + 1) } : s,
+        ),
+      );
+    }
+
+    setIncomingRequests((prev) =>
+      prev.map((r) =>
+        r.id === requestId ? { ...r, status: action === 'accept' ? 'Accepted' : 'Declined' } : r,
+      ),
+    );
+
+    pushToast({
+      title:
+        action === 'accept'
+          ? `Approved ${req.applicantName} into ${req.squadName}`
+          : `Declined ${req.applicantName}'s request`,
+      variant: action === 'accept' ? 'success' : 'default',
+    });
+  };
+
+  const withdrawOutgoingRequest = (requestId: string) => {
+    setOutgoingRequests((prev) => prev.filter((r) => r.id !== requestId));
+    pushToast({ title: 'Join request withdrawn' });
+  };
+
+  const registerForEvent = (eventId: string, eventTitle: string) => {
+    setRegisteredEvents((prev) => (prev.includes(eventId) ? prev : [...prev, eventId]));
+    pushToast({
+      title: `Registration confirmed: ${eventTitle}`,
+      description: 'Event pass and venue instructions queued to your profile.',
+      variant: 'success',
+    });
+  };
+
+  const applyForRole = (roleId: string, roleTitle: string) => {
+    setAppliedRoles((prev) => (prev.includes(roleId) ? prev : [...prev, roleId]));
+    pushToast({
+      title: `Application submitted: ${roleTitle}`,
+      description: 'Core Team reviewers respond within 5–7 business days.',
+      variant: 'success',
+    });
+  };
+
+  return (
+    <AppContext.Provider
+      value={{
+        user,
+        toggleSignIn,
+        updateUserProfile,
+        bookmarkedIds,
+        toggleBookmark,
+        squads,
+        incomingRequests,
+        outgoingRequests,
+        requestJoinSquad,
+        joinWithCode,
+        createSquad,
+        handleIncomingRequest,
+        withdrawOutgoingRequest,
+        registeredEvents,
+        registerForEvent,
+        appliedRoles,
+        applyForRole,
+        toasts,
+        pushToast,
+        dismissToast,
+      }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
+};
+
+export function useApp(): AppContextValue {
+  const ctx = useContext(AppContext);
+  if (!ctx) throw new Error('useApp must be used inside AppProvider');
+  return ctx;
+}
+
+
+===== FILE: src/context/ScrollContext.tsx =====
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import Lenis from 'lenis';
+
+interface ScrollContextValue {
+  acquireLock: () => void;
+  releaseLock: () => void;
+}
+
+const ScrollContext = createContext<ScrollContextValue>({
+  acquireLock: () => {},
+  releaseLock: () => {},
+});
+
+export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { pathname, hash } = useLocation();
+  const lenisRef = useRef<Lenis | null>(null);
+  const [lockCount, setLockCount] = useState(0);
+
+  useEffect(() => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduced) return;
+
+    const lenis = new Lenis({
+      duration: 1.05,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.4,
+    });
+    lenisRef.current = lenis;
+
+    let rafId = 0;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.slice(1);
+      window.setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(el, { offset: -92 });
+          } else {
+            const top = el.getBoundingClientRect().top + window.scrollY - 92;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
+        }
+      }, 80);
+      return;
+    }
+
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [pathname, hash]);
+
+  useEffect(() => {
+    if (lockCount > 0) {
+      lenisRef.current?.stop();
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      lenisRef.current?.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [lockCount]);
+
+  const acquireLock = useCallback(() => {
+    setLockCount((c) => c + 1);
+  }, []);
+
+  const releaseLock = useCallback(() => {
+    setLockCount((c) => Math.max(0, c - 1));
+  }, []);
+
+  return (
+    <ScrollContext.Provider value={{ acquireLock, releaseLock }}>
+      {children}
+    </ScrollContext.Provider>
+  );
+};
+
+export function useScrollLock(active: boolean): void {
+  const { acquireLock, releaseLock } = useContext(ScrollContext);
+
+  useEffect(() => {
+    if (!active) return;
+    acquireLock();
+    return () => {
+      releaseLock();
+    };
+  }, [active, acquireLock, releaseLock]);
+}
+
+
+===== FILE: src/components/ui/MotionPrimitives.tsx =====
+import React from 'react';
+import { motion } from 'framer-motion';
+
+export const EDITORIAL_EASE = [0.22, 1, 0.36, 1] as const;
+
+interface RevealProps {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}
+
+export const RevealBlock: React.FC<RevealProps> = ({
+  children,
+  className = '',
+  delay = 0,
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.48, delay, ease: EDITORIAL_EASE }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+export const HeroMount: React.FC<RevealProps> = ({
+  children,
+  className = '',
+  delay = 0,
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay, ease: EDITORIAL_EASE }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+
+===== FILE: src/components/ui/PartnerLogoMark.tsx =====
+import React from 'react';
+import type { PartnerItem } from '../../types';
+
+interface PartnerLogoMarkProps {
+  partner: PartnerItem;
+  surface?: 'light' | 'dark';
+}
+
+export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = ({
+  partner,
+  surface = 'dark',
+}) => {
+  const isShield = partner.logo?.includes('marwadi');
+  const isWideWordmark = partner.logo?.includes('devnovate');
+  const isSquare = partner.logo?.includes('tensorturn');
+
+  if (!partner.logo) {
+    return (
+      <div
+        title={partner.name}
+        className={`h-8 px-2.5 rounded-lg flex items-center justify-center font-bold text-[11px] tracking-tight shrink-0 ${
+          surface === 'light'
+            ? 'bg-[#0E0E10] text-white'
+            : 'bg-white/[0.08] text-white border border-white/[0.12]'
+        }`}
+      >
+        {partner.name}
+      </div>
+    );
+  }
+
+  if (isWideWordmark) {
+    return (
+      <div
+        title={partner.name}
+        className={`h-8 px-2.5 rounded-lg flex items-center justify-center shrink-0 ${
+          surface === 'light'
+            ? 'bg-[#0E0E10]'
+            : 'bg-white/[0.06] border border-white/[0.1]'
+        }`}
+      >
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          className="h-3.5 w-auto max-w-[78px] object-contain"
+        />
+      </div>
+    );
+  }
+
+  if (isShield) {
+    return (
+      <div
+        title={partner.name}
+        className={`w-8 h-8 rounded-lg flex items-center justify-center p-1 shrink-0 ${
+          surface === 'light'
+            ? 'bg-[#F4F4F6] border border-[#0E0E10]/[0.08]'
+            : 'bg-white/[0.08] border border-white/[0.1]'
+        }`}
+      >
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          className="w-full h-full object-contain"
+        />
+      </div>
+    );
+  }
+
+  if (isSquare) {
+    return (
+      <div
+        title={partner.name}
+        className="w-8 h-8 rounded-lg bg-[#0E0E10] border border-white/[0.1] flex items-center justify-center p-1 shrink-0 overflow-hidden"
+      >
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          className="w-full h-full object-contain rounded-[4px]"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      title={partner.name}
+      className="h-8 px-2 rounded-lg bg-[#0E0E10] border border-white/[0.1] flex items-center justify-center shrink-0"
+    >
+      <img
+        src={partner.logo}
+        alt={partner.name}
+        className="h-4.5 w-auto max-w-[64px] object-contain"
+      />
+    </div>
+  );
+};
+
+
+===== FILE: src/components/layout/Layout.tsx =====
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { SmoothScrollProvider } from '../../context/ScrollContext';
+import { EDITORIAL_EASE } from '../ui/MotionPrimitives';
+import { Footer } from './Footer';
+import { Navbar } from './Navbar';
+import { ToastContainer } from '../ui/ToastContainer';
+
+export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { pathname } = useLocation();
+
+  return (
+    <SmoothScrollProvider>
+      <div className="min-h-screen flex flex-col bg-[#0E0E10] text-white relative">
+        <Navbar />
+        <main className="flex-1">
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: EDITORIAL_EASE }}
+          >
+            {children}
+          </motion.div>
+        </main>
+        <Footer />
+        <ToastContainer />
+      </div>
+    </SmoothScrollProvider>
+  );
+};
+
+
+===== FILE: src/components/layout/Navbar.tsx =====
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import { useScrollLock } from '../../context/ScrollContext';
+import { EDITORIAL_EASE } from '../ui/MotionPrimitives';
+import { WhatsAppJoinModal } from '../ui/WhatsAppJoinModal';
+
+type MegaMenuKey = 'community' | 'events' | null;
+
+const COMMUNITY_EXPLORE = [
+  { title: 'Opportunity Feed', to: '/feed' },
+  { title: 'BuddyKid', to: '/buddykid' },
+];
+
+const COMMUNITY_CHAPTERS = [
+  { title: 'Campus Ambassadors', to: '/campus-ambassadors' },
+  { title: 'Work With Us', to: '/work-with-us' },
+];
+
+const EVENTS_FLAGSHIPS = [
+  { title: 'AI Sparks ’26', to: '/aispark' },
+  { title: 'NeuraKnockout ’26', to: '/events#neuraknockout' },
+  { title: 'AlgoRush ’26', to: '/events#algorush' },
+];
+
+const EVENTS_ARCHIVE = [{ title: 'All CNX Events', to: '/events' }];
+
+const NAV_POP_STYLE: React.CSSProperties = {
+  transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+};
+
+const TOP_NAV_POP_CLASS =
+  'transition-all duration-200 origin-center hover:text-white hover:scale-[1.055] hover:-translate-y-[1px]';
+
+export const Navbar: React.FC = () => {
+  const { user, toggleSignIn, bookmarkedIds, incomingRequests } = useApp();
+  const location = useLocation();
+
+  const [activeMenu, setActiveMenu] = useState<MegaMenuKey>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [whatsAppOpen, setWhatsAppOpen] = useState(false);
+
+  const hoverTimeoutRef = useRef<number | null>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  useScrollLock(mobileOpen);
+
+  const pendingCount = incomingRequests.filter((r) => r.status === 'Pending').length;
+
+  const clearHoverTimer = () => {
+    if (hoverTimeoutRef.current !== null) {
+      window.clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  };
+
+  const openMenuWithIntent = (key: MegaMenuKey) => {
+    clearHoverTimer();
+    setProfileOpen(false);
+    setActiveMenu(key);
+  };
+
+  const scheduleCloseMenu = () => {
+    clearHoverTimer();
+    hoverTimeoutRef.current = window.setTimeout(() => {
+      setActiveMenu(null);
+    }, 120);
+  };
+
+  useEffect(() => {
+    setActiveMenu(null);
+    setProfileOpen(false);
+    setMobileOpen(false);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setActiveMenu(null);
+        setProfileOpen(false);
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveMenu(null);
+        setProfileOpen(false);
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocClick);
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onDocClick);
+      window.removeEventListener('keydown', onKeyDown);
+      clearHoverTimer();
+    };
+  }, []);
+
+  const isEventsActive =
+    location.pathname === '/events' || location.pathname === '/aispark';
+  const isCommunityActive =
+    location.pathname === '/feed' ||
+    location.pathname === '/buddykid' ||
+    location.pathname === '/campus-ambassadors' ||
+    location.pathname === '/work-with-us';
+
+  const renderPopLink = (item: { title: string; to: string }) => (
+    <Link
+      key={item.title}
+      to={item.to}
+      onClick={() => setActiveMenu(null)}
+      style={NAV_POP_STYLE}
+      className="group inline-flex items-center gap-2 text-[16px] font-medium text-white/[0.68] hover:text-white hover:scale-[1.055] hover:-translate-y-[1px] origin-left transition-all duration-200 w-fit"
+    >
+      <span>{item.title}</span>
+      <span
+        aria-hidden="true"
+        style={NAV_POP_STYLE}
+        className="text-sm text-white/80 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"
+      >
+        ↗
+      </span>
+    </Link>
+  );
+
+  return (
+    <>
+      <div ref={headerRef} className="sticky top-0 z-50 w-full">
+        <header className="relative z-50 h-[68px] w-full bg-[#0E0E10] border-b border-white/[0.08]">
+          <div className="max-w-[1240px] mx-auto h-full px-5 sm:px-8 flex items-center justify-between gap-4">
+            {/* Left: Mark + Wordmark */}
+            <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+              <img
+                src="/images/codeneurax-mark.jpg"
+                alt="CodeNeuraX"
+                className="w-7 h-7 rounded-md object-cover border border-white/[0.12] transition-transform duration-200 group-hover:scale-[1.04]"
+              />
+              <span className="text-[17px] font-bold tracking-[-0.02em] text-white">
+                CodeNeuraX
+              </span>
+            </Link>
+
+            {/* Center: 4 Clean Unboxed Triggers with Sleek Hover Pop */}
+            <nav className="hidden lg:flex items-center gap-7" aria-label="Main navigation">
+              <button
+                type="button"
+                onMouseEnter={() => openMenuWithIntent('community')}
+                onMouseLeave={scheduleCloseMenu}
+                onClick={() =>
+                  setActiveMenu((prev) => (prev === 'community' ? null : 'community'))
+                }
+                aria-expanded={activeMenu === 'community'}
+                style={NAV_POP_STYLE}
+                className={`inline-flex items-center gap-1.5 py-2 text-sm ${TOP_NAV_POP_CLASS} ${
+                  isCommunityActive || activeMenu === 'community'
+                    ? 'text-white font-semibold'
+                    : 'text-white/[0.68] font-medium'
+                }`}
+              >
+                Community
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    activeMenu === 'community' ? 'rotate-180 text-white' : ''
+                  }`}
+                  strokeWidth={1.75}
+                />
+              </button>
+
+              <button
+                type="button"
+                onMouseEnter={() => openMenuWithIntent('events')}
+                onMouseLeave={scheduleCloseMenu}
+                onClick={() => setActiveMenu((prev) => (prev === 'events' ? null : 'events'))}
+                aria-expanded={activeMenu === 'events'}
+                style={NAV_POP_STYLE}
+                className={`inline-flex items-center gap-1.5 py-2 text-sm ${TOP_NAV_POP_CLASS} ${
+                  isEventsActive || activeMenu === 'events'
+                    ? 'text-white font-semibold'
+                    : 'text-white/[0.68] font-medium'
+                }`}
+              >
+                Events
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                    activeMenu === 'events' ? 'rotate-180 text-white' : ''
+                  }`}
+                  strokeWidth={1.75}
+                />
+              </button>
+
+              <NavLink
+                to="/library"
+                onMouseEnter={() => scheduleCloseMenu()}
+                style={NAV_POP_STYLE}
+                className={({ isActive }) =>
+                  `py-2 text-sm ${TOP_NAV_POP_CLASS} ${
+                    isActive ? 'text-white font-semibold' : 'text-white/[0.68] font-medium'
+                  }`
+                }
+              >
+                Library
+              </NavLink>
+
+              <NavLink
+                to="/services"
+                onMouseEnter={() => scheduleCloseMenu()}
+                style={NAV_POP_STYLE}
+                className={({ isActive }) =>
+                  `py-2 text-sm ${TOP_NAV_POP_CLASS} ${
+                    isActive ? 'text-white font-semibold' : 'text-white/[0.68] font-medium'
+                  }`
+                }
+              >
+                Services
+              </NavLink>
+            </nav>
+
+            {/* Right: 2 Crisp Dot-Free, Icon-Free Actions */}
+            <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => setWhatsAppOpen(true)}
+                className="px-4 py-2 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-[13.5px] font-medium transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]"
+              >
+                Join WhatsApp
+              </button>
+
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setProfileOpen((p) => !p);
+                    setActiveMenu(null);
+                  }}
+                  aria-expanded={profileOpen}
+                  className="px-4 py-2 rounded-lg bg-white hover:bg-neutral-200 text-[#0E0E10] text-[13.5px] font-semibold transition-transform duration-200 hover:scale-[1.03] active:scale-[0.98]"
+                >
+                  {user.signedIn ? 'Dev Parmar' : 'BuddyKid'}
+                </button>
+
+                <AnimatePresence>
+                  {profileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 4, scale: 0.97 }}
+                      transition={{ duration: 0.18, ease: EDITORIAL_EASE }}
+                      style={{ transformOrigin: 'top right' }}
+                      className="absolute right-0 mt-2.5 w-60 rounded-xl bg-[#16161A] border border-white/[0.1] shadow-2xl overflow-hidden z-50"
+                    >
+                      <div className="px-4 py-3.5 border-b border-white/[0.08]">
+                        <p className="text-xs font-semibold text-white">
+                          {user.signedIn ? user.name : 'Guest session'}
+                        </p>
+                        <p className="text-xs text-neutral-400 truncate mt-0.5">
+                          {user.signedIn ? user.college : 'Sign in to manage squads'}
+                        </p>
+                      </div>
+
+                      <div className="py-1.5 divide-y divide-white/[0.06]">
+                        <div className="px-1.5 pb-1.5 space-y-0.5">
+                          <Link
+                            to="/buddykid"
+                            className="flex items-center justify-between px-2.5 py-2 text-xs font-medium text-neutral-300 hover:text-white transition-colors"
+                          >
+                            <span>BuddyKid</span>
+                            {pendingCount > 0 && (
+                              <span className="text-[11px] font-semibold text-[#818CF8]">
+                                {pendingCount} pending
+                              </span>
+                            )}
+                          </Link>
+
+                          <Link
+                            to="/feed"
+                            className="flex items-center justify-between px-2.5 py-2 text-xs font-medium text-neutral-300 hover:text-white transition-colors"
+                          >
+                            <span>Saved opportunities</span>
+                            <span className="text-[11px] text-neutral-400">
+                              {bookmarkedIds.length}
+                            </span>
+                          </Link>
+                        </div>
+
+                        <div className="px-1.5 pt-1.5">
+                          <button
+                            type="button"
+                            onClick={toggleSignIn}
+                            className="w-full px-2.5 py-2 text-xs font-medium text-neutral-300 hover:text-white transition-colors text-left"
+                          >
+                            {user.signedIn ? 'Switch to guest mode' : 'Sign in as Dev Parmar'}
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Mobile Controls */}
+            <div className="flex lg:hidden items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setWhatsAppOpen(true)}
+                className="px-3.5 py-1.5 rounded-lg bg-[#4353FF] text-white text-xs font-medium"
+              >
+                Join WhatsApp
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileOpen(true)}
+                aria-label="Open navigation menu"
+                className="p-2 rounded-lg border border-white/[0.1] bg-[#16161A] text-white"
+              >
+                <Menu className="w-4 h-4" strokeWidth={1.75} />
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Full-Width Opaque Mega-Menu + Soft Page Dim Backdrop */}
+        <AnimatePresence>
+          {activeMenu && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.18 }}
+                onClick={() => setActiveMenu(null)}
+                className="hidden lg:block fixed inset-0 top-[68px] bg-black/55 backdrop-blur-[2px] z-30"
+              />
+
+              <motion.div
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2, ease: EDITORIAL_EASE }}
+                onMouseEnter={clearHoverTimer}
+                onMouseLeave={scheduleCloseMenu}
+                className="hidden lg:block absolute left-0 right-0 top-[68px] bg-[#0E0E10] border-b border-white/[0.1] shadow-2xl z-40"
+              >
+                {activeMenu === 'events' ? (
+                  <div className="max-w-[1160px] mx-auto px-8 py-10 grid grid-cols-[1fr_1fr_320px] gap-12 items-start">
+                    {/* Col 1: Flagships */}
+                    <div>
+                      <p className="text-xs font-medium text-neutral-500 mb-5">Flagships</p>
+                      <div className="flex flex-col gap-3.5">
+                        {EVENTS_FLAGSHIPS.map(renderPopLink)}
+                      </div>
+                    </div>
+
+                    {/* Col 2: Archive */}
+                    <div>
+                      <p className="text-xs font-medium text-neutral-500 mb-5">Archive</p>
+                      <div className="flex flex-col gap-3.5">
+                        {EVENTS_ARCHIVE.map(renderPopLink)}
+                      </div>
+                    </div>
+
+                    {/* Col 3: Minimal Dark Editorial Photo Spotlight */}
+                    <Link
+                      to="/aispark"
+                      onClick={() => setActiveMenu(null)}
+                      className="group relative rounded-xl overflow-hidden border border-white/[0.1] bg-[#16161A] min-h-[210px] flex flex-col justify-end"
+                    >
+                      <img
+                        src="/images/ai-sparks-stage.jpg"
+                        alt="AI Sparks 2026 summit at Marwadi University"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background:
+                            'linear-gradient(to top, rgba(14,14,16,0.94) 12%, rgba(14,14,16,0.48) 58%, rgba(14,14,16,0.22) 100%)',
+                        }}
+                      />
+                      <div className="relative z-10 p-5">
+                        <h4 className="text-xl font-bold tracking-tight text-white">
+                          AI Sparks ’26
+                        </h4>
+                        <p className="mt-1 text-xs text-neutral-300">
+                          360+ builders · Marwadi University
+                        </p>
+                        <span className="mt-3.5 inline-flex items-center gap-1.5 text-xs font-semibold text-white group-hover:text-[#818CF8] transition-colors">
+                          Explore summit
+                          <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                        </span>
+                      </div>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="max-w-[1160px] mx-auto px-8 py-10 grid grid-cols-[1fr_1fr_320px] gap-12 items-start">
+                    {/* Col 1: Explore */}
+                    <div>
+                      <p className="text-xs font-medium text-neutral-500 mb-5">Explore</p>
+                      <div className="flex flex-col gap-3.5">
+                        {COMMUNITY_EXPLORE.map(renderPopLink)}
+                      </div>
+                    </div>
+
+                    {/* Col 2: Chapters */}
+                    <div>
+                      <p className="text-xs font-medium text-neutral-500 mb-5">Chapters</p>
+                      <div className="flex flex-col gap-3.5">
+                        {COMMUNITY_CHAPTERS.map(renderPopLink)}
+                      </div>
+                    </div>
+
+                    {/* Col 3: Minimal Dark Editorial Photo Spotlight */}
+                    <Link
+                      to="/campus-ambassadors"
+                      onClick={() => setActiveMenu(null)}
+                      className="group relative rounded-xl overflow-hidden border border-white/[0.1] bg-[#16161A] min-h-[210px] flex flex-col justify-end"
+                    >
+                      <img
+                        src="/images/ai-sparks-speaker.jpg"
+                        alt="Campus Ambassador representing CodeNeuraX"
+                        className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background:
+                            'linear-gradient(to top, rgba(14,14,16,0.95) 14%, rgba(14,14,16,0.52) 60%, rgba(14,14,16,0.22) 100%)',
+                        }}
+                      />
+                      <div className="relative z-10 p-5">
+                        <h4 className="text-xl font-bold tracking-tight text-white">
+                          Campus Ambassador 2027
+                        </h4>
+                        <p className="mt-1 text-xs text-neutral-300">
+                          Applications open through Dec 15, 2026
+                        </p>
+                        <span className="mt-3.5 inline-flex items-center gap-1.5 text-xs font-semibold text-white group-hover:text-[#818CF8] transition-colors">
+                          View directory &amp; apply
+                          <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                        </span>
+                      </div>
+                    </Link>
+                  </div>
+                )}
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Mobile Slide-Over Drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden flex justify-end" role="dialog" aria-modal="true">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 bg-black/75 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.3, ease: EDITORIAL_EASE }}
+              className="relative z-10 w-full max-w-sm bg-[#0E0E10] border-l border-white/[0.08] h-full flex flex-col text-white"
+            >
+              <div className="h-[68px] px-5 flex items-center justify-between border-b border-white/[0.08]">
+                <div className="flex items-center gap-2.5">
+                  <img
+                    src="/images/codeneurax-mark.jpg"
+                    alt="CodeNeuraX"
+                    className="w-7 h-7 rounded-md object-cover"
+                  />
+                  <span className="font-bold text-base tracking-[-0.02em]">CodeNeuraX</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label="Close navigation menu"
+                  className="p-2 rounded-lg border border-white/[0.1] bg-[#16161A] text-neutral-300"
+                >
+                  <X className="w-4 h-4" strokeWidth={1.75} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-5 py-6 space-y-6">
+                <div>
+                  <p className="text-xs font-medium text-neutral-500 mb-3">Community</p>
+                  <div className="space-y-1">
+                    <Link
+                      to="/feed"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>Opportunity Feed</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                    <Link
+                      to="/buddykid"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>BuddyKid</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                    <Link
+                      to="/campus-ambassadors"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>Campus Ambassadors</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                    <Link
+                      to="/work-with-us"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>Work With Us</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs font-medium text-neutral-500 mb-3">Events</p>
+                  <div className="space-y-1">
+                    <Link
+                      to="/aispark"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>AI Sparks ’26</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                    <Link
+                      to="/events"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>All CNX Events</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-xs font-medium text-neutral-500 mb-3">Resources &amp; Studio</p>
+                  <div className="space-y-1">
+                    <Link
+                      to="/library"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>Library</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                    <Link
+                      to="/services"
+                      className="flex items-center justify-between py-2.5 text-sm font-medium text-neutral-200 hover:text-white"
+                    >
+                      <span>Services</span>
+                      <ArrowRight className="w-4 h-4 text-neutral-500" strokeWidth={1.75} />
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="pt-5 border-t border-white/[0.08] flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-white">
+                      {user.signedIn ? user.name : 'Guest session'}
+                    </p>
+                    <p className="text-[11px] text-neutral-400 truncate">{user.college}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={toggleSignIn}
+                    className="px-3.5 py-1.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold shrink-0"
+                  >
+                    {user.signedIn ? 'Sign out' : 'Sign in'}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      <WhatsAppJoinModal open={whatsAppOpen} onClose={() => setWhatsAppOpen(false)} />
+    </>
+  );
+};
+
+
+===== FILE: src/pages/HomePage.tsx =====
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Cpu,
+  Globe,
+  Minus,
+  Plus,
+  Trophy,
+} from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { UPCOMING_EVENTS } from '../data/events';
+import { OPPORTUNITIES } from '../data/opportunities';
+import {
+  AI_SPARKS_SPEAKERS,
+  COMMUNITY_PARTNERS,
+  CORE_TEAM,
+  WEBINAR_SPEAKERS,
+} from '../data/team';
+import type { CnxEvent } from '../types';
+import { EventRegistrationModal } from '../components/shared/EventRegistrationModal';
+import { RoleApplicationModal } from '../components/shared/RoleApplicationModal';
+import { EDITORIAL_EASE, HeroMount, RevealBlock } from '../components/ui/MotionPrimitives';
+import { PartnerLogoMark } from '../components/ui/PartnerLogoMark';
+import { WhatsAppJoinModal } from '../components/ui/WhatsAppJoinModal';
+
+const HOME_FAQS = [
+  {
+    q: 'Who can join CodeNeuraX and is membership free?',
+    a: 'Any undergraduate, postgraduate, or early-career CS/AI student across India can join our WhatsApp groups, Opportunity Feed, BuddyKid Squad Finder, and CodeNeuraX Library completely free of cost.',
+  },
+  {
+    q: 'What is CodeNeuraX’s relationship with Marwadi University?',
+    a: 'CodeNeuraX was founded in June 2025 by Dinesh Yadav at Marwadi University in Rajkot and collaborates directly with the Department of AI, ML & Data Science on flagship summits like AI Sparks ’26 and NeuraKnockout 2026.',
+  },
+  {
+    q: 'How does BuddyKid help with hackathon team formation?',
+    a: 'Instead of losing requests in crowded chat groups, BuddyKid lets you browse verified squads by hackathon and skill gap, join instantly via invite code like CNX-ROACH, or create your own team and approve applicants.',
+  },
+  {
+    q: 'How can I participate in NeuraKnockout 2026?',
+    a: 'NeuraKnockout 2026 is an offline 7-hour individual Web Development Challenge at Marwadi University (deadline Dec 19, 2026) with a ₹4,700 prize pool. Register directly from the Flagship Stage switcher or Events page.',
+  },
+  {
+    q: 'What is included in the CodeNeuraX Library?',
+    a: 'Curated company-wise DSA problem sheets with direct LeetCode problem URLs (Google, Microsoft, Amazon, LinkedIn, Adobe, TCS), GATE CS & DA previous year archives, and concise system notes.',
+  },
+  {
+    q: 'How do Campus Ambassador applications work?',
+    a: 'Students across Indian engineering institutes can apply through the Campus Ambassadors or Work With Us pages before Dec 15, 2026 to launch study jams, events, and hackathon squads on campus.',
+  },
+];
+
+export const HomePage: React.FC = () => {
+  const { pushToast, squads } = useApp();
+  const [flagshipMode, setFlagshipMode] = useState<'neuraknockout' | 'aisparks'>('neuraknockout');
+  const [peopleTab, setPeopleTab] = useState<'speakers' | 'team'>('speakers');
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [selectedEvent, setSelectedEvent] = useState<CnxEvent | null>(null);
+  const [whatsAppOpen, setWhatsAppOpen] = useState(false);
+  const [ambassadorModalOpen, setAmbassadorModalOpen] = useState(false);
+
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactTopic, setContactTopic] = useState('Community & Campus Chapter');
+  const [contactMessage, setContactMessage] = useState('');
+  const [contactSent, setContactSent] = useState(false);
+
+  const featuredSpeakers = [...AI_SPARKS_SPEAKERS, WEBINAR_SPEAKERS[0]];
+  const neuraKnockout = UPCOMING_EVENTS[0];
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactName.trim() || !contactEmail.includes('@') || contactMessage.trim().length < 10) {
+      pushToast({
+        title: 'Complete contact form',
+        description: 'Enter your name, valid email, and a brief note on what you need.',
+        variant: 'warning',
+      });
+      return;
+    }
+    setContactSent(true);
+    pushToast({
+      title: 'Inquiry sent to CodeNeuraX',
+      description: `Confirmation sent to ${contactEmail}.`,
+      variant: 'success',
+    });
+    setContactName('');
+    setContactEmail('');
+    setContactMessage('');
+  };
+
+  return (
+    <div className="bg-[#0E0E10] text-white">
+      {/* 1. FULL-BLEED PHOTOGRAPHY HERO */}
+      <section className="relative min-h-[88vh] flex items-center justify-center overflow-hidden border-b border-white/[0.08]">
+        <img
+          src="/images/ai-sparks-stage.jpg"
+          alt="CodeNeuraX builders and speakers on stage at Marwadi University"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(14,14,16,0.54), rgba(14,14,16,0.82))',
+          }}
+        />
+
+        <div className="relative z-10 max-w-[1160px] mx-auto px-5 sm:px-8 py-24 text-center">
+          <HeroMount>
+            <h1 className="font-bold tracking-[-0.03em] text-white leading-[1.06] overflow-visible">
+              <span className="block text-[clamp(3rem,6.2vw,5.2rem)]">Build with</span>
+              <span className="block font-editorial text-[clamp(3.4rem,7vw,5.8rem)] leading-[1.12] pb-2 pr-1 overflow-visible text-white">
+                Community
+              </span>
+            </h1>
+
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-7 gap-y-2.5 text-xs sm:text-sm font-medium text-neutral-100">
+              <span className="inline-flex items-center gap-1.5">
+                <Cpu className="w-3.5 h-3.5 text-[#818CF8]" strokeWidth={1.75} />
+                AI &amp; Engineering
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Trophy className="w-3.5 h-3.5 text-[#E1498A]" strokeWidth={1.75} />
+                Hackathons
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-[#818CF8]" strokeWidth={1.75} />
+                Pan-India Network
+              </span>
+            </div>
+
+            <div className="mt-8 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setWhatsAppOpen(true)}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg bg-white text-[#0E0E10] text-sm font-semibold hover:bg-neutral-200 transition-all hover:-translate-y-0.5 active:scale-[0.98]"
+              >
+                Join Us
+                <ArrowRight className="w-4 h-4" strokeWidth={1.75} />
+              </button>
+            </div>
+          </HeroMount>
+        </div>
+      </section>
+
+      {/* 2. PHOTO-RICH ARCHITECTURAL BENTO GRID (Single-Layer Surfaces) */}
+      <section className="py-20 sm:py-24 bg-[#0E0E10]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-[clamp(2rem,3.6vw,3.1rem)] font-bold tracking-[-0.025em] text-white leading-[1.12] pb-1">
+              CodeNeuraX in numbers
+            </h2>
+            <p className="mt-2 text-sm sm:text-base text-neutral-400">
+              Student-built momentum spanning Rajkot, partner colleges, and technical tracks
+              across India.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Tile 1: Tall Left — 7,000+ Student Builders */}
+            <div className="lg:row-span-2 rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-6 flex flex-col justify-between min-h-[380px]">
+              <div>
+                <p className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
+                  7,000+
+                </p>
+                <p className="mt-2 text-sm font-medium text-neutral-400">
+                  Student Builders Across India
+                </p>
+              </div>
+
+              <div className="mt-6 grid grid-cols-2 gap-2">
+                {[
+                  { src: '/images/dinesh-yadav.jpg', name: 'Dinesh Yadav' },
+                  { src: '/images/mitali-desai.jpg', name: 'Mitali Desai' },
+                  { src: '/images/isha-thaker.jpg', name: 'Isha Thaker' },
+                  { src: '/images/prachi-doshi.jpg', name: 'Prachi Doshi' },
+                ].map((person) => (
+                  <div
+                    key={person.name}
+                    className="aspect-square rounded-xl overflow-hidden group"
+                  >
+                    <img
+                      src={person.src}
+                      alt={person.name}
+                      className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tile 2: Wide Center-Top — 360+ Flagship Attendees */}
+            <div className="md:col-span-2 rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-6 flex flex-col justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                <div>
+                  <p className="text-4xl font-extrabold tracking-tight text-white">360+</p>
+                  <p className="mt-1 text-sm font-medium text-neutral-400">
+                    Flagship Summit Attendees (AI Sparks ’26)
+                  </p>
+                </div>
+                <Link
+                  to="/aispark"
+                  className="text-xs font-semibold text-[#4353FF] hover:text-[#6B78FF] inline-flex items-center gap-1"
+                >
+                  Summit Recap
+                  <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                </Link>
+              </div>
+
+              <div className="mt-6 pt-5 border-t border-white/[0.08] grid grid-cols-3 sm:grid-cols-5 gap-3 items-center text-center">
+                {['Google', 'Amazon', 'Microsoft', 'Unstop', 'GeeksforGeeks'].map((org) => (
+                  <span
+                    key={org}
+                    className="text-xs font-semibold tracking-tight text-neutral-400 hover:text-white transition-colors"
+                  >
+                    {org}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Tile 3: Tall Right — 8+ Campus Chapters */}
+            <div className="lg:row-span-2 rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-6 flex flex-col justify-between min-h-[380px]">
+              <div>
+                <p className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">8+</p>
+                <p className="mt-2 text-sm font-medium text-neutral-400">
+                  Partner Campus Chapters Nationwide
+                </p>
+              </div>
+
+              <div className="mt-6 space-y-2.5">
+                <div className="aspect-[16/10] rounded-xl overflow-hidden group">
+                  <img
+                    src="/images/ai-sparks-audience.jpg"
+                    alt="CodeNeuraX auditorium session"
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  />
+                </div>
+                <div className="aspect-[16/10] rounded-xl overflow-hidden group">
+                  <img
+                    src="/images/ai-sparks-closing.jpg"
+                    alt="CodeNeuraX certificate handover"
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Tile 4: Center-Mid Left — 150+ DSA & GATE Resources (Hairline List, No Nested Boxes) */}
+            <Link
+              to="/library"
+              className="rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.18] transition-colors p-6 flex flex-col justify-between group"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <p className="text-3xl font-extrabold tracking-tight text-white">150+</p>
+                  <ArrowUpRight
+                    className="w-4 h-4 text-neutral-500 group-hover:text-white transition-colors"
+                    strokeWidth={1.75}
+                  />
+                </div>
+                <p className="mt-1 text-xs font-medium text-neutral-400">
+                  DSA &amp; GATE Resources
+                </p>
+              </div>
+
+              <div className="mt-5 pt-3 border-t border-white/[0.08] divide-y divide-white/[0.08] text-xs text-neutral-300">
+                <div className="py-2 flex justify-between">
+                  <span>Google &amp; Microsoft</span>
+                  <span className="text-neutral-500">DSA</span>
+                </div>
+                <div className="pt-2 flex justify-between">
+                  <span>GATE CS &amp; DA</span>
+                  <span className="text-neutral-500">PYQs</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Tile 5: Center-Mid Right — 4 Core Tracks (Dot-Free, Box-Free) */}
+            <div className="rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-6 flex flex-col justify-between">
+              <div>
+                <p className="text-3xl font-extrabold tracking-tight text-white">4</p>
+                <p className="mt-1 text-xs font-medium text-neutral-400">Core Community Tracks</p>
+              </div>
+
+              <div className="mt-5 pt-3 border-t border-white/[0.08] grid grid-cols-2 gap-x-4 gap-y-2.5 text-xs font-medium text-neutral-200">
+                <span>AI Sparks</span>
+                <span>NeuraKnockout</span>
+                <span>AlgoRush</span>
+                <span>BuddyKid</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Twin Strip: Official Partners + Community Channels */}
+          <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="rounded-2xl bg-[#16161A] border border-white/[0.08] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <span className="text-xs font-medium text-neutral-400 shrink-0">
+                Official Partners
+              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                {COMMUNITY_PARTNERS.map((partner) => (
+                  <PartnerLogoMark key={partner.id} partner={partner} surface="dark" />
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl bg-[#16161A] border border-white/[0.08] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <span className="text-xs font-medium text-neutral-400 shrink-0">
+                Community Channels
+              </span>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-neutral-300">
+                {['WhatsApp', 'Unstop', 'Luma', 'YouTube'].map((platform) => (
+                  <span key={platform}>{platform}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. FLAGSHIP EVENTS STAGE (Dark #0E0E10 Band) */}
+      <section className="py-20 sm:py-24 bg-[#0E0E10] border-t border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-6 space-y-6">
+              <p className="text-xs font-semibold text-[#818CF8]">Flagship Stage</p>
+              <h2 className="text-[clamp(2.1rem,4vw,3.3rem)] font-bold tracking-[-0.025em] text-white leading-[1.12] pb-2 overflow-visible">
+                Learn from builders shipping at{' '}
+                <span className="font-editorial pr-1">scale</span>
+              </h2>
+
+              <p className="text-base text-neutral-400 leading-relaxed max-w-xl">
+                Switch between our upcoming 7-hour offline web engineering sprint and our 360+
+                attendee flagship AI summit hosted at Marwadi University.
+              </p>
+
+              {/* Speaker Avatar Stack */}
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {AI_SPARKS_SPEAKERS.map((spk) => (
+                    <img
+                      key={spk.id}
+                      src={spk.avatar}
+                      alt={spk.name}
+                      className="w-9 h-9 rounded-full object-cover object-top ring-2 ring-[#0E0E10]"
+                    />
+                  ))}
+                </div>
+                <span className="text-xs font-medium text-neutral-300">
+                  Parth Singh, Dev Anand, Varun Poladiya &amp; Prof. Akshay Ranpariya
+                </span>
+              </div>
+
+              {/* Clean Typographic Metadata List */}
+              <p className="text-xs text-neutral-400 pt-1">
+                Agentic AI, 7-Hr Solo Web Sprint, Tool Calling Labs, ₹4,700 Prize Pool
+              </p>
+
+              {/* Interactive Switcher */}
+              <div className="pt-2 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setFlagshipMode('neuraknockout')}
+                  className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-colors ${
+                    flagshipMode === 'neuraknockout'
+                      ? 'bg-[#4353FF] text-white'
+                      : 'bg-[#16161A] border border-white/[0.08] text-neutral-300 hover:text-white'
+                  }`}
+                >
+                  NeuraKnockout 2026
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFlagshipMode('aisparks')}
+                  className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-colors ${
+                    flagshipMode === 'aisparks'
+                      ? 'bg-[#4353FF] text-white'
+                      : 'bg-[#16161A] border border-white/[0.08] text-neutral-300 hover:text-white'
+                  }`}
+                >
+                  AI Sparks ’26
+                </button>
+              </div>
+            </div>
+
+            {/* Right Framed Poster Card */}
+            <div className="lg:col-span-6">
+              <AnimatePresence mode="wait">
+                {flagshipMode === 'neuraknockout' ? (
+                  <motion.div
+                    key="poster-nk"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, ease: EDITORIAL_EASE }}
+                    className="rounded-2xl overflow-hidden border border-white/[0.1] bg-[#16161A]"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <img
+                        src="/images/ai-sparks-stage.jpg"
+                        alt="NeuraKnockout 2026 at Marwadi University"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#16161A] via-[#16161A]/25 to-transparent" />
+                      <div className="absolute bottom-4 left-6 right-6 flex items-center justify-between text-xs font-medium text-neutral-200">
+                        <span>Deadline: Dec 19, 2026</span>
+                        <span className="text-white font-semibold">₹4,700 Prize Pool</span>
+                      </div>
+                    </div>
+
+                    <div className="p-6 sm:p-7 space-y-4">
+                      <div>
+                        <p className="text-xs font-semibold text-[#818CF8]">
+                          Marwadi University · Dept. of AI, ML &amp; DS
+                        </p>
+                        <h3 className="text-2xl font-bold text-white mt-1">
+                          NeuraKnockout 2026
+                        </h3>
+                        <p className="text-sm text-neutral-400 mt-1.5">
+                          Offline 7-hour individual Web Dev Challenge. Awards: ₹2,100 Winner,
+                          ₹1,500 Runner-Up, ₹1,100 Second Runner-Up.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedEvent(neuraKnockout)}
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold hover:bg-neutral-200 transition-colors"
+                        >
+                          Register now
+                          <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                        </button>
+                        <Link
+                          to="/events"
+                          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-white/[0.1] text-xs font-medium text-neutral-300 hover:text-white"
+                        >
+                          All CNX Events
+                        </Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="poster-ais"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3, ease: EDITORIAL_EASE }}
+                    className="rounded-2xl overflow-hidden border border-white/[0.1] bg-[#16161A]"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <img
+                        src="/images/ai-sparks-speakers-banner.webp"
+                        alt="AI Sparks 2026 Speakers"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    <div className="p-6 sm:p-7 space-y-4">
+                      <div>
+                        <p className="text-xs font-semibold text-[#818CF8]">
+                          Aug 7–8, 2026 · 360+ Attendees
+                        </p>
+                        <h3 className="text-2xl font-bold text-white mt-1">AI Sparks ’26 Summit</h3>
+                        <p className="text-sm text-neutral-400 mt-1.5">
+                          2-day flagship summit covering Agentic AI, Python Colab labs, $30 USD
+                          Devnovate credits, and ₹4,999 GATE DA Prep scholarships.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 pt-2">
+                        <Link
+                          to="/aispark"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold hover:bg-neutral-200 transition-colors"
+                        >
+                          Explore AI Sparks ’26
+                          <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                        </Link>
+                        <Link
+                          to="/events"
+                          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg border border-white/[0.1] text-xs font-medium text-neutral-300 hover:text-white"
+                        >
+                          Event Archive
+                        </Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. PURE WHITE ARCHITECTURAL EDITORIAL LEDGER (#FFFFFF — Zero Nested Boxes) */}
+      <section className="py-24 sm:py-28 bg-white text-[#0E0E10]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+          {/* Top Half: Asymmetric Statement */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-end pb-14">
+            <div className="lg:col-span-6">
+              <h2 className="text-[clamp(2.25rem,4.2vw,3.5rem)] font-bold tracking-[-0.03em] text-[#0E0E10] leading-[1.06]">
+                Built for signal, not noise.
+              </h2>
+            </div>
+
+            <div className="lg:col-span-6">
+              <p className="text-base text-neutral-600 leading-relaxed max-w-xl">
+                Founded in June 2025 by Dinesh Yadav at Marwadi University in Rajkot, CodeNeuraX
+                gives Indian student engineers verified internships, serious hackathon teammates,
+                and structured preparation without the college-group spam.
+              </p>
+            </div>
+          </div>
+
+          {/* Bottom Half: 3-Column Architectural Ledger Divided Only by Hairlines */}
+          <div className="border-t border-black/10 grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-black/10">
+            {/* Col 1: Opportunity Feed */}
+            <div className="group py-10 lg:pr-10 flex flex-col justify-between">
+              <div>
+                <h3 className="text-2xl font-bold tracking-[-0.02em] text-[#0E0E10]">
+                  Opportunity Feed
+                </h3>
+                <p className="mt-2.5 text-sm text-neutral-600 leading-relaxed">
+                  Daily vetted hackathons, paid student internships, and engineering briefs filtered
+                  by skill and deadline.
+                </p>
+
+                <ul className="mt-6 space-y-2 text-sm text-[#0E0E10]">
+                  <li className="font-medium">
+                    {OPPORTUNITIES[0].title.split('—')[0].trim()}{' '}
+                    <span className="text-neutral-500 font-normal">
+                      — {OPPORTUNITIES[0].deadline}
+                    </span>
+                  </li>
+                  <li className="font-medium">
+                    {OPPORTUNITIES[1].title.split('—')[0].trim()}{' '}
+                    <span className="text-neutral-500 font-normal">
+                      — {OPPORTUNITIES[1].deadline}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <Link
+                to="/feed"
+                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[#0E0E10] underline underline-offset-4 hover:text-[#4353FF] transition-colors w-fit"
+              >
+                <span>Explore Feed</span>
+                <span className="transition-transform duration-200 group-hover:translate-x-1.5">
+                  →
+                </span>
+              </Link>
+            </div>
+
+            {/* Col 2: BuddyKid */}
+            <div className="group py-10 lg:px-10 flex flex-col justify-between">
+              <div>
+                <h3 className="text-2xl font-bold tracking-[-0.02em] text-[#0E0E10]">BuddyKid</h3>
+                <p className="mt-2.5 text-sm text-neutral-600 leading-relaxed">
+                  Find hackathon teammates across campuses by missing role, or coordinate applicants
+                  with direct invite codes.
+                </p>
+
+                <p className="mt-6 text-sm font-medium text-[#0E0E10]">
+                  {squads.length} squads open across campuses{' '}
+                  <span className="block text-neutral-500 font-normal mt-1">
+                    Create a team or join immediately via invite code
+                  </span>
+                </p>
+              </div>
+
+              <Link
+                to="/buddykid"
+                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[#0E0E10] underline underline-offset-4 hover:text-[#4353FF] transition-colors w-fit"
+              >
+                <span>Open BuddyKid</span>
+                <span className="transition-transform duration-200 group-hover:translate-x-1.5">
+                  →
+                </span>
+              </Link>
+            </div>
+
+            {/* Col 3: Engineering Library */}
+            <div className="group py-10 lg:pl-10 flex flex-col justify-between">
+              <div>
+                <h3 className="text-2xl font-bold tracking-[-0.02em] text-[#0E0E10]">
+                  Engineering Library
+                </h3>
+                <p className="mt-2.5 text-sm text-neutral-600 leading-relaxed">
+                  Over 150 company-tagged DSA problem archives and official GATE CS &amp; DA
+                  previous year papers for free.
+                </p>
+
+                <p className="mt-6 text-sm font-medium text-[#0E0E10]">
+                  Google, Microsoft, Amazon DSA sets{' '}
+                  <span className="block text-neutral-500 font-normal mt-1">
+                    Direct LeetCode problem index &amp; systems notes
+                  </span>
+                </p>
+              </div>
+
+              <Link
+                to="/library"
+                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[#0E0E10] underline underline-offset-4 hover:text-[#4353FF] transition-colors w-fit"
+              >
+                <span>Browse Library</span>
+                <span className="transition-transform duration-200 group-hover:translate-x-1.5">
+                  →
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. SPEAKERS & CORE TEAM SHOWCASE (Dark #0E0E10 Band) */}
+      <section className="py-20 sm:py-24 bg-[#0E0E10]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+            <div>
+              <p className="text-xs font-semibold text-[#818CF8] mb-2">People Behind CNX</p>
+              <h2 className="text-[clamp(1.95rem,3.4vw,3rem)] font-bold tracking-[-0.025em] text-white leading-[1.12] pb-1">
+                Speakers &amp; Core Team
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPeopleTab('speakers')}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                  peopleTab === 'speakers'
+                    ? 'bg-white text-[#0E0E10]'
+                    : 'bg-[#16161A] border border-white/[0.08] text-neutral-300 hover:text-white'
+                }`}
+              >
+                Speakers
+              </button>
+              <button
+                type="button"
+                onClick={() => setPeopleTab('team')}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                  peopleTab === 'team'
+                    ? 'bg-white text-[#0E0E10]'
+                    : 'bg-[#16161A] border border-white/[0.08] text-neutral-300 hover:text-white'
+                }`}
+              >
+                Team CodeNeuraX
+              </button>
+            </div>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {peopleTab === 'speakers' ? (
+              <motion.div
+                key="tab-speakers"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+              >
+                {featuredSpeakers.map((spk) => (
+                  <a
+                    key={spk.id}
+                    href={spk.linkedinUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#16161A] border border-white/[0.08] hover:border-white/[0.2] transition-colors flex flex-col justify-end"
+                  >
+                    {spk.avatar ? (
+                      <img
+                        src={spk.avatar}
+                        alt={spk.name}
+                        className="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-500"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 cnx-silk-spotlight flex items-center justify-center">
+                        <span className="text-3xl font-extrabold tracking-tight text-white/90">
+                          {spk.initials}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/70 to-transparent" />
+                    <div className="relative z-10 p-4">
+                      <p className="text-sm font-bold text-white flex items-center justify-between gap-2">
+                        <span>{spk.name}</span>
+                        <ArrowUpRight
+                          className="w-3.5 h-3.5 text-neutral-400 group-hover:text-white shrink-0"
+                          strokeWidth={1.75}
+                        />
+                      </p>
+                      <p className="text-xs text-neutral-200 line-clamp-2 leading-snug mt-0.5">
+                        {spk.organization}
+                      </p>
+                      <p className="text-[11px] text-neutral-400 line-clamp-2 leading-snug mt-0.5">
+                        {spk.role}
+                      </p>
+                    </div>
+                  </a>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="tab-team"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+              >
+                {CORE_TEAM.map((member) => (
+                  <a
+                    key={member.id}
+                    href={member.linkedinUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group relative aspect-[4/5] rounded-2xl overflow-hidden bg-[#16161A] border border-white/[0.08] hover:border-white/[0.2] transition-colors flex flex-col justify-end"
+                  >
+                    {member.avatar ? (
+                      <img
+                        src={member.avatar}
+                        alt={member.name}
+                        className="absolute inset-0 w-full h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-500"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 cnx-silk-spotlight flex items-center justify-center">
+                        <span className="text-3xl font-extrabold tracking-tight text-white/90">
+                          {member.initials}
+                        </span>
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/70 to-transparent" />
+                    <div className="relative z-10 p-4">
+                      <p className="text-sm font-bold text-white flex items-center justify-between gap-2">
+                        <span>{member.name}</span>
+                        <ArrowUpRight
+                          className="w-3.5 h-3.5 text-neutral-400 group-hover:text-white shrink-0"
+                          strokeWidth={1.75}
+                        />
+                      </p>
+                      <p className="text-xs text-[#818CF8] font-medium line-clamp-2 leading-snug mt-0.5">
+                        {member.role}
+                      </p>
+                      <p className="text-[11px] text-neutral-400 line-clamp-2 leading-snug mt-0.5">
+                        {member.affiliation}
+                      </p>
+                    </div>
+                  </a>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* 6. HIGH-CONTRAST WHITE INSET BANNER CARD (Inside Dark #0E0E10 Band) */}
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 mt-16">
+          <RevealBlock className="rounded-2xl bg-white text-[#0E0E10] overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            <div className="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-between">
+              <div>
+                <p className="text-xs font-semibold text-[#4353FF] mb-3">Chapter Leadership</p>
+                <h2 className="text-[clamp(1.9rem,3.4vw,2.9rem)] font-bold tracking-[-0.025em] text-[#0E0E10] leading-[1.12] pb-1">
+                  Become a Campus Ambassador
+                </h2>
+                <p className="mt-3 text-sm sm:text-base text-neutral-600 leading-relaxed max-w-xl">
+                  Lead technical workshops, organize local BuddyKid hackathon squads, and represent
+                  CodeNeuraX across engineering campuses in India.
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <button
+                  type="button"
+                  onClick={() => setAmbassadorModalOpen(true)}
+                  className="px-6 py-3 rounded-lg bg-[#0E0E10] text-white text-sm font-semibold hover:bg-neutral-800 transition-colors"
+                >
+                  Apply Now
+                </button>
+                <Link
+                  to="/campus-ambassadors"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0E0E10] hover:text-[#4353FF] transition-colors"
+                >
+                  View Directory
+                  <ArrowRight className="w-4 h-4" strokeWidth={1.75} />
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 bg-[#4353FF] p-6 sm:p-8 flex items-center justify-center">
+              <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden">
+                <img
+                  src="/images/ai-sparks-speaker.jpg"
+                  alt="CodeNeuraX campus leader speaking on stage"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            </div>
+          </RevealBlock>
+        </div>
+      </section>
+
+      {/* 7. CLEAN PURE WHITE FAQ ACCORDION + QUIET STUDIO CONTACT BAND */}
+      <section className="py-20 sm:py-24 bg-white text-[#0E0E10]">
+        <div className="max-w-[920px] mx-auto px-5 sm:px-8">
+          <h2 className="text-center text-[clamp(2rem,3.5vw,3rem)] font-bold tracking-[-0.025em] text-[#0E0E10] mb-12">
+            Frequently asked questions
+          </h2>
+
+          <div className="divide-y divide-black/10 border-y border-black/10">
+            {HOME_FAQS.map((item, index) => {
+              const isOpen = openFaq === index;
+              return (
+                <div key={item.q}>
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : index)}
+                    className="w-full py-5 flex items-center justify-between gap-4 text-left"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="text-base font-semibold text-[#0E0E10]">{item.q}</span>
+                    <span className="text-[#0E0E10] shrink-0">
+                      {isOpen ? (
+                        <Minus className="w-4 h-4" strokeWidth={1.75} />
+                      ) : (
+                        <Plus className="w-4 h-4" strokeWidth={1.75} />
+                      )}
+                    </span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pb-5 text-sm text-neutral-600 leading-relaxed">{item.a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Quiet Editorial Contact Band directly on #FFFFFF */}
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 mt-24 pt-24 border-t border-black/10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16">
+            {/* Left (5 cols) */}
+            <div className="lg:col-span-5 flex flex-col justify-between space-y-10">
+              <div>
+                <h3 className="text-[clamp(2rem,3.6vw,3rem)] font-bold tracking-[-0.03em] text-[#0E0E10] leading-[1.08]">
+                  Let’s talk.
+                </h3>
+                <p className="mt-3 text-base text-neutral-600 leading-relaxed max-w-md">
+                  Questions about chapters, partnerships, sponsorships, or events? Write directly to
+                  the core team.
+                </p>
+              </div>
+
+              <dl className="space-y-5 text-sm">
+                <div>
+                  <dt className="text-xs font-medium text-neutral-500">Email</dt>
+                  <dd className="mt-1">
+                    <a
+                      href="mailto:team@codeneurax.in"
+                      className="font-medium text-[#0E0E10] underline underline-offset-4 hover:text-[#4353FF] transition-colors"
+                    >
+                      team@codeneurax.in
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-xs font-medium text-neutral-500">Based at</dt>
+                  <dd className="mt-1 text-neutral-700">Marwadi University, Rajkot, Gujarat</dd>
+                </div>
+                <div>
+                  <dt className="text-xs font-medium text-neutral-500">Hackathon teams</dt>
+                  <dd className="mt-1">
+                    <Link
+                      to="/buddykid"
+                      className="font-semibold text-[#0E0E10] underline underline-offset-4 hover:text-[#4353FF] transition-colors"
+                    >
+                      Find teammates on BuddyKid →
+                    </Link>
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            {/* Right (7 cols): Bottom-Hairline Inputs Directly on Surface */}
+            <div className="lg:col-span-7">
+              {contactSent ? (
+                <div className="py-12 border-t border-black/15 space-y-4">
+                  <h4 className="text-xl font-bold text-[#0E0E10]">Message received.</h4>
+                  <p className="text-sm text-neutral-600 max-w-md leading-relaxed">
+                    Your inquiry has been routed to the CodeNeuraX Core Team at
+                    team@codeneurax.in.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setContactSent(false)}
+                    className="text-sm font-semibold text-[#0E0E10] underline underline-offset-4 hover:text-[#4353FF] transition-colors"
+                  >
+                    Send another note
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleContactSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                    <div>
+                      <label
+                        htmlFor="cnx-contact-name"
+                        className="block text-xs font-medium text-neutral-500 mb-1"
+                      >
+                        Your name
+                      </label>
+                      <input
+                        id="cnx-contact-name"
+                        type="text"
+                        value={contactName}
+                        onChange={(e) => setContactName(e.target.value)}
+                        placeholder="Dinesh Yadav"
+                        className="w-full bg-transparent border-0 border-b border-black/15 focus:border-[#0E0E10] rounded-none px-0 py-3.5 text-[15px] text-[#0E0E10] placeholder:text-black/35 transition-colors outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="cnx-contact-email"
+                        className="block text-xs font-medium text-neutral-500 mb-1"
+                      >
+                        Email address
+                      </label>
+                      <input
+                        id="cnx-contact-email"
+                        type="email"
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e.target.value)}
+                        placeholder="you@college.edu"
+                        className="w-full bg-transparent border-0 border-b border-black/15 focus:border-[#0E0E10] rounded-none px-0 py-3.5 text-[15px] text-[#0E0E10] placeholder:text-black/35 transition-colors outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="cnx-contact-topic"
+                      className="block text-xs font-medium text-neutral-500 mb-1"
+                    >
+                      Topic
+                    </label>
+                    <select
+                      id="cnx-contact-topic"
+                      value={contactTopic}
+                      onChange={(e) => setContactTopic(e.target.value)}
+                      className="w-full bg-transparent border-0 border-b border-black/15 focus:border-[#0E0E10] rounded-none px-0 py-3.5 text-[15px] text-[#0E0E10] transition-colors outline-none"
+                    >
+                      <option>Community &amp; Campus Chapter</option>
+                      <option>Speaker / Mentorship Proposal</option>
+                      <option>Event Sponsorship &amp; Partner Credits</option>
+                      <option>Engineering Services Inquiry</option>
+                      <option>Library / Technical Support</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="cnx-contact-message"
+                      className="block text-xs font-medium text-neutral-500 mb-1"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      id="cnx-contact-message"
+                      rows={3}
+                      value={contactMessage}
+                      onChange={(e) => setContactMessage(e.target.value)}
+                      placeholder="Tell us what you're working on..."
+                      className="w-full bg-transparent border-0 border-b border-black/15 focus:border-[#0E0E10] rounded-none px-0 py-3.5 text-[15px] text-[#0E0E10] placeholder:text-black/35 transition-colors outline-none resize-none"
+                    />
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="px-7 py-3 rounded-lg bg-[#0E0E10] hover:bg-[#4353FF] text-white text-sm font-medium transition-colors duration-200 active:scale-[0.98]"
+                    >
+                      Send inquiry
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <EventRegistrationModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      <WhatsAppJoinModal open={whatsAppOpen} onClose={() => setWhatsAppOpen(false)} />
+      <RoleApplicationModal
+        open={ambassadorModalOpen}
+        roleId="role-campus-ambassador-2027"
+        roleTitle="CodeNeuraX Campus Ambassador 2027"
+        onClose={() => setAmbassadorModalOpen(false)}
+      />
+    </div>
+  );
+};
+
+
+===== FILE: src/data/ambassadors.ts =====
+import type { Ambassador } from '../types';
+
+export const CAMPUS_AMBASSADORS: Ambassador[] = [
+  {
+    id: 'amb-ankush',
+    name: 'Ankush Kumar',
+    college: 'Noida Institute of Engineering and Technology (NIET)',
+    shortCollege: 'NIET, Greater Noida',
+    city: 'Greater Noida',
+    cohort: '2026 Cohort',
+    initials: 'AK',
+    focus: 'DSA Study Circles & Open Source',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'amb-sadguna',
+    name: 'Sadguna Tenugu',
+    college: 'B V Raju Institute of Technology (BVRIT)',
+    shortCollege: 'BVRIT, Narsapur',
+    city: 'Telangana',
+    cohort: '2026 Cohort',
+    initials: 'ST',
+    focus: 'Agentic AI & Hackathon Squads',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'amb-abhilash',
+    name: 'Polisetti Abhilash Kumar',
+    college: "Vignan's Foundation for Science, Technology & Research",
+    shortCollege: "Vignan's Foundation",
+    city: 'Guntur',
+    cohort: '2026 Cohort',
+    initials: 'PA',
+    focus: 'Cloud Engineering & Workshops',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'amb-raghav',
+    name: 'Raghav Kashyap',
+    college: 'APG Shimla University',
+    shortCollege: 'APG Shimla University',
+    city: 'Shimla',
+    cohort: '2026 Cohort',
+    initials: 'RK',
+    focus: 'Campus Chapter Growth & Tech Talks',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'amb-isha',
+    name: 'Isha',
+    college: 'Central University of Karnataka',
+    shortCollege: 'Central University of Karnataka',
+    city: 'Kalaburagi',
+    cohort: '2026 Cohort',
+    initials: 'IS',
+    focus: 'Peer Mentorship & Coding Contests',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'amb-shravani',
+    name: 'Ayiti Shravani',
+    college: 'Sri Indu Institute of Engineering & Technology',
+    shortCollege: 'Sri Indu Institute (SIIET)',
+    city: 'Hyderabad',
+    cohort: '2026 Cohort',
+    initials: 'AS',
+    focus: 'Women in Tech & Interview Prep',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'amb-honey',
+    name: 'Honey Takhtani',
+    college: 'Government Engineering College, Rajkot',
+    shortCollege: 'GEC Rajkot',
+    city: 'Rajkot',
+    cohort: '2026 Cohort',
+    initials: 'HT',
+    focus: 'Web Development & Regional Meetups',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'amb-dinesh',
+    name: 'Dinesh Yadav',
+    college: 'Marwadi University',
+    shortCollege: 'Marwadi University',
+    city: 'Rajkot',
+    cohort: 'Founding Chapter',
+    initials: 'DY',
+    focus: 'Flagship Summits & National Network',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+];
+
+
+===== FILE: src/data/buddykid.ts =====
+import type { JoinRequest, Squad } from '../types';
+
+export const BUDDYKID_SKILL_OPTIONS = [
+  'Machine Learning',
+  'Backend',
+  'Frontend',
+  'UI/UX Design',
+  'Blockchain',
+  'Cloud',
+  'React',
+  'TypeScript',
+  'Python',
+  'FastAPI',
+  'LLM Agents',
+  'DevOps',
+];
+
+export const INITIAL_SQUADS: Squad[] = [
+  {
+    id: 'sq-coderoaches',
+    name: 'CodeRoaches',
+    hackathon: 'Machine Learning Challenge',
+    leader: 'Dinesh Yadav',
+    college: 'Marwadi University, Rajkot',
+    mode: 'Hybrid',
+    currentSize: 2,
+    maxSize: 3,
+    skills: ['Machine Learning', 'Backend', 'Blockchain', 'Cloud'],
+    lookingFor: 'Frontend / Design',
+    inviteCode: 'CNX-ROACH',
+    description:
+      'Building an end-to-end verifiable inference pipeline with real-time telemetry charts and crisp submission UX.',
+  },
+  {
+    id: 'sq-neuralmesh',
+    name: 'NeuralMesh',
+    hackathon: 'Smart India Hackathon 2026',
+    leader: 'Dev Parmar',
+    college: 'Marwadi University, Rajkot',
+    mode: 'Offline',
+    currentSize: 4,
+    maxSize: 6,
+    skills: ['React', 'FastAPI', 'LLM Agents', 'Cloud'],
+    lookingFor: 'UI/UX Design & Mobile',
+    inviteCode: 'CNX-SIH26',
+    description:
+      'Targeting the Smart Automation & Civic Infrastructure statement with edge vision diagnostics and operator dashboard.',
+    createdByMe: true,
+  },
+  {
+    id: 'sq-zeroknowledge',
+    name: 'ZeroKnowledge Collective',
+    hackathon: 'ETHIndia 2026',
+    leader: 'Ankush Kumar',
+    college: 'NIET, Greater Noida',
+    mode: 'Offline',
+    currentSize: 3,
+    maxSize: 4,
+    skills: ['Blockchain', 'TypeScript', 'Backend', 'Cloud'],
+    lookingFor: 'Product Design & Pitch',
+    inviteCode: 'CNX-ETH26',
+    description:
+      'Shipping privacy-preserving credential verification for university hackathon badges on EVM rollups.',
+  },
+  {
+    id: 'sq-stackforge',
+    name: 'StackForge',
+    hackathon: 'NeuraKnockout 2026 Prep Circle',
+    leader: 'Honey Takhtani',
+    college: 'GEC Rajkot',
+    mode: 'Offline',
+    currentSize: 1,
+    maxSize: 2,
+    skills: ['React', 'TypeScript', 'Backend'],
+    lookingFor: 'Full-Stack Builder',
+    inviteCode: 'CNX-NK26',
+    description:
+      'Peer practice squad running timed 7-hour UI & API architecture drills ahead of NeuraKnockout 2026 at Rajkot.',
+  },
+  {
+    id: 'sq-promptops',
+    name: 'PromptOps Guild',
+    hackathon: 'AI Sparks Follow-Up Buildathon',
+    leader: 'Sadguna Tenugu',
+    college: 'BVRIT, Telangana',
+    mode: 'Online',
+    currentSize: 2,
+    maxSize: 4,
+    skills: ['Python', 'LLM Agents', 'Machine Learning', 'Cloud'],
+    lookingFor: 'Frontend & Evaluation Ops',
+    inviteCode: 'CNX-AI26',
+    description:
+      'Extending Day 1 tool-calling workflows into an automated placement preparation mentor with deterministic evals.',
+  },
+  {
+    id: 'sq-cloudvanguard',
+    name: 'CloudVanguard',
+    hackathon: 'AWS Community Builders Hackathon',
+    leader: 'Polisetti Abhilash Kumar',
+    college: "Vignan's Foundation",
+    mode: 'Online',
+    currentSize: 3,
+    maxSize: 5,
+    skills: ['Cloud', 'DevOps', 'Backend', 'React'],
+    lookingFor: 'Security & Observability',
+    inviteCode: 'CNX-AWS26',
+    description:
+      'Serverless log anomaly triage platform running on AWS Lambda, EventBridge, and clean operator telemetry.',
+  },
+];
+
+export const INITIAL_INCOMING_REQUESTS: JoinRequest[] = [
+  {
+    id: 'req-in-1',
+    squadId: 'sq-neuralmesh',
+    squadName: 'NeuralMesh',
+    hackathon: 'Smart India Hackathon 2026',
+    applicantName: 'Isha',
+    applicantCollege: 'Central University of Karnataka',
+    roleRequested: 'UI/UX Designer & React Prototyping',
+    skills: ['UI/UX Design', 'React', 'TypeScript'],
+    note: 'Designed 3 hackathon dashboards in Figma + Tailwind; can handle pitch deck and live prototype flows.',
+    status: 'Pending',
+    timestamp: '2 hours ago',
+  },
+  {
+    id: 'req-in-2',
+    squadId: 'sq-neuralmesh',
+    squadName: 'NeuralMesh',
+    hackathon: 'Smart India Hackathon 2026',
+    applicantName: 'Raghav Kashyap',
+    applicantCollege: 'APG Shimla University',
+    roleRequested: 'Python ML & Edge Inference',
+    skills: ['Python', 'Machine Learning', 'FastAPI'],
+    note: 'Built quantized YOLOv8 model serving over FastAPI with <90ms latency on CPU.',
+    status: 'Pending',
+    timestamp: 'Yesterday',
+  },
+];
+
+
+===== FILE: src/data/careers.ts =====
+import type { CareerRole } from '../types';
+
+export const CAREER_ROLES: CareerRole[] = [
+  {
+    id: 'role-campus-ambassador-2027',
+    title: 'CodeNeuraX Campus Ambassador 2027',
+    department: 'Community',
+    type: 'Unpaid · Hybrid',
+    location: 'Pan-India Campuses',
+    tags: ['Leadership', 'Community', 'Networking'],
+    deadline: 'Dec 15, 2026',
+    status: 'Open',
+    summary:
+      'Represent CodeNeuraX inside your engineering campus: organize peer coding meetups, coordinate hackathon squads via BuddyKid, and bridge students to national industry sessions.',
+    responsibilities: [
+      'Launch and moderate a campus study circle covering DSA, AI workflows, and hackathon prep.',
+      'Coordinate local participation in flagship CodeNeuraX events like AlgoRush and NeuraKnockout.',
+      'Curate campus-level tech updates and connect student builders to CodeNeuraX speaker clinics.',
+      'Collaborate monthly with the Core Team in Rajkot and peer ambassadors across partner colleges.',
+    ],
+    perks: [
+      'Official Campus Ambassador appointment & verified completion recommendation letter',
+      'Direct mentorship access with Core Team and invited industry speakers',
+      'Priority passes & partner platform credits at flagship CNX summits',
+      'Hands-on event leadership track with eligibility for Core Team 2027',
+    ],
+    eligibility: [
+      'Currently enrolled undergraduate or postgraduate student in CS, IT, AI/ML, or allied engineering.',
+      'Strong communication skills and active participation in campus technical initiatives.',
+      'Consistent 3–4 hours/week commitment across the semester cohort.',
+    ],
+  },
+  {
+    id: 'role-web-eng-contributor',
+    title: 'Core Web Engineering Contributor',
+    department: 'Engineering',
+    type: 'Volunteer · Remote',
+    location: 'India · Async + Weekly Sync',
+    tags: ['React', 'TypeScript', 'Tailwind CSS'],
+    deadline: 'Rolling Track',
+    status: 'Rolling',
+    summary:
+      'Maintain and evolve codeneurax.in, BuddyKid squad workflows, and the CodeNeuraX Library platform architecture.',
+    responsibilities: [
+      'Ship clean, accessible React + TypeScript interfaces with zero layout drift.',
+      'Build searchable resource indices, interactive event microsites, and community utilities.',
+      'Review pull requests with strict attention to bundle performance and mobile ergonomics.',
+    ],
+    perks: [
+      'Real production commits reviewed by senior student engineers and mentors',
+      'Core Team recognition, recommendation letter, and portfolio case studies',
+      'Direct collaboration on CodeNeuraX open-source tooling',
+    ],
+    eligibility: [
+      'Demonstrated GitHub projects in React, TypeScript, or Next.js.',
+      'Comfort with Git branching, component state modeling, and responsive CSS.',
+    ],
+  },
+  {
+    id: 'role-visual-motion-designer',
+    title: 'Visual & Motion Designer',
+    department: 'Design',
+    type: 'Volunteer · Remote',
+    location: 'India · Hybrid',
+    tags: ['Figma', 'Editorial UI', 'Typography'],
+    deadline: 'Rolling Track',
+    status: 'Rolling',
+    summary:
+      'Shape visual systems for flagship summits (AI Sparks, NeuraKnockout), speaker reveals, and product UI specs.',
+    responsibilities: [
+      'Design crisp editorial event banners, speaker identity cards, and UI component layouts in Figma.',
+      'Maintain strict typographic hierarchy and dark-mode visual standards across CNX channels.',
+      'Partner with web engineers to translate interactive states cleanly into code.',
+    ],
+    perks: [
+      'Own the visual identity of national student summits reaching 7,000+ builders',
+      'Design critique sessions and official Core Team credentials',
+      'Portfolio showcase featured across CodeNeuraX digital properties',
+    ],
+    eligibility: [
+      'Link to Figma portfolio or 3+ visual/UI case studies.',
+      'Strong eye for spacing, typography, and restraint over visual clutter.',
+    ],
+  },
+  {
+    id: 'role-tech-content-lead',
+    title: 'Technical Content & Community Lead',
+    department: 'Content',
+    type: 'Volunteer · Remote',
+    location: 'India · Async',
+    tags: ['Technical Writing', 'DSA / AI', 'Curation'],
+    deadline: 'Rolling Track',
+    status: 'Rolling',
+    summary:
+      'Curate verified daily opportunities, summarize speaker sessions into actionable briefs, and maintain Library notes.',
+    responsibilities: [
+      'Verify hackathons, internships, and open-source cohorts before publishing to the Opportunity Feed.',
+      'Author structured technical recaps from CodeNeuraX webinars and AI Sparks workshops.',
+      'Organize company-wise DSA and GATE study sheets inside the CodeNeuraX Library.',
+    ],
+    perks: [
+      'Direct networking with speakers from Google, Microsoft, Amazon, and AI startups',
+      'Byline credit across CodeNeuraX Library and engineering briefs',
+      'Core Team recommendation letter and leadership path',
+    ],
+    eligibility: [
+      'Ability to distill complex CS or AI concepts into clear, concise notes.',
+      'High bar for factual accuracy and zero spam curation.',
+    ],
+  },
+];
+
+
+===== FILE: src/data/events.ts =====
+import type { CnxEvent } from '../types';
+
+export const UPCOMING_EVENTS: CnxEvent[] = [
+  {
+    id: 'evt-neuraknockout-2026',
+    title: 'NeuraKnockout 2026',
+    subtitle: '7-Hour Offline Individual Web Development Challenge',
+    status: 'Upcoming',
+    date: 'Dec 19, 2026',
+    time: '09:00 AM – 04:00 PM IST',
+    mode: 'Offline',
+    venueOrPlatform: 'Marwadi University · Dept. of AI, ML & DS',
+    attendeesOrTarget: 'Individual Sprint · Limited Seats',
+    category: 'Flagship Hackathon',
+    prizePool: '₹4,700 (₹2,100 Winner · ₹1,500 1st Runner-Up · ₹1,100 2nd Runner-Up)',
+    deadline: 'Dec 19, 2026',
+    highlights: [
+      '7 consecutive hours of focused solo web engineering on campus',
+      'Judged on architectural clarity, accessibility, responsiveness, and shipped execution',
+      'Hosted in collaboration with the Department of AI, ML & Data Science, Marwadi University',
+      'Verified certificates and top-3 cash awards totaling ₹4,700',
+    ],
+    image: '/images/ai-sparks-stage.jpg',
+    internalRoute: '/events',
+  },
+  {
+    id: 'evt-algorush-2026',
+    title: 'AlgoRush 2026',
+    subtitle: 'National Online DSA Coding Contest (4 Problems)',
+    status: 'Upcoming',
+    date: 'Aug – Dec 2026 Season',
+    time: '90-Minute Timed Window',
+    mode: 'Online',
+    venueOrPlatform: 'Unstop Arena',
+    attendeesOrTarget: 'Pan-India Undergraduate Builders',
+    category: 'Competitive Programming',
+    deadline: 'Dec 18, 2026',
+    highlights: [
+      '4 graded algorithmic challenges spanning sliding windows, graphs, and DP',
+      'Real-time leaderboard with time-penalty scoring',
+      'Post-contest editorial walkthrough published in CodeNeuraX Library',
+    ],
+    externalUrl: 'https://unstop.com',
+  },
+];
+
+export const COMPLETED_EVENTS: CnxEvent[] = [
+  {
+    id: 'arch-gsoc-amazon',
+    title: 'How to Crack Google Summer of Code & Amazon',
+    subtitle: 'Open-Source Contributions, Proposal Craft & SDE Hiring Bar',
+    status: 'Completed',
+    date: 'Oct 17, 2026',
+    time: '06:00 PM – 08:00 PM IST',
+    mode: 'Online',
+    venueOrPlatform: 'Virtual · Luma Live',
+    attendeesOrTarget: '228 Attendees',
+    speaker: 'Nidhi Singh',
+    speakerTitle: 'GSoC Mentor at AOSSIE · SWE at Amazon',
+    category: 'Career & Open Source',
+    highlights: [
+      'How to audit GSoC organizations 3 months before application windows open',
+      'Structuring technical proposals around real issue backlogs',
+      'Amazon SDE interview loops: DSA patterns, Leadership Principles, and clean code',
+    ],
+  },
+  {
+    id: 'arch-ai-sparks-2026',
+    title: 'AI Sparks 2026 (2-Day Flagship Summit)',
+    subtitle: 'Hands-On Agentic AI, Automation Workflows & Machine Learning',
+    status: 'Completed',
+    date: 'Aug 7–8, 2026',
+    time: '09:00 AM – 04:30 PM IST',
+    mode: 'Offline',
+    venueOrPlatform: 'Marwadi University · Dept. of AI, ML & DS',
+    attendeesOrTarget: '360+ Attendees',
+    speaker: 'Parth Singh, Dev Anand, Varun Poladiya & Akshay Ranpariya',
+    speakerTitle: 'Keynote & Technical Track Speakers',
+    category: 'Flagship Summit',
+    highlights: [
+      'Day 1: Agentic AI, LLM internals, tool & function calling in Python on Colab',
+      'Day 2: Linear regression, model evaluation, Demystifying AI/ML & live assessment',
+      'Supported by Unstop, Devnovate ($30 platform credits), DeepQuantica, IDP & GeeksforGeeks',
+    ],
+    internalRoute: '/aispark',
+    image: '/images/ai-sparks-audience.jpg',
+  },
+  {
+    id: 'arch-algorush-2026',
+    title: 'AlgoRush 2026 — August Qualifier',
+    subtitle: 'Online DSA Coding Contest (4 Problems)',
+    status: 'Completed',
+    date: 'Aug 2026',
+    mode: 'Online',
+    venueOrPlatform: 'Unstop',
+    attendeesOrTarget: 'Multi-College Cohort',
+    category: 'Competitive Coding',
+    highlights: [
+      '4 algorithmic problems testing greedy logic, trees, and dynamic programming',
+      'Cross-campus leaderboard across 20+ Indian engineering colleges',
+    ],
+  },
+  {
+    id: 'arch-google-interview',
+    title: 'Crack the Google Interview',
+    subtitle: 'Technical Problem Solving, Communication & Readiness',
+    status: 'Completed',
+    date: 'Apr 17, 2026',
+    time: '06:00 PM – 08:00 PM IST',
+    mode: 'Online',
+    venueOrPlatform: 'Virtual Session',
+    attendeesOrTarget: 'Live Q&A Session',
+    speaker: 'Divanshi Jain',
+    speakerTitle: 'Incoming Software Engineer at Google',
+    category: 'Interview Prep',
+    highlights: [
+      'Thinking aloud cleanly during unfamiliar graph and string questions',
+      'Dry-running edge cases and complexity tradeoffs without rushing to code',
+    ],
+  },
+  {
+    id: 'arch-microsoft-journey',
+    title: 'Journey to Microsoft: From Student to Software Engineer',
+    subtitle: 'Internship Conversion, Projects & Engineering Mindset',
+    status: 'Completed',
+    date: 'Nov 15, 2025',
+    time: '06:00 PM – 08:00 PM IST',
+    mode: 'Online',
+    venueOrPlatform: 'Virtual · Luma Live',
+    attendeesOrTarget: '119 Attendees',
+    speaker: 'Parth Thakrar',
+    speakerTitle: 'Software Engineer & Ex-Intern at Microsoft',
+    category: 'Career Roadmap',
+    highlights: [
+      'Building portfolio systems that withstand technical deep-dive interviews',
+      'Converting summer engineering internships into full-time offers',
+    ],
+  },
+  {
+    id: 'arch-sih-2025',
+    title: 'How to Win Smart India Hackathon 2025',
+    subtitle: 'SIH Problem Selection, Architecture Pitch & Live Demo Strategy',
+    status: 'Completed',
+    date: 'Sep 1, 2025',
+    time: '06:00 PM – 08:00 PM IST',
+    mode: 'Online',
+    venueOrPlatform: 'Virtual · Luma Live',
+    attendeesOrTarget: '170 Attendees',
+    speaker: 'Arkja Gaur',
+    speakerTitle: 'Smart India Hackathon 2024 Winner',
+    category: 'Hackathon Strategy',
+    highlights: [
+      'Selecting high-signal SIH problem statements with clear evaluation rubrics',
+      'Designing a concise 6-slide architecture pitch and resilient 36-hour demo',
+    ],
+  },
+  {
+    id: 'arch-ds-ai-roadmap',
+    title: 'Data Science & AI Career Roadmap',
+    subtitle: 'A Journey into Data Analytics, Modeling & Early Roles',
+    status: 'Completed',
+    date: 'Feb 25, 2026',
+    time: '06:00 PM – 08:00 PM IST',
+    mode: 'Online',
+    venueOrPlatform: 'Virtual Webinar',
+    attendeesOrTarget: 'Community Webinar',
+    speaker: 'Industry Data & AI Panel',
+    speakerTitle: 'Data Analytics & Applied ML Practitioners',
+    category: 'Data & AI',
+    highlights: [
+      'SQL, exploratory analysis, and clean experiment tracking foundations',
+      'Separating production ML expectations from tutorial notebooks',
+    ],
+  },
+  {
+    id: 'arch-100-ai-tools',
+    title: '100 AI Tools & Workflow Bootcamp',
+    subtitle: 'Community Showcase on Practical Developer & Automation Stacks',
+    status: 'Completed',
+    date: '2026 Cohort',
+    mode: 'Online',
+    venueOrPlatform: 'CodeNeuraX Community Showcase',
+    attendeesOrTarget: 'Pan-India Student Builders',
+    speaker: 'CodeNeuraX Builders',
+    speakerTitle: 'Student Contributors & Core Team',
+    category: 'Automation',
+    highlights: [
+      'Curated workflow demos for coding assistants, docs search, and rapid prototyping',
+      'Evaluating real signal vs hype across modern AI developer tooling',
+    ],
+  },
+];
+
+export const AI_SPARKS_SCHEDULE = {
+  day1: {
+    label: 'Day 1 — Aug 7, 2026',
+    theme: 'Agentic AI & Intelligent Automation',
+    hours: '09:00 AM – 04:30 PM IST',
+    sessions: [
+      {
+        time: '09:00 – 10:15',
+        title: 'Opening Keynote & Introduction to Agentic AI',
+        speaker: 'Parth Singh',
+        description:
+          'Why autonomous, tool-equipped software workflows represent a structural shift from static prompt-response interfaces.',
+        tags: ['Foundations', 'Architecture'],
+      },
+      {
+        time: '10:30 – 12:15',
+        title: 'LLMs Under the Hood & Agents vs Traditional Chatbots',
+        speaker: 'Parth Singh',
+        description:
+          'Token mechanics, context management, reasoning loops, planning, and state memory compared against single-turn chatbots.',
+        tags: ['LLMs', 'Reasoning'],
+      },
+      {
+        time: '01:15 – 02:45',
+        title: 'Tool & Function Calling in Python (Google Colab Lab)',
+        speaker: 'Varun Poladiya',
+        description:
+          'Hands-on Python implementation of multi-step tasks, JSON schema contracts, external API invocation, and error recovery.',
+        tags: ['Python', 'Colab Lab'],
+      },
+      {
+        time: '03:00 – 04:30',
+        title: 'Production AI Workflows & Automation Ecosystems',
+        speaker: 'Varun Poladiya',
+        description:
+          'Designing reliable triggers, n8n/webhook pipelines, and deployment practices ready for student builders and startups.',
+        tags: ['Workflows', 'Automation'],
+      },
+    ],
+  },
+  day2: {
+    label: 'Day 2 — Aug 8, 2026',
+    theme: 'Hands-on Build, Deployment & Assessment',
+    hours: '09:00 AM – 04:30 PM IST',
+    sessions: [
+      {
+        time: '09:00 – 11:00',
+        title: 'ML Foundations, Linear Regression & Model Evaluation',
+        speaker: 'Prof. Akshay Ranpariya',
+        description:
+          'Training vs testing splits, generalization error, feature hygiene, and building evaluable machine learning baselines.',
+        tags: ['Machine Learning', 'Evaluation'],
+      },
+      {
+        time: '11:15 – 01:15',
+        title: 'Demystifying AI/ML: From Architecture to Real Applications',
+        speaker: 'Dev Anand',
+        description:
+          '2-hour flagship workshop dissecting how real-world AI applications move from concept and model selection to live deployment.',
+        tags: ['Live Workshop', 'Deployment'],
+      },
+      {
+        time: '02:00 – 03:30',
+        title: 'Shipping & Competitive Technical Assessment',
+        speaker: 'CodeNeuraX Technical Panel',
+        description:
+          'Structured timed assessment measuring applied grasp of Agentic AI, workflows, and ML concepts; top performers qualify for GATE DA scholarships.',
+        tags: ['Assessment', 'Merit Track'],
+      },
+      {
+        time: '03:45 – 04:30',
+        title: 'Closing Keynote, Meet-and-Greet & Co-Branded Certification',
+        speaker: 'Dev Anand & Marwadi University AI/ML Dept.',
+        description:
+          'Devnovate platform credit distribution ($30 USD / ₹2,800 value), merit awards, and official 2-day completion certificates.',
+        tags: ['Closing', 'Perks & Certs'],
+      },
+    ],
+  },
+};
+
+export const TOPICS_WE_COVER = [
+  {
+    index: '01',
+    title: 'Agentic AI & LLMs',
+    description:
+      'Tool calling, structured outputs, memory architectures, and practical evaluation loops.',
+  },
+  {
+    index: '02',
+    title: 'Automation Workflows',
+    description:
+      'Event-driven orchestration with n8n, webhooks, API pipelines, and operational bots.',
+  },
+  {
+    index: '03',
+    title: 'DSA & Competitive Programming',
+    description:
+      'Timed problem solving, complexity hygiene, and company-specific pattern drills.',
+  },
+  {
+    index: '04',
+    title: 'Open Source & GSoC',
+    description:
+      'Navigating large repositories, writing clean RFCs, and shipping upstream pull requests.',
+  },
+  {
+    index: '05',
+    title: 'Full-Stack & Web Engineering',
+    description:
+      'React, TypeScript, scalable APIs, relational schemas, and production cloud deployment.',
+  },
+  {
+    index: '06',
+    title: 'Career & Interview Prep',
+    description:
+      'Unfiltered engineering roadmaps from interns and SDEs at Google, Microsoft, and Amazon.',
+  },
+];
+
+
+===== FILE: src/data/library.ts =====
+import type { LeetCodeProblem, LibraryResource } from '../types';
+
+export const LIBRARY_RESOURCES: LibraryResource[] = [
+  {
+    id: 'lib-google-dsa',
+    title: 'Google DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet · C++ / Python / Java',
+    updatedAt: 'Nov 2026',
+    tags: ['Graphs', 'DP', 'Trees', 'Recursion'],
+    summary:
+      'Curated multi-round coding questions frequently surfaced in Google SWE Intern and New Grad technical screens.',
+    sampleTopics: [
+      'Shortest paths in weighted & state-space grids',
+      'Intervals, sweep-line algorithms & monotonic stacks',
+      'Tree DP, Lowest Common Ancestor & Trie pruning',
+    ],
+    previewSnippet:
+      '// Highlighted Pattern: Multi-Source BFS + State Pruning\n// Target Complexity: O(R * C * K) time | O(R * C) space\n// Key Check: Avoid revisiting (node, remaining_eliminations) with inferior budget.',
+  },
+  {
+    id: 'lib-microsoft-dsa',
+    title: 'Microsoft DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet · Annotated',
+    updatedAt: 'Nov 2026',
+    tags: ['Arrays', 'Linked Lists', 'Trees', 'Design'],
+    summary:
+      'High-signal interview archive compiled from Microsoft India SDE intern and FTE coding rounds.',
+    sampleTopics: [
+      'In-place linked list & matrix transformations',
+      'BST validation, serialization, and iterator design',
+      'Sliding window & string partitioning edge cases',
+    ],
+    previewSnippet:
+      '// Highlighted Pattern: LRU Cache (HashMap + Doubly Linked List)\n// Guarantees O(1) get() and put() without garbage-collection churn.',
+  },
+  {
+    id: 'lib-gate-cs',
+    title: 'GATE - CS Previous Year Ques',
+    category: 'Previous Year Questions',
+    countLabel: 'All Official Papers',
+    format: 'Topic-Indexed Archive · MSQ / NAT / MCQ',
+    updatedAt: '2007–2026',
+    tags: ['OS', 'DBMS', 'COA', 'Algorithms', 'TOC'],
+    summary:
+      'Complete Computer Science & Information Technology GATE previous year papers organized by subject and difficulty.',
+    sampleTopics: [
+      'Operating Systems: Virtual memory page faults, Deadlocks, CPU scheduling',
+      'DBMS: Conflict serializability, B+ Trees, Relational Algebra',
+      'Algorithms & TOC: Recurrences, Asymptotics, Undecidability',
+    ],
+    previewSnippet:
+      '// GATE CS Topic Checkpoint: B+ Tree Order Calculation\n// Block Size B = 4096 bytes | Record Pointer R = 8B | Key K = 12B | Block Ptr P = 6B\n// Solve p * P + (p - 1) * K <= B for internal node branching factor p.',
+  },
+  {
+    id: 'lib-gate-da',
+    title: 'GATE - DA Previous Year Ques',
+    category: 'Previous Year Questions',
+    countLabel: 'All Official Papers',
+    format: 'Official Papers + Solved Keys',
+    updatedAt: '2024–2026',
+    tags: ['Probability', 'Linear Algebra', 'ML', 'AI', 'SQL'],
+    summary:
+      'Complete Data Science & Artificial Intelligence (DA) official papers, paired with AI Sparks ’26 top-performer prep roadmap.',
+    sampleTopics: [
+      'Probability distributions, Bayes theorem, expectation & variance',
+      'Eigenvalues, SVD, rank-nullity & quadratic forms',
+      'Supervised learning bias-variance, k-means, decision trees & search algorithms',
+    ],
+    previewSnippet:
+      '// GATE DA Checkpoint: Eigenvalues of A^2 + 3A + 2I\n// If lambda is an eigenvalue of A, then lambda^2 + 3*lambda + 2 is an eigenvalue of the polynomial matrix.',
+  },
+  {
+    id: 'lib-linkedin-dsa',
+    title: 'LinkedIn DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet',
+    updatedAt: 'Oct 2026',
+    tags: ['HashMaps', 'Concurrency', 'Design', 'Trees'],
+    summary:
+      'Focused algorithmic and data-structure design questions covering nested structures, graph distances, and O(1) caches.',
+    sampleTopics: [
+      'Max Stack, All O(1) Data Structure & Nested List Weight Sum',
+      'Shortest Word Distance variations & graph degree centrality',
+      'Text justification & interval merging',
+    ],
+    previewSnippet:
+      '// Pattern: All O`one Data Structure (Doubly Linked Frequency Buckets + HashMap)\n// Supports inc(), dec(), getMaxKey(), getMinKey() in strict O(1) amortized time.',
+  },
+  {
+    id: 'lib-adobe-dsa',
+    title: 'Adobe DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet',
+    updatedAt: 'Oct 2026',
+    tags: ['Bit Manipulation', 'DP', 'Strings', 'Geometry'],
+    summary:
+      'Company-calibrated question set emphasizing memory efficiency, bitmasks, matrix paths, and string algorithms.',
+    sampleTopics: [
+      'Bitwise XOR masks, power-of-two checks & subset enumeration',
+      'Longest palindromic substrings & KMP prefix tables',
+      'Dynamic programming on grids & stock cooldown states',
+    ],
+    previewSnippet:
+      '// Bitwise Trick: x & (x - 1) clears the lowest set bit in O(1).\n// Crucial for Kernighan popcount and power-of-two verification.',
+  },
+  {
+    id: 'lib-amazon-dsa',
+    title: 'Amazon DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Structured Sheet · OA + Onsite',
+    updatedAt: 'Nov 2026',
+    tags: ['Heaps', 'BFS/DFS', 'Greedy', 'Sliding Window'],
+    summary:
+      'Amazon OA and SDE-1/Intern question bank highlighted during Nidhi Singh’s CodeNeuraX engineering session.',
+    sampleTopics: [
+      'Priority queues, K closest points, and reorder log data',
+      'Rotting oranges, number of islands & topological course scheduling',
+      'Binary search on answer space (shipping capacity, split array)',
+    ],
+    previewSnippet:
+      '// Binary Search on Answer Pattern:\n// Monotonic predicate feasible(capacity) -> narrow [max(weights), sum(weights)] in O(N log S).',
+  },
+  {
+    id: 'lib-capgemini-dsa',
+    title: 'Capgemini DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Campus Placement Pack',
+    updatedAt: 'Oct 2026',
+    tags: ['Pseudocode', 'Strings', 'Arrays', 'Aptitude'],
+    summary:
+      'Campus hiring technical assessment questions covering pseudo-code tracing, string manipulation, and fundamental DSA.',
+    sampleTopics: [
+      'Frequency compression, anagram grouping & array rotations',
+      'Recursive trace evaluation & bitwise operator precedence',
+      'Basic sorting stability & SQL join queries',
+    ],
+    previewSnippet:
+      '// Run-Length String Compression:\n// Maintain read/write pointers for O(N) time and O(1) auxiliary space.',
+  },
+  {
+    id: 'lib-deloitte-dsa',
+    title: 'Deloitte DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'Campus Placement Pack',
+    updatedAt: 'Oct 2026',
+    tags: ['SQL', 'Arrays', 'Number Theory', 'Logic'],
+    summary:
+      'Technical and analytical problem sets tailored for Deloitte campus NLA and analyst engineering evaluations.',
+    sampleTopics: [
+      'Subarray sums, prime sieves & modulo arithmetic',
+      'Window functions, ranking & nested SQL aggregations',
+      'Stack bracket balancing & queue simulation',
+    ],
+    previewSnippet:
+      '// Prefix Sum + HashMap:\n// Count subarrays summing to K in single O(N) pass by tracking freq[prefix - K].',
+  },
+  {
+    id: 'lib-tcs-dsa',
+    title: 'TCS DSA Ques',
+    category: 'Previous Year Questions',
+    countLabel: '150+ Questions',
+    format: 'NQT & Digital / Prime Pack',
+    updatedAt: 'Nov 2026',
+    tags: ['NQT', 'Prime', 'Matrices', 'Strings'],
+    summary:
+      'TCS NQT, Digital, and Prime coding archives covering input parsing edge cases, number theory, and matrix traversals.',
+    sampleTopics: [
+      'Spiral matrix, subarray max-product & cyclic shifts',
+      'GCD/LCM, base conversions & digit DP fundamentals',
+      'Greedy interval scheduling & clean stdin/stdout parsing',
+    ],
+    previewSnippet:
+      '// Kadane Variant (Max Product Subarray):\n// Track both running maxProd and minProd to handle negative sign flips.',
+  },
+  {
+    id: 'lib-notes-os',
+    title: 'Operating Systems — Concise Engineering Notes',
+    category: 'Notes',
+    countLabel: '48 Pages · 6 Modules',
+    format: 'Markdown & Printable Guide',
+    updatedAt: 'Nov 2026',
+    tags: ['Processes', 'Threads', 'Memory', 'Deadlocks'],
+    summary:
+      'High-yield OS architecture notes bridging university exams, GATE CS, and backend systems interviews.',
+    sampleTopics: [
+      'Context switching, POSIX threads, mutexes vs semaphores',
+      'Paging, TLB hit ratio math, Thrashing & Working Set model',
+      'Disk scheduling & Linux inode filesystem internals',
+    ],
+    previewSnippet:
+      'Effective Access Time (EAT) = alpha * (TLB + Mem) + (1 - alpha) * (TLB + 2 * Mem).',
+  },
+  {
+    id: 'lib-notes-dbms',
+    title: 'DBMS & SQL Query Internals',
+    category: 'Notes',
+    countLabel: '42 Pages · Query Labs',
+    format: 'Reference Handbook',
+    updatedAt: 'Oct 2026',
+    tags: ['ACID', 'Normalization', 'Indexing', 'SQL'],
+    summary:
+      'Practical notes on relational normalization (1NF–BCNF), transaction isolation levels, MVCC, and B+ Tree indexing.',
+    sampleTopics: [
+      'Candidate keys, lossless join decomposition & dependency preservation',
+      'Dirty reads, phantom reads & PostgreSQL isolation guarantees',
+      'Query execution plans, composite index column ordering',
+    ],
+    previewSnippet:
+      'Rule of thumb: Composite index (a, b) accelerates WHERE a = ? AND b = ?, and WHERE a = ?, but cannot seek on b alone.',
+  },
+  {
+    id: 'lib-notes-cn',
+    title: 'Computer Networks — Protocol & Packet Reference',
+    category: 'Notes',
+    countLabel: '36 Pages',
+    format: 'Protocol Cheatbook',
+    updatedAt: 'Oct 2026',
+    tags: ['TCP/IP', 'HTTP/3', 'DNS', 'Subnetting'],
+    summary:
+      'Clear mental models for TCP congestion control, TLS 1.3 handshakes, CIDR subnetting, and DNS resolution.',
+    sampleTopics: [
+      'TCP 3-way handshake, sliding window & AIMD congestion control',
+      'CIDR subnet masks, ARP/NAT traversal & routing tables',
+      'HTTP/1.1 keep-alive vs HTTP/2 multiplexing vs QUIC',
+    ],
+    previewSnippet:
+      'TLS 1.3 eliminates an entire round-trip during initial key exchange (1-RTT) and enables 0-RTT resumption.',
+  },
+  {
+    id: 'lib-notes-sysdesign',
+    title: 'System Design Primer for Student Builders',
+    category: 'Notes',
+    countLabel: '30 Pages · Diagrams',
+    format: 'Architecture Guide',
+    updatedAt: 'Nov 2026',
+    tags: ['Caching', 'Queues', 'Sharding', 'Rate Limiting'],
+    summary:
+      'Practical low-level & distributed systems design patterns for scaling hackathon prototypes into resilient products.',
+    sampleTopics: [
+      'Token bucket vs sliding window log rate limiters in Redis',
+      'Write-through vs cache-aside invalidation tradeoffs',
+      'Idempotent webhooks, dead-letter queues & consistent hashing',
+    ],
+    previewSnippet:
+      'Never scale prematurely: measure p95 query latency and add connection pooling + indexed reads before introducing microservices.',
+  },
+  {
+    id: 'lib-notes-agentic-ai',
+    title: 'Agentic AI & LLM Architecture Fundamentals',
+    category: 'Notes',
+    countLabel: 'AI Sparks ’26 Companion',
+    format: 'Colab + Study Brief',
+    updatedAt: 'Aug 2026',
+    tags: ['Agentic AI', 'Tool Calling', 'RAG', 'Evals'],
+    summary:
+      'Distilled engineering notes from AI Sparks ’26 covering reasoning loops, tool schemas, memory, and model evaluation.',
+    sampleTopics: [
+      'ReAct loop anatomy: Thought -> Action -> Observation -> Termination',
+      'Strict JSON schema function calling & retry validation',
+      'Precision/recall tradeoffs in hybrid semantic + BM25 retrieval',
+    ],
+    previewSnippet:
+      'Deterministic guardrails belong in typed application code, not inside hopeful natural-language prompt adjectives.',
+  },
+  {
+    id: 'lib-ps-algorush',
+    title: 'AlgoRush 2026 — Official 4-Problem Set & Editorials',
+    category: 'Problem Statements',
+    countLabel: '4 Problems + Test Cases',
+    format: 'Competitive Sheet',
+    updatedAt: 'Aug 2026',
+    tags: ['DSA', 'Unstop', 'Editorials'],
+    summary:
+      'Complete problem statements, constraints, sample I/O, and optimal complexity proofs from CodeNeuraX AlgoRush 2026.',
+    sampleTopics: [
+      'P1: Windowed Telemetry Stabilization (O(N) Sliding Window)',
+      'P2: Campus Bus Graph Routing (Dijkstra on Time Windows)',
+      'P3: Bitmask Squad Allocation (DP over Subsets)',
+    ],
+    previewSnippet:
+      'Problem B Constraint Check: N <= 2e5, Edges <= 4e5 -> Avoid O(N^2) adjacency matrix; use min-heap priority queue.',
+  },
+  {
+    id: 'lib-ps-neuraknockout',
+    title: 'NeuraKnockout — 7-Hour Web Engineering Briefs',
+    category: 'Problem Statements',
+    countLabel: '6 Timed Challenges',
+    format: 'Full-Stack Spec Prompts',
+    updatedAt: 'Nov 2026',
+    tags: ['Frontend', 'APIs', 'Accessibility', 'Speed'],
+    summary:
+      'Practice prompt specs structured around 7-hour solo web build constraints: state persistence, crisp UI, and live deploy.',
+    sampleTopics: [
+      'Build a Zero-Latency Exam Timer & Telemetry Matrix',
+      'Build an Offline-First Campus Lost & Found Index',
+      'Build a Real-Time Hackathon Judge Rubric Scorer',
+    ],
+    previewSnippet:
+      'Evaluation Rubric: 35% Functional Completeness · 25% Visual Hierarchy · 20% Code Modularity · 20% Edge-State Handling.',
+  },
+  {
+    id: 'lib-ps-sih',
+    title: 'SIH & National Hackathon Winning Blueprints',
+    category: 'Problem Statements',
+    countLabel: '12 Curated Prompts',
+    format: 'Architecture + Pitch Pack',
+    updatedAt: 'Sep 2026',
+    tags: ['SIH', 'Hardware', 'AI/ML', 'GovTech'],
+    summary:
+      'Problem breakdown templates and evaluation checklists adapted from CodeNeuraX’s Smart India Hackathon strategy talk.',
+    sampleTopics: [
+      'Validating ministry problem constraints before writing code',
+      '6-slide pitch structure: Problem -> Architecture -> Edge Cases -> Impact',
+      'Offline fallback strategies for live jury hardware/ML demos',
+    ],
+    previewSnippet:
+      'Jury Rule: Never lead with 4 slides of motivation. Show system architecture and a working slice within 90 seconds.',
+  },
+];
+
+export const LEETCODE_COMPANY_ROWS: LeetCodeProblem[] = [
+  {
+    id: 'lc-1',
+    number: 1,
+    title: 'Two Sum',
+    difficulty: 'Easy',
+    topic: 'Hash Map',
+    companies: ['Google', 'Amazon', 'Microsoft', 'Adobe', 'TCS'],
+    frequency: '98%',
+    url: 'https://leetcode.com/problems/two-sum/',
+  },
+  {
+    id: 'lc-146',
+    number: 146,
+    title: 'LRU Cache',
+    difficulty: 'Medium',
+    topic: 'Design · Linked List',
+    companies: ['Amazon', 'Microsoft', 'Google', 'LinkedIn'],
+    frequency: '96%',
+    url: 'https://leetcode.com/problems/lru-cache/',
+  },
+  {
+    id: 'lc-200',
+    number: 200,
+    title: 'Number of Islands',
+    difficulty: 'Medium',
+    topic: 'BFS / DFS · Grid',
+    companies: ['Amazon', 'Google', 'Microsoft', 'Adobe'],
+    frequency: '94%',
+    url: 'https://leetcode.com/problems/number-of-islands/',
+  },
+  {
+    id: 'lc-56',
+    number: 56,
+    title: 'Merge Intervals',
+    difficulty: 'Medium',
+    topic: 'Sorting · Intervals',
+    companies: ['Google', 'LinkedIn', 'Amazon', 'Microsoft'],
+    frequency: '92%',
+    url: 'https://leetcode.com/problems/merge-intervals/',
+  },
+  {
+    id: 'lc-42',
+    number: 42,
+    title: 'Trapping Rain Water',
+    difficulty: 'Hard',
+    topic: 'Two Pointers · Monotonic Stack',
+    companies: ['Google', 'Amazon', 'Microsoft', 'Adobe'],
+    frequency: '90%',
+    url: 'https://leetcode.com/problems/trapping-rain-water/',
+  },
+  {
+    id: 'lc-23',
+    number: 23,
+    title: 'Merge k Sorted Lists',
+    difficulty: 'Hard',
+    topic: 'Heap · Divide & Conquer',
+    companies: ['Google', 'Amazon', 'LinkedIn', 'Microsoft'],
+    frequency: '88%',
+    url: 'https://leetcode.com/problems/merge-k-sorted-lists/',
+  },
+  {
+    id: 'lc-207',
+    number: 207,
+    title: 'Course Schedule',
+    difficulty: 'Medium',
+    topic: 'Topological Sort · Graph',
+    companies: ['Amazon', 'Google', 'Microsoft'],
+    frequency: '86%',
+    url: 'https://leetcode.com/problems/course-schedule/',
+  },
+  {
+    id: 'lc-3',
+    number: 3,
+    title: 'Longest Substring Without Repeating Characters',
+    difficulty: 'Medium',
+    topic: 'Sliding Window',
+    companies: ['Amazon', 'Adobe', 'Microsoft', 'TCS', 'Deloitte'],
+    frequency: '91%',
+    url: 'https://leetcode.com/problems/longest-substring-without-repeating-characters/',
+  },
+  {
+    id: 'lc-295',
+    number: 295,
+    title: 'Find Median from Data Stream',
+    difficulty: 'Hard',
+    topic: 'Two Heaps',
+    companies: ['Google', 'Amazon', 'Microsoft'],
+    frequency: '82%',
+    url: 'https://leetcode.com/problems/find-median-from-data-stream/',
+  },
+  {
+    id: 'lc-432',
+    number: 432,
+    title: 'All O`one Data Structure',
+    difficulty: 'Hard',
+    topic: 'Design · Doubly Linked List',
+    companies: ['LinkedIn', 'Google'],
+    frequency: '85%',
+    url: 'https://leetcode.com/problems/all-oone-data-structure/',
+  },
+  {
+    id: 'lc-121',
+    number: 121,
+    title: 'Best Time to Buy and Sell Stock',
+    difficulty: 'Easy',
+    topic: 'Greedy · Prefix Min',
+    companies: ['Amazon', 'TCS', 'Capgemini', 'Deloitte', 'Adobe'],
+    frequency: '95%',
+    url: 'https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',
+  },
+  {
+    id: 'lc-322',
+    number: 322,
+    title: 'Coin Change',
+    difficulty: 'Medium',
+    topic: 'Dynamic Programming',
+    companies: ['Adobe', 'Amazon', 'Microsoft', 'Google'],
+    frequency: '87%',
+    url: 'https://leetcode.com/problems/coin-change/',
+  },
+  {
+    id: 'lc-364',
+    number: 339,
+    title: 'Nested List Weight Sum',
+    difficulty: 'Medium',
+    topic: 'DFS · BFS',
+    companies: ['LinkedIn', 'Google'],
+    frequency: '84%',
+    url: 'https://leetcode.com/problems/nested-list-weight-sum/',
+  },
+  {
+    id: 'lc-53',
+    number: 53,
+    title: 'Maximum Subarray',
+    difficulty: 'Medium',
+    topic: 'Kadane · DP',
+    companies: ['Microsoft', 'Amazon', 'LinkedIn', 'TCS', 'Capgemini'],
+    frequency: '93%',
+    url: 'https://leetcode.com/problems/maximum-subarray/',
+  },
+];
+
+
+===== FILE: src/data/opportunities.ts =====
+import type { OpportunityItem } from '../types';
+
+export const OPPORTUNITIES: OpportunityItem[] = [
+  {
+    id: 'opp-neuraknockout-2026',
+    title: 'NeuraKnockout 2026 — 7-Hour Web Dev Challenge',
+    organization: 'CodeNeuraX × Dept. of AI, ML & DS, Marwadi University',
+    category: 'Hackathons',
+    deadline: 'Dec 19, 2026',
+    locationOrMode: 'Offline · Marwadi University, Rajkot',
+    stipendOrPrize: '₹4,700 Prize Pool',
+    summary:
+      'Individual 7-hour rapid web engineering sprint testing architecture, clean UI execution, and functional deployment under real constraints.',
+    details: [
+      'Individual participation — 7 consecutive hours of live on-campus building.',
+      'Prize breakdown: ₹2,100 Winner, ₹1,500 1st Runner-Up, ₹1,100 2nd Runner-Up.',
+      'Evaluated on code structure, accessibility, responsive layout, and shipped functionality.',
+      'Jointly organized with the Department of AI, ML & Data Science at Marwadi University.',
+    ],
+    tags: ['Web Engineering', 'Offline Sprint', 'Individual'],
+    featured: true,
+    externalUrl: '/events',
+    ctaLabel: 'View Challenge',
+  },
+  {
+    id: 'opp-algorush-2026',
+    title: 'AlgoRush 2026 — National DSA Coding Contest',
+    organization: 'CodeNeuraX · Powered by Unstop',
+    category: 'Hackathons',
+    deadline: 'Dec 18, 2026',
+    locationOrMode: 'Online · Unstop Arena',
+    stipendOrPrize: 'Ranked Certificates & Swag',
+    summary:
+      'Timed 4-problem algorithmic contest calibrated around arrays, dynamic programming, graph traversals, and greedy optimization.',
+    details: [
+      '4 curated competitive programming problems with progressive difficulty.',
+      'Supports C++, Java, Python, and Go submissions on Unstop.',
+      'Top rankers receive verified performance badges and priority Library access.',
+    ],
+    tags: ['DSA', 'Competitive Coding', 'Unstop'],
+    featured: true,
+    externalUrl: 'https://unstop.com',
+    ctaLabel: 'Open on Unstop',
+  },
+  {
+    id: 'opp-sih-2026-prep',
+    title: 'Smart India Hackathon 2026 — Squad Formation & Pitch Review',
+    organization: 'CodeNeuraX Community & BuddyKid',
+    category: 'Hackathons',
+    deadline: 'Dec 28, 2026',
+    locationOrMode: 'Pan-India · Hybrid Reviews',
+    stipendOrPrize: '₹1,00,000+ National Finals Track',
+    summary:
+      'Cross-college team matching and architecture deck reviews led by past SIH winners to prepare problem statement submissions.',
+    details: [
+      'Match with backend, ML, hardware, and design peers using BuddyKid squad codes.',
+      'Access curated SIH 2025 winning pitch blueprints inside CodeNeuraX Library.',
+      'Weekly office hours covering feasibility, system architecture, and live prototype demos.',
+    ],
+    tags: ['SIH 2026', 'Squad Match', 'Hardware & Software'],
+    featured: true,
+    externalUrl: '/buddykid',
+    ctaLabel: 'Find Squad',
+  },
+  {
+    id: 'opp-agentic-ai-intern',
+    title: 'AI Engineering Intern — Agentic Workflows & RAG',
+    organization: 'DeepQuantica · TensorTurn Partner Network',
+    category: 'Internships',
+    deadline: 'Dec 12, 2026',
+    locationOrMode: 'Remote · India',
+    stipendOrPrize: '₹18,000 – ₹25,000 / mo',
+    summary:
+      'Build deterministic tool-calling pipelines, evaluation harnesses, and multi-step LLM agents using Python and FastAPI.',
+    details: [
+      '3 to 6 months paid remote engineering internship open to pre-final & final year CS/AI students.',
+      'Work directly with structured outputs, vector retrieval, and automated benchmark suites.',
+      'Requires 2+ public GitHub repositories demonstrating Python backend or LLM integration.',
+    ],
+    tags: ['Agentic AI', 'Python', 'FastAPI'],
+    featured: true,
+    externalUrl: 'https://www.linkedin.com/company/codeneurax',
+    ctaLabel: 'View Role Brief',
+  },
+  {
+    id: 'opp-frontend-product-intern',
+    title: 'Frontend Systems Intern — React & TypeScript',
+    organization: 'Devnovate Ecosystem Partner',
+    category: 'Internships',
+    deadline: 'Dec 22, 2026',
+    locationOrMode: 'Remote · Flexible Hours',
+    stipendOrPrize: '₹15,000 / mo',
+    summary:
+      'Ship accessible component primitives, interactive tables, and low-latency state workflows for developer event tooling.',
+    details: [
+      'Hands-on React 19, TypeScript, Tailwind CSS, and browser performance profiling.',
+      'Mentorship from senior frontend engineers with weekly PR architecture reviews.',
+      'Pre-placement offer opportunity upon successful completion.',
+    ],
+    tags: ['React', 'TypeScript', 'Design Systems'],
+    featured: true,
+    externalUrl: 'https://www.linkedin.com/company/codeneurax',
+    ctaLabel: 'View Role Brief',
+  },
+  {
+    id: 'opp-gsoc-2027-cohort',
+    title: 'GSoC 2027 & Open Source First-PR Cohort',
+    organization: 'CodeNeuraX Mentorship Circle',
+    category: 'Workshops',
+    deadline: 'Jan 08, 2027',
+    locationOrMode: 'Online · Weekly Live Clinics',
+    stipendOrPrize: 'Free Community Track',
+    summary:
+      'Structured roadmap for selecting mentoring organizations, reading large codebases, and landing first upstream pull requests.',
+    details: [
+      'Follow-up track to Nidhi Singh’s GSoC & Amazon engineering session.',
+      'Weekly issue triage sessions for Python, TypeScript, and Rust open-source repositories.',
+      'Proposal architecture feedback prior to official GSoC timeline.',
+    ],
+    tags: ['Open Source', 'GSoC', 'Git Workflows'],
+    featured: true,
+    externalUrl: '/events',
+    ctaLabel: 'Explore Track',
+  },
+  {
+    id: 'opp-mcp-agents-update',
+    title: 'Model Context Protocol & Tool-Calling Field Notes',
+    organization: 'CodeNeuraX Research Digest',
+    category: 'Tech Updates',
+    deadline: 'Updated Nov 2026',
+    locationOrMode: 'Engineering Brief · 6 min read',
+    summary:
+      'Practical breakdown of structured schemas, sandboxed execution, and deterministic evals for student-built AI agents.',
+    details: [
+      'Synthesized from AI Sparks ’26 Day 1 technical labs and community production notes.',
+      'Covers function calling contracts, retry loops, and latency budgets in Python.',
+      'Includes starter notebook checklists for Google Colab and local runtimes.',
+    ],
+    tags: ['LLM Tooling', 'MCP', 'Architecture'],
+    featured: true,
+    externalUrl: '/library',
+    ctaLabel: 'Read Brief',
+  },
+  {
+    id: 'opp-gate-da-sprint',
+    title: 'GATE DA & CS 2027 — Weekly PYQ Solving Room',
+    organization: 'CodeNeuraX Academic Guild',
+    category: 'Workshops',
+    deadline: 'Every Sunday · 7:00 PM IST',
+    locationOrMode: 'Online · Google Meet',
+    stipendOrPrize: 'Free + Library Access',
+    summary:
+      'Peer-led walkthroughs of probability, linear algebra, DBMS, and OS previous year GATE questions with timed accuracy drills.',
+    details: [
+      'Paired directly with the GATE CS and GATE DA packs in the CodeNeuraX Library.',
+      'Focuses on eliminating edge-case traps in MSQ and NAT sections.',
+      'Open to all Tier-2 and Tier-3 college CS/AI undergraduates across India.',
+    ],
+    tags: ['GATE DA', 'GATE CS', 'PYQ Drills'],
+    featured: true,
+    externalUrl: '/library',
+    ctaLabel: 'Open Library',
+  },
+  {
+    id: 'opp-n8n-automation-update',
+    title: 'Shipping Production Automations with n8n, Vercel & Webhooks',
+    organization: 'CodeNeuraX AI Dispatch',
+    category: 'Tech Updates',
+    deadline: 'Updated Nov 2026',
+    locationOrMode: 'Community Guide · 5 min read',
+    summary:
+      'Patterns used by AI Sparks ’26 builders to orchestrate webhooks, structured extraction, and automated community alerts.',
+    details: [
+      'Includes practical architecture patterns for student builders using platform credits.',
+      'Highlights idempotency keys, webhook verification, and clean error fallbacks.',
+      'Zero fluff — concise workflow recipes ready to adapt for hackathons.',
+    ],
+    tags: ['n8n', 'Automation', 'Webhooks'],
+    featured: true,
+    externalUrl: '/aispark',
+    ctaLabel: 'View AI Sparks',
+  },
+  {
+    id: 'opp-cloud-devops-intern',
+    title: 'Cloud & DevOps Apprentice — Docker, Linux & CI/CD',
+    organization: 'CodeNeuraX Partner Network',
+    category: 'Internships',
+    deadline: 'Dec 30, 2026',
+    locationOrMode: 'Hybrid · Rajkot / Remote',
+    stipendOrPrize: '₹12,000 / mo + Cloud Credits',
+    summary:
+      'Maintain reproducible container builds, GitHub Actions release pipelines, and observability dashboards for student-run web services.',
+    details: [
+      'Learn NGINX reverse proxying, TLS lifecycle, and zero-downtime blue/green deploys.',
+      'Ideal for 2nd and 3rd year students comfortable with Linux shell and Git.',
+    ],
+    tags: ['Docker', 'CI/CD', 'Linux'],
+    externalUrl: 'https://www.linkedin.com/company/codeneurax',
+    ctaLabel: 'View Role Brief',
+  },
+  {
+    id: 'opp-ca-cohort-2027',
+    title: 'CodeNeuraX Campus Ambassador 2027',
+    organization: 'CodeNeuraX National Network',
+    category: 'Workshops',
+    deadline: 'Dec 15, 2026',
+    locationOrMode: 'Hybrid · Pan-India Campuses',
+    stipendOrPrize: 'Leadership Track',
+    summary:
+      'Lead CodeNeuraX chapters on your campus: host study jams, launch hackathon squads, and connect students to national speaker sessions.',
+    details: [
+      'Direct mentorship from CodeNeuraX Core Team and priority invites to flagship summits.',
+      'Verified recommendation letters, speaker access, and chapter tooling support.',
+    ],
+    tags: ['Leadership', 'Campus Chapter', 'Community'],
+    externalUrl: '/work-with-us',
+    ctaLabel: 'Apply Now',
+  },
+  {
+    id: 'opp-anthropic-evals-update',
+    title: 'Designing Deterministic Evals for Student AI Projects',
+    organization: 'CodeNeuraX Engineering Notes',
+    category: 'Tech Updates',
+    deadline: 'Updated Nov 2026',
+    locationOrMode: 'Technical Note · 4 min read',
+    summary:
+      'Stop shipping prompt wrappers by guessing outputs — build lightweight golden datasets and latency checks before demo day.',
+    details: [
+      'Covers regression assertions, JSON schema validation, and cost-per-run tracking.',
+      'Recommended reading for teams preparing AI hackathon submissions.',
+    ],
+    tags: ['AI Evals', 'Testing', 'Best Practices'],
+    externalUrl: '/library',
+    ctaLabel: 'Explore Notes',
+  },
+];
+
+
+===== FILE: src/data/services.ts =====
+import type { ServiceOffering } from '../types';
+
+export const SERVICE_PRINCIPLES = [
+  {
+    title: 'Discovery & Architecture',
+    description:
+      'Every engagement starts with written system specs, data modeling, and a realistic delivery timeline before a single component is coded.',
+  },
+  {
+    title: 'Weekly Shipped Sprints',
+    description:
+      'Builders ship reviewable staging builds every Friday so you inspect real software in the browser instead of slide decks.',
+  },
+  {
+    title: 'Clean Handoff & Monitoring',
+    description:
+      'Typed repositories, environment documentation, deployment pipelines, and post-launch observability handed over cleanly to your team.',
+  },
+];
+
+export const SERVICE_KPIS = [
+  { value: '10+', label: 'Production projects delivered' },
+  { value: '50+', label: 'Global clients & partners supported' },
+  { value: '95.9%', label: 'Measured uptime across deployments' },
+  { value: '24/7', label: 'Active engineering support' },
+];
+
+export const SERVICE_OFFERINGS: ServiceOffering[] = [
+  {
+    id: 'srv-ai-automation',
+    index: '01',
+    title: 'AI & Automation',
+    shortDescription:
+      'Predictive models, intelligent agents, chatbots, and deterministic workflow automation.',
+    deliverables: [
+      'Custom tool-calling AI agents & RAG search systems over internal documents',
+      'n8n, webhook, and API workflow orchestration eliminating repetitive manual ops',
+      'Structured output evaluation suites & cost/latency monitoring dashboards',
+    ],
+    stack: ['Python', 'FastAPI', 'LangGraph', 'n8n', 'PostgreSQL pgvector'],
+    timeline: '2 – 5 Weeks',
+    idealFor: 'Startups, EdTech platforms, and operations teams automating high-volume workflows.',
+  },
+  {
+    id: 'srv-custom-apps',
+    index: '02',
+    title: 'Custom Apps & Websites',
+    shortDescription:
+      'High-performance web apps, mobile apps, and internal operational tools engineered for speed.',
+    deliverables: [
+      'Flagship marketing & community portals built with React, Next.js, and TypeScript',
+      'Multi-role internal dashboards, booking systems, and SaaS MVP architecture',
+      'Accessible component libraries with strict Lighthouse performance budgets',
+    ],
+    stack: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Supabase / Node.js'],
+    timeline: '3 – 6 Weeks',
+    idealFor: 'Founders launching v1 products, organizations modernizing portals, and SaaS teams.',
+  },
+  {
+    id: 'srv-cloud-devops',
+    index: '03',
+    title: 'Cloud & DevOps',
+    shortDescription:
+      'Cloud architecture, migrations, reliable hosting, and automated CI/CD pipelines.',
+    deliverables: [
+      'Containerized Docker deployments, reverse proxies, and SSL automation',
+      'Zero-downtime GitHub Actions pipelines with preview environments',
+      'Automated database backups, uptime alerting, and cloud cost optimization',
+    ],
+    stack: ['AWS', 'Docker', 'GitHub Actions', 'Nginx', 'Linux / Terraform'],
+    timeline: '1 – 3 Weeks',
+    idealFor: 'Growing engineering teams migrating off brittle manual deployments.',
+  },
+  {
+    id: 'srv-cv-emerging',
+    index: '04',
+    title: 'Computer Vision & Emerging Tech',
+    shortDescription:
+      'Image/video intelligence, AR/VR prototypes, IoT telemetry, and Web3 verification systems.',
+    deliverables: [
+      'Real-time camera/video inspection & OCR extraction pipelines',
+      'Embedded sensor telemetry dashboards and hardware-to-cloud MQTT bridges',
+      'Smart-contract verification & spatial WebGL/AR interactive proofs',
+    ],
+    stack: ['OpenCV', 'PyTorch', 'MQTT / ESP32', 'Solidity', 'WebGL'],
+    timeline: '3 – 8 Weeks',
+    idealFor: 'R&D labs, campus innovation centers, and hardware-software pilots.',
+  },
+  {
+    id: 'srv-growth',
+    index: '05',
+    title: 'Digital Marketing & Growth',
+    shortDescription:
+      'Performance campaigns, social distribution, and measurable lead generation across tech audiences.',
+    deliverables: [
+      'Developer & student-community distribution playbooks across LinkedIn & Unstop',
+      'Conversion-focused landing architecture with event & funnel analytics',
+      'Technical content calendars and launch-week distribution sprints',
+    ],
+    stack: ['Analytics', 'SEO Technical Audit', 'LinkedIn Distribution', 'CRM Funnels'],
+    timeline: 'Ongoing / Monthly Retainer',
+    idealFor: 'Developer tools, hackathons, hiring programs, and technical cohorts.',
+  },
+  {
+    id: 'srv-design-branding',
+    index: '06',
+    title: 'Design & Branding',
+    shortDescription:
+      'Visual identity systems, UI/UX architecture, and cohesive product interfaces with zero clutter.',
+    deliverables: [
+      'Complete brand identity: geometric logomarks, typography scales, and token sheets',
+      'Interactive Figma prototypes, user flows, and responsive component specs',
+      'Pitch decks, flagship event visual systems, and design-system audits',
+    ],
+    stack: ['Figma', 'Design Tokens', 'Editorial Typography', 'Prototyping'],
+    timeline: '2 – 4 Weeks',
+    idealFor: 'Early-stage teams replacing generic templates with distinct product craft.',
+  },
+];
+
+
+===== FILE: src/data/team.ts =====
+import type { PartnerItem, Speaker, TeamMember } from '../types';
+
+export const CORE_TEAM: TeamMember[] = [
+  {
+    id: 'team-dinesh',
+    name: 'Dinesh Yadav',
+    role: 'Founder & Convener',
+    affiliation: 'Marwadi University · Full-Stack & AI',
+    avatar: '/images/dinesh-yadav.jpg',
+    initials: 'DY',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'team-mitali',
+    name: 'Mitali Desai',
+    role: 'Convener & Operations Lead',
+    affiliation: 'Program Operations & Partnerships',
+    avatar: '/images/mitali-desai.jpg',
+    initials: 'MD',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'team-jashwanth',
+    name: 'Jashwanth Buddaraju',
+    role: 'Social Media Lead',
+    affiliation: 'Growth & Distribution Strategy',
+    initials: 'JB',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'team-isha',
+    name: 'Isha Thaker',
+    role: 'Design & Content Lead',
+    affiliation: 'Editorial Direction & Visual Systems',
+    avatar: '/images/isha-thaker.jpg',
+    initials: 'IT',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+  {
+    id: 'team-prachi',
+    name: 'Prachi Doshi',
+    role: 'Co-Web Dev & Host Lead',
+    affiliation: 'Web Engineering & Live Events',
+    avatar: '/images/prachi-doshi.jpg',
+    initials: 'PD',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+  },
+];
+
+export const AI_SPARKS_SPEAKERS: Speaker[] = [
+  {
+    id: 'spk-parth-singh',
+    name: 'Parth Singh',
+    role: 'Keynote Speaker · Agentic AI Systems',
+    organization: 'AI Sparks ’26 Faculty & Industry Track',
+    topic: 'Introduction to Agentic AI, LLMs & Autonomous Tool Loops',
+    eventTag: 'AI Sparks ’26 · Day 1',
+    day: 'Day 1',
+    avatar: '/images/speaker-parth.jpg',
+    initials: 'PS',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+    bio: 'Led Day 1 deep dive into LLM internals, agentic reasoning vs traditional chatbots, and structured planning patterns.',
+  },
+  {
+    id: 'spk-dev-anand',
+    name: 'Dev Anand',
+    role: 'Educator & Tech Influencer',
+    organization: 'Unstop Featured Speaker',
+    topic: 'Demystifying AI/ML: From Fundamentals to Live Apps',
+    eventTag: 'AI Sparks ’26 · Day 2',
+    day: 'Day 2',
+    avatar: '/images/speaker-dev.jpg',
+    initials: 'DA',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+    bio: 'Delivered the 2-hour flagship workshop on demystifying applied AI/ML architecture and career clarity for 360+ attendees.',
+  },
+  {
+    id: 'spk-varun-poladiya',
+    name: 'Varun Poladiya',
+    role: 'Head of Marketing · Co-Organizer',
+    organization: 'navan.ai · GDG Cloud Rajkot',
+    topic: 'Function Calling, Python Colab Labs & Production Workflows',
+    eventTag: 'AI Sparks ’26 · Day 1',
+    day: 'Day 1',
+    avatar: '/images/speaker-varun.jpg',
+    initials: 'VP',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+    bio: 'Guided hands-on tool calling labs and showed how modern AI automation ecosystems connect APIs to shipping workflows.',
+  },
+  {
+    id: 'spk-akshay-ranpariya',
+    name: 'Akshay Ranpariya',
+    role: 'Assistant Professor (AI)',
+    organization: 'Marwadi University · Dept. of AI, ML & DS',
+    topic: 'ML Foundations, Linear Regression & Model Evaluation',
+    eventTag: 'AI Sparks ’26 · Day 2',
+    day: 'Day 2',
+    avatar: '/images/speaker-akshay.jpg',
+    initials: 'AR',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+    bio: 'Anchored Day 2 technical sessions on training/testing discipline, regression modeling, and rigorous model evaluation.',
+  },
+];
+
+export const WEBINAR_SPEAKERS: Speaker[] = [
+  {
+    id: 'spk-nidhi-singh',
+    name: 'Nidhi Singh',
+    role: 'Software Engineer · GSoC Mentor',
+    organization: 'Amazon · AOSSIE',
+    topic: 'How to Crack Google Summer of Code & Amazon',
+    eventTag: 'Oct 17, 2026 · 228 Attendees',
+    initials: 'NS',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+    bio: 'Walked 228 student builders through open-source org selection, GSoC mentorship expectations, and Amazon SDE interviews.',
+  },
+  {
+    id: 'spk-parth-thakrar',
+    name: 'Parth Thakrar',
+    role: 'Software Engineer & Ex-Intern',
+    organization: 'Microsoft',
+    topic: 'Journey to Microsoft: From Student to Software Engineer',
+    eventTag: 'Nov 15, 2025 · 119 Attendees',
+    initials: 'PT',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+    bio: 'Shared an unfiltered blueprint on CS fundamentals, engineering projects, and converting Microsoft internships.',
+  },
+  {
+    id: 'spk-divanshi-jain',
+    name: 'Divanshi Jain',
+    role: 'Incoming Software Engineer',
+    organization: 'Google',
+    topic: 'Crack the Google Interview',
+    eventTag: 'Apr 17, 2026 · Virtual Session',
+    initials: 'DJ',
+    linkedinUrl: 'https://www.linkedin.com/company/codeneurax',
+    bio: 'Demonstrated structured problem decomposition, complexity analysis, and interview communication at Google bar.',
+  },
+];
+
+export const COMMUNITY_PARTNERS: PartnerItem[] = [
+  {
+    id: 'part-unstop',
+    name: 'Unstop',
+    role: 'Event & Contest Platform',
+    website: 'https://unstop.com',
+  },
+  {
+    id: 'part-gfg',
+    name: 'GeeksforGeeks',
+    role: 'Technical Learning Partner',
+    logo: '/images/partners/gfg.png',
+  },
+  {
+    id: 'part-devnovate',
+    name: 'Devnovate',
+    role: 'Builder Credits Partner',
+    logo: '/images/partners/devnovate.png',
+  },
+  {
+    id: 'part-deepquantica',
+    name: 'DeepQuantica · TensorTurn',
+    role: 'Technology Partner',
+    logo: '/images/partners/tensorturn.jpg',
+  },
+  {
+    id: 'part-idp',
+    name: 'IDP Education',
+    role: 'Student Advisory Partner',
+    logo: '/images/partners/idp.avif',
+  },
+  {
+    id: 'part-mu',
+    name: 'Marwadi University',
+    role: 'Host Venue · Dept. of AI, ML & DS',
+    logo: '/images/partners/marwadi-shield.png',
+  },
+];
+
+export const AI_SPARKS_PARTNERS: PartnerItem[] = [
+  {
+    id: 'ais-unstop',
+    name: 'Unstop',
+    role: 'Official Registration & Contest Arena',
+  },
+  {
+    id: 'ais-idp',
+    name: 'IDP',
+    role: 'Powered By & Student Counseling Desk',
+    logo: '/images/partners/idp.avif',
+  },
+  {
+    id: 'ais-deepquantica',
+    name: 'DeepQuantica',
+    role: 'Technology Partner (TensorTurn)',
+    logo: '/images/partners/tensorturn.jpg',
+  },
+  {
+    id: 'ais-devnovate',
+    name: 'Devnovate',
+    role: '$30 USD Platform Credits Partner',
+    logo: '/images/partners/devnovate.png',
+  },
+  {
+    id: 'ais-gfg',
+    name: 'GeeksforGeeks',
+    role: 'Technical Ecosystem Partner',
+    logo: '/images/partners/gfg.png',
+  },
+  {
+    id: 'ais-codeneurax-ai',
+    name: 'CodeNeuraX AI',
+    role: 'Host Track & Curriculum Organizer',
+    logo: '/images/codeneurax-mark.jpg',
+  },
+];

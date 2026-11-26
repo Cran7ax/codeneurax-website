@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { Modal } from '../ui/Modal';
 
@@ -29,7 +29,7 @@ export const RoleApplicationModal: React.FC<RoleApplicationModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !email.includes('@') || !college.trim() || statement.trim().length < 20) {
-      setError('Complete all fields and share at least 20 characters about your initiative.');
+      setError('Complete all fields and share at least 20 characters about your work.');
       return;
     }
     setError('');
@@ -40,104 +40,112 @@ export const RoleApplicationModal: React.FC<RoleApplicationModalProps> = ({
     <Modal
       open={open}
       onClose={onClose}
-      subtitle="CodeNeuraX Application"
-      title={`Apply: ${roleTitle}`}
+      subtitle="Core & Chapter Application"
+      title={roleTitle}
       maxWidthClass="max-w-lg"
     >
       {isApplied ? (
-        <div className="p-5 rounded-xl bg-[#4353FF]/15 border border-[#4353FF]/30 space-y-3">
-          <div className="flex items-center gap-2.5 text-white">
-            <CheckCircle2 className="w-5 h-5 text-[#818CF8]" strokeWidth={1.75} />
-            <h4 className="text-sm font-bold">Application Recorded</h4>
+        <div className="space-y-5">
+          <div className="rounded-xl cnx-popout-tile p-5 flex items-start gap-3.5">
+            <span className="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 flex items-center justify-center shrink-0 mt-0.5">
+              <Check className="w-4 h-4" strokeWidth={2.25} />
+            </span>
+            <div>
+              <h4 className="text-sm font-bold text-white">Application recorded</h4>
+              <p className="mt-1 text-xs text-neutral-400 leading-relaxed">
+                Submitted for <strong className="text-white">{name}</strong> ({college}). Core Team
+                leads review cohorts weekly.
+              </p>
+            </div>
           </div>
-          <p className="text-xs text-neutral-300 leading-relaxed">
-            Your application for <strong className="text-white">{roleTitle}</strong> has been logged
-            for {name} ({college}). Core Team leads review cohorts weekly.
-          </p>
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-5 py-2 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold hover:bg-neutral-200"
-          >
-            Done
-          </button>
+
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="cnx-clay-btn-white px-5 py-2 rounded-lg text-xs font-semibold"
+            >
+              Done
+            </button>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block cnx-section-label text-neutral-400 mb-1.5">Full Name</label>
+              <label className="block text-xs font-medium text-neutral-400 mb-1.5">Full name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                className="cnx-popout-input"
               />
             </div>
             <div>
-              <label className="block cnx-section-label text-neutral-400 mb-1.5">Email</label>
+              <label className="block text-xs font-medium text-neutral-400 mb-1.5">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                className="cnx-popout-input"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label className="block cnx-section-label text-neutral-400 mb-1.5">
-                College &amp; Branch
+              <label className="block text-xs font-medium text-neutral-400 mb-1.5">
+                College &amp; branch
               </label>
               <input
                 type="text"
                 value={college}
                 onChange={(e) => setCollege(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                className="cnx-popout-input"
               />
             </div>
             <div>
-              <label className="block cnx-section-label text-neutral-400 mb-1.5">
-                LinkedIn / GitHub URL
+              <label className="block text-xs font-medium text-neutral-400 mb-1.5">
+                LinkedIn / GitHub
               </label>
               <input
                 type="url"
                 value={linkedin}
                 onChange={(e) => setLinkedin(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                className="cnx-popout-input"
               />
             </div>
           </div>
 
           <div>
-            <label className="block cnx-section-label text-neutral-400 mb-1.5">
+            <label className="block text-xs font-medium text-neutral-400 mb-1.5">
               Why do you want to lead with CodeNeuraX?
             </label>
             <textarea
-              rows={4}
+              rows={3}
               value={statement}
               onChange={(e) => setStatement(e.target.value)}
-              placeholder="Share campus events, open-source work, or communities you have contributed to..."
-              className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none resize-none"
+              placeholder="Share campus events, open-source work, or shipped projects..."
+              className="cnx-popout-input resize-none"
             />
           </div>
 
-          {error && <p className="text-xs font-medium text-[#E1498A]">{error}</p>}
+          {error && <p className="text-xs font-medium text-rose-400">{error}</p>}
 
-          <div className="flex justify-end gap-2.5">
+          <div className="flex items-center justify-end gap-3 pt-1">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-lg border border-white/[0.1] text-xs font-medium text-neutral-300 hover:text-white"
+              className="px-4 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.97]"
+              className="cnx-clay-btn-primary inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold"
             >
-              Submit Application
+              <span>Submit application</span>
+              <ArrowRight className="w-3.5 h-3.5" strokeWidth={2} />
             </button>
           </div>
         </form>

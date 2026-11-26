@@ -10,22 +10,22 @@ export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = ({
   partner,
   surface = 'dark',
 }) => {
-  const isShield = partner.logo?.includes('marwadi');
   const isWideWordmark = partner.logo?.includes('devnovate');
-  const isSquare = partner.logo?.includes('tensorturn');
+  const isShield = partner.logo?.includes('marwadi');
+  const isCubeOrMark =
+    partner.logo?.includes('tensorturn') || partner.logo?.includes('codeneurax');
+  const isGfg = partner.logo?.includes('gfg');
 
   if (!partner.logo) {
     return (
-      <div
+      <span
         title={partner.name}
-        className={`h-8 px-2.5 rounded-lg flex items-center justify-center font-bold text-[11px] tracking-tight shrink-0 ${
-          surface === 'light'
-            ? 'bg-[#0E0E10] text-white'
-            : 'bg-white/[0.08] text-white border border-white/[0.12]'
+        className={`inline-flex items-center text-[14px] font-bold tracking-[-0.02em] transition-opacity duration-200 hover:opacity-100 shrink-0 ${
+          surface === 'light' ? 'text-[#0E0E10]/80' : 'text-white/85'
         }`}
       >
         {partner.name}
-      </div>
+      </span>
     );
   }
 
@@ -33,16 +33,16 @@ export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = ({
     return (
       <div
         title={partner.name}
-        className={`h-8 px-2.5 rounded-lg flex items-center justify-center shrink-0 ${
-          surface === 'light'
-            ? 'bg-[#0E0E10]'
-            : 'bg-white/[0.06] border border-white/[0.1]'
-        }`}
+        className="inline-flex items-center opacity-90 hover:opacity-100 transition-opacity duration-200 shrink-0"
       >
         <img
           src={partner.logo}
           alt={partner.name}
-          className="h-3.5 w-auto max-w-[78px] object-contain"
+          loading="lazy"
+          decoding="async"
+          className={`h-6 w-auto max-w-[116px] object-contain ${
+            surface === 'light' ? 'invert brightness-0' : ''
+          }`}
         />
       </div>
     );
@@ -52,31 +52,48 @@ export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = ({
     return (
       <div
         title={partner.name}
-        className={`w-8 h-8 rounded-lg flex items-center justify-center p-1 shrink-0 ${
-          surface === 'light'
-            ? 'bg-[#F4F4F6] border border-[#0E0E10]/[0.08]'
-            : 'bg-white/[0.08] border border-white/[0.1]'
-        }`}
+        className="inline-flex items-center opacity-95 hover:opacity-100 transition-opacity duration-200 shrink-0"
       >
         <img
           src={partner.logo}
           alt={partner.name}
-          className="w-full h-full object-contain"
+          loading="lazy"
+          decoding="async"
+          className="h-8 w-auto max-w-[40px] object-contain"
         />
       </div>
     );
   }
 
-  if (isSquare) {
+  if (isCubeOrMark) {
     return (
       <div
         title={partner.name}
-        className="w-8 h-8 rounded-lg bg-[#0E0E10] border border-white/[0.1] flex items-center justify-center p-1 shrink-0 overflow-hidden"
+        className="inline-flex items-center opacity-95 hover:opacity-100 transition-opacity duration-200 shrink-0"
       >
         <img
           src={partner.logo}
           alt={partner.name}
-          className="w-full h-full object-contain rounded-[4px]"
+          loading="lazy"
+          decoding="async"
+          className="h-7 w-7 object-contain"
+        />
+      </div>
+    );
+  }
+
+  if (isGfg) {
+    return (
+      <div
+        title={partner.name}
+        className="inline-flex items-center opacity-95 hover:opacity-100 transition-opacity duration-200 shrink-0"
+      >
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          loading="lazy"
+          decoding="async"
+          className="h-6 w-auto max-w-[82px] object-contain"
         />
       </div>
     );
@@ -85,12 +102,14 @@ export const PartnerLogoMark: React.FC<PartnerLogoMarkProps> = ({
   return (
     <div
       title={partner.name}
-      className="h-8 px-2 rounded-lg bg-[#0E0E10] border border-white/[0.1] flex items-center justify-center shrink-0"
+      className="inline-flex items-center opacity-90 hover:opacity-100 transition-opacity duration-200 shrink-0"
     >
       <img
         src={partner.logo}
         alt={partner.name}
-        className="h-4.5 w-auto max-w-[64px] object-contain"
+        loading="lazy"
+        decoding="async"
+        className="h-6 w-auto max-w-[88px] object-contain"
       />
     </div>
   );

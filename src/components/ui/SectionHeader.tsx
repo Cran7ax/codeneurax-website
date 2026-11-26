@@ -6,35 +6,30 @@ interface SectionHeaderProps {
   description?: string;
   action?: React.ReactNode;
   tone?: 'dark' | 'light';
-  className?: string;
+  align?: 'left' | 'center';
 }
 
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
-  label,
   title,
   description,
   action,
   tone = 'dark',
-  className = '',
+  align = 'left',
 }) => {
   const isLight = tone === 'light';
+  const isCentered = align === 'center';
 
   return (
     <div
-      className={`flex flex-col md:flex-row md:items-end justify-between gap-6 ${className}`}
+      className={
+        isCentered
+          ? 'text-center max-w-2xl mx-auto'
+          : 'flex flex-col sm:flex-row sm:items-end justify-between gap-6'
+      }
     >
-      <div className="max-w-2xl">
-        {label && (
-          <p
-            className={`cnx-section-label mb-3 ${
-              isLight ? 'text-[#4353FF]' : 'text-[#818CF8]'
-            }`}
-          >
-            {label}
-          </p>
-        )}
+      <div className={isCentered ? '' : 'max-w-2xl'}>
         <h2
-          className={`text-[clamp(1.95rem,3.4vw,3rem)] font-bold tracking-[-0.025em] leading-[1.12] pb-2 overflow-visible ${
+          className={`text-[clamp(1.95rem,3.4vw,2.85rem)] font-bold tracking-[-0.03em] leading-[1.12] ${
             isLight ? 'text-[#0E0E10]' : 'text-white'
           }`}
         >
@@ -42,7 +37,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         </h2>
         {description && (
           <p
-            className={`mt-2 text-[15px] sm:text-base leading-relaxed max-w-xl ${
+            className={`mt-2.5 text-sm sm:text-[15px] leading-relaxed ${
               isLight ? 'text-neutral-600' : 'text-neutral-400'
             }`}
           >

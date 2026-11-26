@@ -20,10 +20,8 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
 
   return (
     <article
-      className={`group rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 border hover:-translate-y-1 ${
-        isLight
-          ? 'bg-[#F4F4F6] border-[#0E0E10]/[0.08] hover:border-[#0E0E10]/[0.18]'
-          : 'bg-[#16161A] border-white/[0.08] hover:border-white/[0.18]'
+      className={`group rounded-[24px] p-6 flex flex-col justify-between ${
+        isLight ? 'cnx-clay-light text-[#0E0E10]' : 'cnx-clay-dark text-white'
       }`}
     >
       <div>
@@ -42,11 +40,13 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
               toggleBookmark(item.id);
             }}
             aria-label={isSaved ? `Remove ${item.title} from saved` : `Save ${item.title}`}
-            className={`p-2 rounded-lg border transition-colors active:scale-[0.96] ${
+            className={`p-2 rounded-xl border transition-colors active:scale-[0.95] ${
               isSaved
-                ? 'border-[#4353FF]/40 bg-[#4353FF]/15 text-[#818CF8]'
+                ? isLight
+                  ? 'border-[#4353FF]/30 bg-[#EEF0FF] text-[#4353FF]'
+                  : 'border-[#4353FF]/40 bg-[#4353FF]/15 text-[#818CF8]'
                 : isLight
-                  ? 'border-[#0E0E10]/[0.1] bg-white text-neutral-500 hover:text-[#0E0E10]'
+                  ? 'border-black/[0.08] bg-[#F3F4F8] text-neutral-500 hover:text-[#0E0E10]'
                   : 'border-white/[0.08] bg-[#0E0E10] text-neutral-400 hover:text-white'
             }`}
           >
@@ -57,11 +57,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           </button>
         </div>
 
-        <button
-          type="button"
-          onClick={() => onSelect(item)}
-          className="text-left w-full"
-        >
+        <button type="button" onClick={() => onSelect(item)} className="text-left w-full">
           <h3
             className={`text-lg font-bold tracking-[-0.02em] leading-snug transition-colors ${
               isLight
@@ -92,7 +88,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
 
       <div
         className={`mt-6 pt-4 border-t space-y-3 ${
-          isLight ? 'border-[#0E0E10]/[0.08]' : 'border-white/[0.08]'
+          isLight ? 'border-black/[0.08]' : 'border-white/[0.08]'
         }`}
       >
         <p
@@ -100,7 +96,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
             isLight ? 'text-neutral-500' : 'text-neutral-400'
           }`}
         >
-          {item.tags.slice(0, 3).join(', ')}
+          {item.tags.slice(0, 3).join(' · ')}
         </p>
 
         <div className="flex items-center justify-between gap-2 text-xs">
@@ -129,11 +125,7 @@ export const OpportunityCard: React.FC<OpportunityCardProps> = ({
           </button>
         </div>
 
-        <div
-          className={`flex items-center gap-1.5 text-[11px] truncate ${
-            isLight ? 'text-neutral-500' : 'text-neutral-500'
-          }`}
-        >
+        <div className="flex items-center gap-1.5 text-[11px] truncate text-neutral-500">
           <MapPin className="w-3 h-3 shrink-0" strokeWidth={1.75} />
           <span className="truncate">{item.locationOrMode}</span>
         </div>

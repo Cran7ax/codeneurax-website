@@ -1,19 +1,33 @@
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Lenis from 'lenis';
 
 interface ScrollContextValue {
   acquireLock: () => void;
   releaseLock: () => void;
+  scrollToTopInstant: () => void;
+  scrollToTopSmooth: () => void;
+  scrollToElement: (id: string, offset?: number) => void;
 }
 
 const ScrollContext = createContext<ScrollContextValue>({
   acquireLock: () => {},
   releaseLock: () => {},
+  scrollToTopInstant: () => {},
+  scrollToTopSmooth: () => {},
+  scrollToElement: () => {},
 });
 
+const QUARTIC_OUT = (t: number) => 1 - Math.pow(1 - t, 4);
+
 export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { pathname, hash } = useLocation();
   const lenisRef = useRef<Lenis | null>(null);
   const [lockCount, setLockCount] = useState(0);
 
@@ -25,10 +39,10 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (prefersReduced) return;
 
     const lenis = new Lenis({
-      duration: 1.05,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.095,
+      wheelMultiplier: 0.92,
       smoothWheel: true,
-      touchMultiplier: 1.4,
+      syncTouch: false,
     });
     lenisRef.current = lenis;
 
@@ -45,29 +59,6 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
       lenisRef.current = null;
     };
   }, []);
-
-  useEffect(() => {
-    if (hash) {
-      const id = hash.slice(1);
-      window.setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) {
-          if (lenisRef.current) {
-            lenisRef.current.scrollTo(el, { offset: -92 });
-          } else {
-            const top = el.getBoundingClientRect().top + window.scrollY - 92;
-            window.scrollTo({ top, behavior: 'smooth' });
-          }
-        }
-      }, 80);
-      return;
-    }
-
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { immediate: true });
-    }
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  }, [pathname, hash]);
 
   useEffect(() => {
     if (lockCount > 0) {
@@ -90,11 +81,62 @@ export const SmoothScrollProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setLockCount((c) => Math.max(0, c - 1));
   }, []);
 
-  return (
-    <ScrollContext.Provider value={{ acquireLock, releaseLock }}>
-      {children}
-    </ScrollContext.Provider>
+  const scrollToTopInstant = useCallback(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
+  const scrollToTopSmooth = useCallback(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { duration: 1.0, easing: QUARTIC_OUT });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, []);
+
+  const scrollToElement = useCallback((id: string, offset = -92) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(el, { offset, duration: 1.15, easing: QUARTIC_OUT });
+    } else {
+      const top = el.getBoundingClientRect().top + window.scrollY + offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }, []);
+
+  // Intercept same-page #anchor links (e.g., "View capabilities ↓") for smooth Lenis glide
+  useEffect(() => {
+    const onAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const anchor = target?.closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
+      const id = href.slice(1);
+      if (document.getElementById(id)) {
+        e.preventDefault();
+        scrollToElement(id, -88);
+      }
+    };
+    document.addEventListener('click', onAnchorClick);
+    return () => document.removeEventListener('click', onAnchorClick);
+  }, [scrollToElement]);
+
+  const value = useMemo(
+    () => ({
+      acquireLock,
+      releaseLock,
+      scrollToTopInstant,
+      scrollToTopSmooth,
+      scrollToElement,
+    }),
+    [acquireLock, releaseLock, scrollToTopInstant, scrollToTopSmooth, scrollToElement],
   );
+
+  return <ScrollContext.Provider value={value}>{children}</ScrollContext.Provider>;
 };
 
 export function useScrollLock(active: boolean): void {
@@ -107,4 +149,8 @@ export function useScrollLock(active: boolean): void {
       releaseLock();
     };
   }, [active, acquireLock, releaseLock]);
+}
+
+export function useSmoothScroll() {
+  return useContext(ScrollContext);
 }

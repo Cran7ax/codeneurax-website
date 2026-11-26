@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, Check, Copy, MessageSquare, Users } from 'lucide-react';
+import { ArrowUpRight, Check, Copy } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { Modal } from './Modal';
 
@@ -11,31 +11,31 @@ interface WhatsAppJoinModalProps {
 const WHATSAPP_GROUPS = [
   {
     id: 'wa-opportunities',
-    name: 'Opportunities & Internships Signal',
-    description: 'Verified hackathons, off-campus SDE internships, and fellowship deadlines.',
-    members: '2,400+ builders',
-    href: 'https://www.whatsapp.com',
+    name: 'Opportunities & Internships',
+    description: 'Verified hackathons, SDE roles, and fellowships.',
+    members: '2,400+',
+    href: 'https://chat.whatsapp.com/FLV7r3tU8bO4tHhS2eD42x',
   },
   {
     id: 'wa-challenges',
-    name: 'DSA & Weekly Coding Challenges',
-    description: 'Daily problem threads, AlgoRush updates, and peer complexity reviews.',
-    members: '1,900+ builders',
-    href: 'https://www.whatsapp.com',
+    name: 'DSA & Coding Challenges',
+    description: 'Daily threads, AlgoRush updates, and complexity reviews.',
+    members: '1,900+',
+    href: 'https://chat.whatsapp.com/FLV7r3tU8bO4tHhS2eD42x',
   },
   {
     id: 'wa-ai-robotics',
-    name: 'Agentic AI, Robotics & Automation',
-    description: 'AI Sparks follow-ups, n8n workflow recipes, and curated LLM engineering notes.',
-    members: '1,650+ builders',
-    href: 'https://www.whatsapp.com',
+    name: 'Agentic AI & Automation',
+    description: 'AI Sparks labs, n8n workflows, and practical LLM notes.',
+    members: '1,650+',
+    href: 'https://chat.whatsapp.com/FLV7r3tU8bO4tHhS2eD42x',
   },
   {
     id: 'wa-general',
-    name: 'Main CodeNeuraX Pan-India Lobby',
-    description: 'AMA announcements, speaker clinic links, and cross-campus project collaboration.',
-    members: '7,000+ network',
-    href: 'https://www.whatsapp.com',
+    name: 'Pan-India Main Lobby',
+    description: 'Speaker clinic links and cross-campus collaboration.',
+    members: '7,000+',
+    href: 'https://chat.whatsapp.com/FLV7r3tU8bO4tHhS2eD42x',
   },
 ];
 
@@ -47,8 +47,8 @@ export const WhatsAppJoinModal: React.FC<WhatsAppJoinModalProps> = ({ open, onCl
     navigator.clipboard?.writeText('https://codeneurax.in/whatsapp').catch(() => {});
     setCopiedId(id);
     pushToast({
-      title: 'Community link copied',
-      description: `Share "${name}" invite link with campus peers.`,
+      title: 'Invite link copied',
+      description: `Share "${name}" with campus peers.`,
       variant: 'success',
     });
     window.setTimeout(() => setCopiedId(null), 2000);
@@ -58,44 +58,46 @@ export const WhatsAppJoinModal: React.FC<WhatsAppJoinModalProps> = ({ open, onCl
     <Modal
       open={open}
       onClose={onClose}
-      subtitle="WhatsApp Network · 4 Dedicated Groups"
+      subtitle="4 dedicated channels"
       title="Join CodeNeuraX on WhatsApp"
-      maxWidthClass="max-w-xl"
+      maxWidthClass="max-w-2xl"
     >
-      <p className="text-sm text-neutral-400 leading-relaxed mb-5">
-        7,000+ student engineers across India organized into four curated channels. Pick the
-        tracks relevant to your current engineering focus.
-      </p>
-
-      <div className="divide-y divide-white/[0.08] border border-white/[0.08] rounded-xl overflow-hidden bg-[#0E0E10]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         {WHATSAPP_GROUPS.map((group) => (
           <div
             key={group.id}
-            className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/[0.03] transition-colors"
+            className="rounded-xl cnx-popout-tile p-5 flex flex-col justify-between gap-5 hover:border-white/[0.16] transition-colors"
           >
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-medium text-[#818CF8] inline-flex items-center gap-1">
-                  <Users className="w-3.5 h-3.5" strokeWidth={1.75} />
+            <div>
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="text-2xl font-extrabold tracking-tight text-white">
                   {group.members}
-                </span>
+                </p>
+                <span className="text-[11px] font-medium text-neutral-500">builders</span>
               </div>
-              <h4 className="text-sm font-semibold text-white">{group.name}</h4>
-              <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">{group.description}</p>
+              <h4 className="mt-2.5 text-sm font-bold text-white leading-snug">{group.name}</h4>
+              <p className="mt-1 text-xs text-neutral-400 leading-relaxed">{group.description}</p>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
+
+            <div className="flex items-center justify-between gap-2 pt-3 border-t border-white/[0.07]">
               <button
                 type="button"
                 onClick={() => handleCopyInvite(group.id, group.name)}
-                className="p-2 rounded-lg border border-white/[0.08] bg-[#16161A] text-neutral-400 hover:text-white hover:border-white/[0.16] transition-colors active:scale-[0.96]"
-                title="Copy group link"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-400 hover:text-white transition-colors"
               >
                 {copiedId === group.id ? (
-                  <Check className="w-4 h-4 text-[#4353FF]" strokeWidth={1.75} />
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" strokeWidth={2.25} />
+                    <span className="text-emerald-400">Copied</span>
+                  </>
                 ) : (
-                  <Copy className="w-4 h-4" strokeWidth={1.75} />
+                  <>
+                    <Copy className="w-3.5 h-3.5" strokeWidth={1.75} />
+                    <span>Copy link</span>
+                  </>
                 )}
               </button>
+
               <a
                 href={group.href}
                 target="_blank"
@@ -103,16 +105,15 @@ export const WhatsAppJoinModal: React.FC<WhatsAppJoinModalProps> = ({ open, onCl
                 onClick={() =>
                   pushToast({
                     title: `Opening ${group.name}`,
-                    description: 'Redirecting to official CodeNeuraX WhatsApp channel.',
+                    description: 'Redirecting to official WhatsApp channel.',
                   })
                 }
-                className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.97]"
+                className="group cnx-clay-btn-primary inline-flex items-center gap-1 px-3.5 py-1.5 rounded-lg text-xs font-semibold"
               >
-                <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.75} />
-                Join
+                <span>Join</span>
                 <ArrowUpRight
                   className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  strokeWidth={1.75}
+                  strokeWidth={2}
                 />
               </a>
             </div>

@@ -16,10 +16,10 @@ export const RevealBlock: React.FC<RevealProps> = ({
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.48, delay, ease: EDITORIAL_EASE }}
+      initial={{ opacity: 0, y: 14, scale: 0.985 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{ duration: 0.46, delay, ease: EDITORIAL_EASE }}
       className={className}
     >
       {children}

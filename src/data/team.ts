@@ -161,7 +161,7 @@ export const COMMUNITY_PARTNERS: PartnerItem[] = [
     id: 'part-deepquantica',
     name: 'DeepQuantica · TensorTurn',
     role: 'Technology Partner',
-    logo: '/images/partners/tensorturn.jpg',
+    logo: '/images/partners/tensorturn.png',
   },
   {
     id: 'part-idp',
@@ -193,7 +193,7 @@ export const AI_SPARKS_PARTNERS: PartnerItem[] = [
     id: 'ais-deepquantica',
     name: 'DeepQuantica',
     role: 'Technology Partner (TensorTurn)',
-    logo: '/images/partners/tensorturn.jpg',
+    logo: '/images/partners/tensorturn.png',
   },
   {
     id: 'ais-devnovate',
@@ -211,6 +211,6 @@ export const AI_SPARKS_PARTNERS: PartnerItem[] = [
     id: 'ais-codeneurax-ai',
     name: 'CodeNeuraX AI',
     role: 'Host Track & Curriculum Organizer',
-    logo: '/images/codeneurax-mark.jpg',
+    logo: '/images/codeneurax-mark.png',
   },
 ];

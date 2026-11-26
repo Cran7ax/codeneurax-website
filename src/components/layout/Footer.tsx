@@ -17,9 +17,9 @@ export const Footer: React.FC = () => {
           <div className="max-w-sm">
             <Link to="/" className="inline-flex items-center gap-2.5 group">
               <img
-                src="/images/codeneurax-mark.jpg"
+                src="/images/codeneurax-mark.png"
                 alt="CodeNeuraX"
-                className="w-7 h-7 rounded-md object-cover border border-white/[0.12]"
+                className="w-8 h-8 object-contain"
               />
               <span className="text-[17px] font-bold tracking-[-0.02em] text-white">
                 CodeNeuraX

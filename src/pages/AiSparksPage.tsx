@@ -57,8 +57,8 @@ export const AiSparksPage: React.FC = () => {
   return (
     <div className="bg-[#0E0E10] text-white min-h-screen">
       {/* Midnight-Indigo Atmospheric Hero */}
-      <section className="cnx-midnight-hero border-b border-white/[0.08]">
-        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-10 pb-16 sm:pb-20">
+      <section className="cnx-prism-hero border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-28 pb-16 sm:pt-32 sm:pb-20">
           <Link
             to="/events"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-400 hover:text-white mb-8 transition-colors"
@@ -69,19 +69,17 @@ export const AiSparksPage: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <HeroMount className="lg:col-span-7">
-              <p className="cnx-section-label text-[#818CF8] mb-3">
+              <p className="text-xs font-semibold text-[#60A5FA] mb-3">
                 Flagship Summit · Aug 7–8, 2026
               </p>
 
               <h1 className="text-[clamp(2.85rem,6vw,5rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
                 AI Sparks{' '}
-                <span className="font-editorial pr-1">’26</span>
+                <span className="cnx-accent-gradient-dark">’26</span>
               </h1>
 
               <p className="mt-3 text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
-                2-Day Flagship AI &amp; Automation Summit hosted at Marwadi University, Rajkot in
-                association with the Department of AI, ML &amp; Data Science—taking 360+ attendees
-                from Agentic AI internals to shipped workflows.
+                2-day flagship AI &amp; Automation summit at Marwadi University, Rajkot.
               </p>
 
               <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -95,7 +93,7 @@ export const AiSparksPage: React.FC = () => {
                   return (
                     <div
                       key={meta.label}
-                      className="rounded-xl bg-[#16161A] border border-white/[0.08] p-4"
+                      className="rounded-[20px] cnx-clay-dark-soft p-4"
                     >
                       <p className="text-xs text-neutral-400 flex items-center gap-1.5">
                         <Icon className="w-3.5 h-3.5 text-[#4353FF]" strokeWidth={1.75} />
@@ -111,7 +109,7 @@ export const AiSparksPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setRecapModalOpen(true)}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-sm font-semibold transition-colors active:scale-[0.98]"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-lg cnx-clay-btn-primary text-white text-sm font-semibold transition-colors active:scale-[0.98]"
                 >
                   <Sparkles className="w-4 h-4" strokeWidth={1.75} />
                   Summit Recap &amp; Materials
@@ -156,7 +154,7 @@ export const AiSparksPage: React.FC = () => {
       </section>
 
       {/* Alternating Pure-White Schedule Band */}
-      <section className="py-20 bg-white text-[#0E0E10]">
+      <section className="py-20 bg-[#F3F4F8] text-[#0E0E10]">
         <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
           <SectionHeader
             tone="light"
@@ -164,7 +162,7 @@ export const AiSparksPage: React.FC = () => {
             title={
               <>
                 Two days of structured{' '}
-                <span className="font-editorial pr-1">curriculum</span>.
+                <span className="cnx-accent-gradient-dark">curriculum</span>.
               </>
             }
             description={`${schedule.theme} · ${schedule.hours}`}
@@ -191,7 +189,7 @@ export const AiSparksPage: React.FC = () => {
             }
           />
 
-          <div className="mt-8 rounded-2xl bg-[#F4F4F6] border border-[#0E0E10]/[0.08] divide-y divide-[#0E0E10]/[0.08] overflow-hidden">
+          <div className="mt-8 rounded-[24px] cnx-clay-light-static divide-y divide-[#0E0E10]/[0.08] overflow-hidden">
             {schedule.sessions.map((session, idx) => (
               <div
                 key={session.title}
@@ -245,7 +243,7 @@ export const AiSparksPage: React.FC = () => {
               title={
                 <>
                   Four speakers across AI, ML &amp;{' '}
-                  <span className="font-editorial pr-1">automation</span>.
+                  <span className="cnx-accent-gradient-dark">automation</span>.
                 </>
               }
             />
@@ -254,7 +252,7 @@ export const AiSparksPage: React.FC = () => {
               {AI_SPARKS_SPEAKERS.map((spk) => (
                 <div
                   key={spk.id}
-                  className="group rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.18] transition-colors p-5 flex flex-col justify-between"
+                  className="group rounded-[24px] cnx-clay-dark transition-colors p-5 flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -270,7 +268,7 @@ export const AiSparksPage: React.FC = () => {
                       </a>
                     </div>
 
-                    <div className="aspect-square rounded-xl overflow-hidden bg-[#0E0E10] mb-4">
+                    <div className="w-28 h-28 mx-auto rounded-full overflow-hidden bg-[#0E0E10] ring-1 ring-white/[0.14] group-hover:ring-white/[0.3] transition-all duration-300 shadow-[0_12px_26px_rgba(0,0,0,0.55)] mb-5">
                       {spk.avatar ? (
                         <img
                           src={spk.avatar}
@@ -310,7 +308,7 @@ export const AiSparksPage: React.FC = () => {
               {AI_SPARKS_PARTNERS.map((partner) => (
                 <div
                   key={partner.id}
-                  className="rounded-xl bg-[#16161A] border border-white/[0.08] p-5 flex items-center gap-4"
+                  className="rounded-[20px] cnx-clay-dark-soft p-5 flex items-center gap-4"
                 >
                   <PartnerLogoMark partner={partner} surface="dark" />
                   <div className="min-w-0">
@@ -330,7 +328,7 @@ export const AiSparksPage: React.FC = () => {
             />
 
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="rounded-2xl bg-[#16161A] border border-white/[0.08] p-7 sm:p-8 flex flex-col justify-between">
+              <div className="rounded-[24px] cnx-clay-dark-static p-7 sm:p-8 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
                     <span className="cnx-section-label text-neutral-400">All Attendees</span>
@@ -375,7 +373,7 @@ export const AiSparksPage: React.FC = () => {
                 </button>
               </div>
 
-              <div className="rounded-2xl bg-white text-[#0E0E10] p-7 sm:p-8 flex flex-col justify-between">
+              <div className="rounded-[26px] cnx-clay-light-static text-[#0E0E10] p-7 sm:p-8 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
                     <span className="cnx-section-label text-[#4353FF]">
@@ -435,27 +433,66 @@ export const AiSparksPage: React.FC = () => {
         onClose={() => setRecapModalOpen(false)}
         subtitle="AI Sparks ’26 · Post-Summit Archive"
         title="Summit Recap & Takeaways"
-      >
-        <div className="space-y-4 text-sm text-neutral-300 leading-relaxed">
-          <p>
-            AI Sparks ’26 concluded at Marwadi University, Rajkot with 360+ participants across
-            two full days of live Python Colab labs, Agentic AI reasoning workshops, and ML model
-            evaluations.
-          </p>
-          <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] space-y-2 text-xs">
-            <p className="font-semibold text-[#818CF8]">Verified Perks Distributed:</p>
-            <p>• $30 USD (₹2,800) Lovable, Vercel &amp; n8n credits via Devnovate</p>
-            <p>• ₹4,999 Free GATE DA Prep Course for top Day 2 assessment scorers</p>
-            <p>• Official 2-Day Co-Branded Completion Certificates</p>
-          </div>
-          <div className="flex justify-end gap-2.5 pt-2">
+        maxWidthClass="max-w-xl"
+        footer={
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              to="/library"
+              onClick={() => setRecapModalOpen(false)}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-300 hover:text-white transition-colors"
+            >
+              <span>Open Agentic AI notes</span>
+              <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+            </Link>
             <button
               type="button"
-              onClick={() => handleDownloadMaterials('Post-Summit Archive')}
-              className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+              onClick={() => handleDownloadMaterials("Post-Summit Archive")}
+              className="cnx-clay-btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold"
             >
               Download Recap Sheet
             </button>
+          </div>
+        }
+      >
+        <div className="space-y-4">
+          <div className="grid grid-cols-3 gap-3">
+            <div className="rounded-xl cnx-popout-tile p-3.5">
+              <p className="text-xl font-extrabold text-white">360+</p>
+              <p className="text-[11px] text-neutral-400 mt-0.5">Builders hosted</p>
+            </div>
+            <div className="rounded-xl cnx-popout-tile p-3.5">
+              <p className="text-xl font-extrabold text-[#60A5FA]">$30</p>
+              <p className="text-[11px] text-neutral-400 mt-0.5">Devnovate credits</p>
+            </div>
+            <div className="rounded-xl cnx-popout-tile p-3.5">
+              <p className="text-xl font-extrabold text-white">₹4,999</p>
+              <p className="text-[11px] text-neutral-400 mt-0.5">GATE DA awards</p>
+            </div>
+          </div>
+
+          <div className="rounded-xl cnx-popout-tile p-4">
+            <p className="text-sm text-neutral-300 leading-relaxed">
+              Concluded at Marwadi University, Rajkot across two full days of Python Colab labs,
+              Agentic AI reasoning workshops, and ML model evaluations.
+            </p>
+          </div>
+
+          <div className="rounded-xl cnx-popout-tile p-4 space-y-2.5">
+            <p className="text-[11px] font-medium text-neutral-500">Verified perks distributed</p>
+            <ul className="space-y-2 text-xs sm:text-sm text-neutral-300">
+              <li className="flex items-start gap-2.5">
+                <Check className="w-3.5 h-3.5 text-[#60A5FA] mt-1 shrink-0" strokeWidth={2.25} />
+                <span>$30 USD (₹2,800) Lovable, Vercel &amp; n8n credits via Devnovate</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <Check className="w-3.5 h-3.5 text-[#60A5FA] mt-1 shrink-0" strokeWidth={2.25} />
+                <span>Free GATE DA Prep Course (₹4,999 value) for top Day 2 scorers</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <Check className="w-3.5 h-3.5 text-[#60A5FA] mt-1 shrink-0" strokeWidth={2.25} />
+                <span>Official 2-Day Co-Branded Completion Certificates</span>
+              </li>
+            </ul>
           </div>
         </div>
       </Modal>

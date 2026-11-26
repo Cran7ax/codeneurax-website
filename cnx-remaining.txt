@@ -1,0 +1,4399 @@
+
+
+===== FILE: index.html =====
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeNeuraX — India's Student-Led Tech & AI Community</title>
+    <meta
+      name="description"
+      content="CodeNeuraX (CNX) is a student-led Indian engineering and AI community with 7,000+ members across India, headquartered at Marwadi University, Rajkot."
+    />
+    <meta name="theme-color" content="#0E0E10" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#0E0E10] text-white antialiased selection:bg-[#4353FF]/25 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+
+===== FILE: vite.config.ts =====
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'motion-vendor': ['framer-motion'],
+          'icons-vendor': ['lucide-react'],
+        },
+      },
+    },
+  },
+});
+
+
+===== FILE: package.json =====
+{
+  "name": "codeneurax-platform",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "framer-motion": "^12.4.7",
+    "lenis": "^1.3.28",
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.9",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.0.9",
+    "typescript": "~5.7.2",
+    "vite": "^6.1.0"
+  }
+}
+
+
+===== FILE: src/App.tsx =====
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
+import { AppProvider } from './context/AppContext';
+import { Layout } from './components/layout/Layout';
+import { HomePage } from './pages/HomePage';
+import { FeedPage } from './pages/FeedPage';
+import { EventsPage } from './pages/EventsPage';
+import { AiSparksPage } from './pages/AiSparksPage';
+import { WorkWithUsPage } from './pages/WorkWithUsPage';
+import { CampusAmbassadorsPage } from './pages/CampusAmbassadorsPage';
+import { BuddyKidPage } from './pages/BuddyKidPage';
+import { ServicesPage } from './pages/ServicesPage';
+import { LibraryPage } from './pages/LibraryPage';
+
+export function App() {
+  return (
+    <MotionConfig reducedMotion="user">
+      <AppProvider>
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/feed" element={<FeedPage />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/aispark" element={<AiSparksPage />} />
+              <Route path="/work-with-us" element={<WorkWithUsPage />} />
+              <Route path="/campus-ambassadors" element={<CampusAmbassadorsPage />} />
+              <Route path="/buddykid" element={<BuddyKidPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/library" element={<LibraryPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </AppProvider>
+    </MotionConfig>
+  );
+}
+
+export default App;
+
+
+===== FILE: src/components/layout/Footer.tsx =====
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const FOOTER_SOCIALS = [
+  { label: 'WhatsApp', href: 'https://chat.whatsapp.com/FLV7r3tU8bO4tHhS2eD42x' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/codeneurax' },
+  { label: 'Instagram', href: 'https://www.instagram.com/codeneurax' },
+  { label: 'Unstop', href: 'https://unstop.com' },
+];
+
+export const Footer: React.FC = () => {
+  return (
+    <footer className="bg-[#08080A] text-white border-t border-white/[0.08] pt-16 sm:pt-20 overflow-hidden">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+        {/* Top Row: Brand + Community Summary | Bare Horizontal Links */}
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-8 pb-11 border-b border-white/[0.08]">
+          <div className="max-w-sm">
+            <Link to="/" className="inline-flex items-center gap-2.5 group">
+              <img
+                src="/images/codeneurax-mark.jpg"
+                alt="CodeNeuraX"
+                className="w-7 h-7 rounded-md object-cover border border-white/[0.12]"
+              />
+              <span className="text-[17px] font-bold tracking-[-0.02em] text-white">
+                CodeNeuraX
+              </span>
+            </Link>
+            <p className="mt-3.5 text-sm text-neutral-400 leading-relaxed">
+              A student-led engineering collective associated with Marwadi University, Rajkot —
+              built around practical software, hackathons, AI, and peer mentorship.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-6 pt-1" aria-label="Community links">
+            {FOOTER_SOCIALS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Middle: Clean 4-Column Sitemap Matching Reference Balance */}
+        <div className="py-11 grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500 mb-4">
+              Community
+            </p>
+            <ul className="space-y-2.5 text-sm text-neutral-300">
+              <li>
+                <Link to="/feed" className="hover:text-white transition-colors">
+                  Opportunity Feed
+                </Link>
+              </li>
+              <li>
+                <Link to="/buddykid" className="hover:text-white transition-colors">
+                  BuddyKid
+                </Link>
+              </li>
+              <li>
+                <Link to="/campus-ambassadors" className="hover:text-white transition-colors">
+                  Campus Ambassadors
+                </Link>
+              </li>
+              <li>
+                <Link to="/work-with-us" className="hover:text-white transition-colors">
+                  Work With Us
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500 mb-4">
+              Programs
+            </p>
+            <ul className="space-y-2.5 text-sm text-neutral-300">
+              <li>
+                <Link to="/aispark" className="hover:text-white transition-colors">
+                  AI Sparks ’26
+                </Link>
+              </li>
+              <li>
+                <Link to="/events#neuraknockout" className="hover:text-white transition-colors">
+                  NeuraKnockout ’26
+                </Link>
+              </li>
+              <li>
+                <Link to="/events#algorush" className="hover:text-white transition-colors">
+                  AlgoRush 2026
+                </Link>
+              </li>
+              <li>
+                <Link to="/events" className="hover:text-white transition-colors">
+                  All CNX Events
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500 mb-4">
+              Platform
+            </p>
+            <ul className="space-y-2.5 text-sm text-neutral-300">
+              <li>
+                <Link to="/" className="hover:text-white transition-colors">
+                  Overview
+                </Link>
+              </li>
+              <li>
+                <Link to="/library" className="hover:text-white transition-colors">
+                  CNX Library
+                </Link>
+              </li>
+              <li>
+                <Link to="/library" className="hover:text-white transition-colors">
+                  GATE CS &amp; DA PYQs
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="hover:text-white transition-colors">
+                  Services
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500 mb-4">
+              Contact
+            </p>
+            <ul className="space-y-2.5 text-sm text-neutral-300">
+              <li>
+                <a
+                  href="mailto:team@codeneurax.in"
+                  className="hover:text-white transition-colors"
+                >
+                  team@codeneurax.in
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://codeneurax.in"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  codeneurax.in
+                </a>
+              </li>
+              <li>
+                <span className="text-neutral-400">Marwadi University</span>
+              </li>
+              <li>
+                <span className="text-neutral-400">Rajkot, Gujarat, India</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Meta Strip */}
+        <div className="py-6 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-neutral-500">
+          <p>© {new Date().getFullYear()} CodeNeuraX. All rights reserved.</p>
+          <p>Associated with Marwadi University, Rajkot, Gujarat.</p>
+        </div>
+      </div>
+
+      {/* Full-Width Responsive Vector Wordmark with Atmospheric Background Image & Bottom Dissolve */}
+      <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-6 pb-3 sm:pb-5 pt-2 select-none">
+        <svg
+          viewBox="0 0 1200 185"
+          className="w-full h-auto block select-none overflow-visible"
+          role="img"
+          aria-label="CodeNeuraX"
+        >
+          <defs>
+            <pattern
+              id="cnx-footer-hatch"
+              width="7"
+              height="7"
+              patternTransform="rotate(-24)"
+              patternUnits="userSpaceOnUse"
+            >
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="7"
+                stroke="rgba(255, 255, 255, 0.08)"
+                strokeWidth="1"
+              />
+            </pattern>
+
+            <pattern
+              id="cnx-footer-photo"
+              patternUnits="userSpaceOnUse"
+              width="1200"
+              height="185"
+            >
+              <image
+                href="/images/ai-sparks-stage.jpg"
+                x="0"
+                y="-115"
+                width="1200"
+                height="430"
+                preserveAspectRatio="xMidYMid slice"
+                style={{ filter: 'grayscale(30%) contrast(1.12)' }}
+              />
+              <rect width="1200" height="185" fill="url(#cnx-footer-hatch)" />
+            </pattern>
+
+            <linearGradient id="cnx-footer-fade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="white" stopOpacity="0.54" />
+              <stop offset="52%" stopColor="white" stopOpacity="0.26" />
+              <stop offset="100%" stopColor="white" stopOpacity="0.06" />
+            </linearGradient>
+
+            <mask id="cnx-wordmark-mask">
+              <rect x="0" y="0" width="1200" height="185" fill="url(#cnx-footer-fade)" />
+            </mask>
+          </defs>
+
+          <text
+            x="600"
+            y="156"
+            textAnchor="middle"
+            fill="url(#cnx-footer-photo)"
+            mask="url(#cnx-wordmark-mask)"
+            fontFamily="'Manrope', sans-serif"
+            fontWeight="800"
+            fontSize="178"
+            letterSpacing="-6"
+            textLength="1168"
+            lengthAdjust="spacing"
+          >
+            CodeNeuraX
+          </text>
+        </svg>
+      </div>
+    </footer>
+  );
+};
+
+
+===== FILE: src/components/ui/Modal.tsx =====
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { X } from 'lucide-react';
+import { useScrollLock } from '../../context/ScrollContext';
+import { EDITORIAL_EASE } from './MotionPrimitives';
+
+interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  subtitle?: string;
+  maxWidthClass?: string;
+  children: React.ReactNode;
+}
+
+export const Modal: React.FC<ModalProps> = ({
+  open,
+  onClose,
+  title,
+  subtitle,
+  maxWidthClass = 'max-w-lg',
+  children,
+}) => {
+  useScrollLock(open);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open, onClose]);
+
+  return createPortal(
+    <AnimatePresence>
+      {open && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 8 }}
+            transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
+            className={`relative z-10 w-full ${maxWidthClass} max-h-[calc(100vh-3rem)] flex flex-col rounded-2xl bg-[#16161A] border border-white/[0.1] shadow-2xl overflow-hidden text-white`}
+          >
+            <div className="flex items-start justify-between gap-4 px-6 py-5 border-b border-white/[0.08] shrink-0">
+              <div className="min-w-0">
+                {subtitle && (
+                  <p className="cnx-section-label text-[#818CF8] mb-1.5">{subtitle}</p>
+                )}
+                <h3 className="text-lg sm:text-xl font-bold text-white tracking-[-0.02em]">
+                  {title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close dialog"
+                className="p-2 rounded-lg border border-white/[0.08] bg-[#0E0E10] text-neutral-400 hover:text-white hover:border-white/[0.16] transition-colors shrink-0 active:scale-[0.96]"
+              >
+                <X className="w-4 h-4" strokeWidth={1.75} />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto flex-1">{children}</div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>,
+    document.body,
+  );
+};
+
+
+===== FILE: src/components/ui/Drawer.tsx =====
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { AnimatePresence, motion } from 'framer-motion';
+import { X } from 'lucide-react';
+import { useScrollLock } from '../../context/ScrollContext';
+import { EDITORIAL_EASE } from './MotionPrimitives';
+
+interface DrawerProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  subtitle?: string;
+  children: React.ReactNode;
+  footer?: React.ReactNode;
+}
+
+export const Drawer: React.FC<DrawerProps> = ({
+  open,
+  onClose,
+  title,
+  subtitle,
+  children,
+  footer,
+}) => {
+  useScrollLock(open);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open, onClose]);
+
+  return createPortal(
+    <AnimatePresence>
+      {open && (
+        <div className="fixed inset-0 z-[60] flex justify-end" role="dialog" aria-modal="true">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.34, ease: EDITORIAL_EASE }}
+            className="relative z-10 w-full max-w-xl bg-[#16161A] border-l border-white/[0.08] h-full flex flex-col shadow-2xl text-white"
+          >
+            <div className="flex items-start justify-between gap-4 px-6 py-5 border-b border-white/[0.08]">
+              <div className="min-w-0">
+                {subtitle && (
+                  <p className="cnx-section-label text-[#818CF8] mb-1.5 truncate">{subtitle}</p>
+                )}
+                <h3 className="text-xl font-bold text-white tracking-[-0.02em] leading-snug">
+                  {title}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close panel"
+                className="p-2 rounded-lg border border-white/[0.08] bg-[#0E0E10] text-neutral-400 hover:text-white hover:border-white/[0.16] transition-colors shrink-0 active:scale-[0.96]"
+              >
+                <X className="w-4 h-4" strokeWidth={1.75} />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto px-6 py-6">{children}</div>
+            {footer && (
+              <div className="px-6 py-4 border-t border-white/[0.08] bg-[#0E0E10]">
+                {footer}
+              </div>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>,
+    document.body,
+  );
+};
+
+
+===== FILE: src/components/ui/ToastContainer.tsx =====
+import React from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { AlertCircle, CheckCircle2, Info, X } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import { EDITORIAL_EASE } from './MotionPrimitives';
+
+export const ToastContainer: React.FC = () => {
+  const { toasts, dismissToast } = useApp();
+
+  return (
+    <div
+      className="fixed bottom-5 right-5 z-[70] flex flex-col gap-2.5 w-[calc(100vw-2.5rem)] max-w-sm pointer-events-none"
+      aria-live="polite"
+    >
+      <AnimatePresence initial={false}>
+        {toasts.map((toast) => {
+          const Icon =
+            toast.variant === 'success'
+              ? CheckCircle2
+              : toast.variant === 'warning'
+                ? AlertCircle
+                : Info;
+
+          return (
+            <motion.div
+              key={toast.id}
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: EDITORIAL_EASE }}
+              className="pointer-events-auto flex items-start gap-3 p-4 rounded-xl bg-[#16161A] border border-white/[0.12] shadow-2xl"
+            >
+              <Icon
+                className={`w-4 h-4 mt-0.5 shrink-0 ${
+                  toast.variant === 'success'
+                    ? 'text-[#4353FF]'
+                    : toast.variant === 'warning'
+                      ? 'text-[#E1498A]'
+                      : 'text-neutral-400'
+                }`}
+                strokeWidth={1.75}
+              />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-white leading-snug">{toast.title}</p>
+                {toast.description && (
+                  <p className="mt-1 text-xs text-neutral-400 leading-relaxed">
+                    {toast.description}
+                  </p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => dismissToast(toast.id)}
+                aria-label="Dismiss notification"
+                className="p-1 rounded-lg text-neutral-500 hover:text-white hover:bg-white/[0.06] transition-colors shrink-0"
+              >
+                <X className="w-3.5 h-3.5" strokeWidth={1.75} />
+              </button>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+
+===== FILE: src/components/ui/WhatsAppJoinModal.tsx =====
+import React from 'react';
+import { ArrowUpRight, Check, Copy, MessageSquare, Users } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import { Modal } from './Modal';
+
+interface WhatsAppJoinModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const WHATSAPP_GROUPS = [
+  {
+    id: 'wa-opportunities',
+    name: 'Opportunities & Internships Signal',
+    description: 'Verified hackathons, off-campus SDE internships, and fellowship deadlines.',
+    members: '2,400+ builders',
+    href: 'https://www.whatsapp.com',
+  },
+  {
+    id: 'wa-challenges',
+    name: 'DSA & Weekly Coding Challenges',
+    description: 'Daily problem threads, AlgoRush updates, and peer complexity reviews.',
+    members: '1,900+ builders',
+    href: 'https://www.whatsapp.com',
+  },
+  {
+    id: 'wa-ai-robotics',
+    name: 'Agentic AI, Robotics & Automation',
+    description: 'AI Sparks follow-ups, n8n workflow recipes, and curated LLM engineering notes.',
+    members: '1,650+ builders',
+    href: 'https://www.whatsapp.com',
+  },
+  {
+    id: 'wa-general',
+    name: 'Main CodeNeuraX Pan-India Lobby',
+    description: 'AMA announcements, speaker clinic links, and cross-campus project collaboration.',
+    members: '7,000+ network',
+    href: 'https://www.whatsapp.com',
+  },
+];
+
+export const WhatsAppJoinModal: React.FC<WhatsAppJoinModalProps> = ({ open, onClose }) => {
+  const { pushToast } = useApp();
+  const [copiedId, setCopiedId] = React.useState<string | null>(null);
+
+  const handleCopyInvite = (id: string, name: string) => {
+    navigator.clipboard?.writeText('https://codeneurax.in/whatsapp').catch(() => {});
+    setCopiedId(id);
+    pushToast({
+      title: 'Community link copied',
+      description: `Share "${name}" invite link with campus peers.`,
+      variant: 'success',
+    });
+    window.setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={onClose}
+      subtitle="WhatsApp Network · 4 Dedicated Groups"
+      title="Join CodeNeuraX on WhatsApp"
+      maxWidthClass="max-w-xl"
+    >
+      <p className="text-sm text-neutral-400 leading-relaxed mb-5">
+        7,000+ student engineers across India organized into four curated channels. Pick the
+        tracks relevant to your current engineering focus.
+      </p>
+
+      <div className="divide-y divide-white/[0.08] border border-white/[0.08] rounded-xl overflow-hidden bg-[#0E0E10]">
+        {WHATSAPP_GROUPS.map((group) => (
+          <div
+            key={group.id}
+            className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-white/[0.03] transition-colors"
+          >
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs font-medium text-[#818CF8] inline-flex items-center gap-1">
+                  <Users className="w-3.5 h-3.5" strokeWidth={1.75} />
+                  {group.members}
+                </span>
+              </div>
+              <h4 className="text-sm font-semibold text-white">{group.name}</h4>
+              <p className="text-xs text-neutral-400 mt-0.5 leading-relaxed">{group.description}</p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => handleCopyInvite(group.id, group.name)}
+                className="p-2 rounded-lg border border-white/[0.08] bg-[#16161A] text-neutral-400 hover:text-white hover:border-white/[0.16] transition-colors active:scale-[0.96]"
+                title="Copy group link"
+              >
+                {copiedId === group.id ? (
+                  <Check className="w-4 h-4 text-[#4353FF]" strokeWidth={1.75} />
+                ) : (
+                  <Copy className="w-4 h-4" strokeWidth={1.75} />
+                )}
+              </button>
+              <a
+                href={group.href}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() =>
+                  pushToast({
+                    title: `Opening ${group.name}`,
+                    description: 'Redirecting to official CodeNeuraX WhatsApp channel.',
+                  })
+                }
+                className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.97]"
+              >
+                <MessageSquare className="w-3.5 h-3.5" strokeWidth={1.75} />
+                Join
+                <ArrowUpRight
+                  className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  strokeWidth={1.75}
+                />
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Modal>
+  );
+};
+
+
+===== FILE: src/components/shared/EventRegistrationModal.tsx =====
+import React, { useState } from 'react';
+import { Calendar, CheckCircle2, MapPin, Trophy } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import type { CnxEvent } from '../../types';
+import { Modal } from '../ui/Modal';
+
+interface EventRegistrationModalProps {
+  event: CnxEvent | null;
+  onClose: () => void;
+}
+
+export const EventRegistrationModal: React.FC<EventRegistrationModalProps> = ({
+  event,
+  onClose,
+}) => {
+  const { user, registeredEvents, registerForEvent } = useApp();
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [college, setCollege] = useState(user.college);
+  const [track, setTrack] = useState('Individual Builder Track');
+  const [error, setError] = useState('');
+
+  if (!event) return null;
+
+  const alreadyRegistered = registeredEvents.includes(event.id);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.trim() || !email.includes('@') || !college.trim()) {
+      setError('Please enter a valid full name, email address, and college name.');
+      return;
+    }
+    setError('');
+    registerForEvent(event.id, event.title);
+  };
+
+  return (
+    <Modal
+      open={Boolean(event)}
+      onClose={onClose}
+      subtitle={`${event.status} · ${event.date}`}
+      title={event.title}
+      maxWidthClass="max-w-xl"
+    >
+      <div className="space-y-5">
+        <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] space-y-2 text-xs">
+          <div className="flex items-center gap-2 text-neutral-300">
+            <Calendar className="w-3.5 h-3.5 text-[#4353FF]" strokeWidth={1.75} />
+            <span className="font-medium">
+              {event.date} {event.time ? `· ${event.time}` : ''}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 text-neutral-400">
+            <MapPin className="w-3.5 h-3.5 text-neutral-500" strokeWidth={1.75} />
+            <span>{event.venueOrPlatform}</span>
+          </div>
+          {event.prizePool && (
+            <div className="flex items-center gap-2 text-white font-semibold">
+              <Trophy className="w-3.5 h-3.5 text-[#E1498A]" strokeWidth={1.75} />
+              <span>{event.prizePool}</span>
+            </div>
+          )}
+        </div>
+
+        <ul className="space-y-1.5 text-xs text-neutral-300 border-l border-white/[0.12] pl-3">
+          {event.highlights.map((h) => (
+            <li key={h}>{h}</li>
+          ))}
+        </ul>
+
+        {alreadyRegistered ? (
+          <div className="p-5 rounded-xl bg-[#4353FF]/15 border border-[#4353FF]/30 flex items-start gap-3">
+            <CheckCircle2 className="w-5 h-5 text-[#818CF8] shrink-0 mt-0.5" strokeWidth={1.75} />
+            <div>
+              <h4 className="text-sm font-bold text-white">Seat Confirmed</h4>
+              <p className="mt-1 text-xs text-neutral-300 leading-relaxed">
+                You are registered for {event.title}. Reporting guidelines and problem brief
+                schedule are active under {email}.
+              </p>
+            </div>
+          </div>
+        ) : event.status === 'Upcoming' ? (
+          <form onSubmit={handleSubmit} className="space-y-4 pt-3 border-t border-white/[0.08]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block cnx-section-label text-neutral-400 mb-1.5">Full Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                  College / Org
+                </label>
+                <input
+                  type="text"
+                  value={college}
+                  onChange={(e) => setCollege(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                  Participation
+                </label>
+                <select
+                  value={track}
+                  onChange={(e) => setTrack(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                >
+                  <option>Individual Builder Track</option>
+                  <option>Marwadi University Student</option>
+                  <option>External College Participant</option>
+                </select>
+              </div>
+            </div>
+
+            {error && <p className="text-xs font-medium text-[#E1498A]">{error}</p>}
+
+            <div className="flex justify-end gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2.5 rounded-lg border border-white/[0.1] text-xs font-medium text-neutral-300 hover:text-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.97]"
+              >
+                Confirm Registration
+              </button>
+            </div>
+          </form>
+        ) : null}
+      </div>
+    </Modal>
+  );
+};
+
+
+===== FILE: src/components/shared/OpportunityCard.tsx =====
+import React from 'react';
+import { ArrowUpRight, Bookmark, Calendar, MapPin } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import type { OpportunityItem } from '../../types';
+
+interface OpportunityCardProps {
+  item: OpportunityItem;
+  onSelect: (item: OpportunityItem) => void;
+  tone?: 'dark' | 'light';
+}
+
+export const OpportunityCard: React.FC<OpportunityCardProps> = ({
+  item,
+  onSelect,
+  tone = 'dark',
+}) => {
+  const { bookmarkedIds, toggleBookmark } = useApp();
+  const isSaved = bookmarkedIds.includes(item.id);
+  const isLight = tone === 'light';
+
+  return (
+    <article
+      className={`group rounded-2xl p-6 flex flex-col justify-between transition-all duration-200 border hover:-translate-y-1 ${
+        isLight
+          ? 'bg-[#F4F4F6] border-[#0E0E10]/[0.08] hover:border-[#0E0E10]/[0.18]'
+          : 'bg-[#16161A] border-white/[0.08] hover:border-white/[0.18]'
+      }`}
+    >
+      <div>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <span
+            className={`text-xs font-semibold ${
+              isLight ? 'text-[#4353FF]' : 'text-[#818CF8]'
+            }`}
+          >
+            {item.category}
+          </span>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleBookmark(item.id);
+            }}
+            aria-label={isSaved ? `Remove ${item.title} from saved` : `Save ${item.title}`}
+            className={`p-2 rounded-lg border transition-colors active:scale-[0.96] ${
+              isSaved
+                ? 'border-[#4353FF]/40 bg-[#4353FF]/15 text-[#818CF8]'
+                : isLight
+                  ? 'border-[#0E0E10]/[0.1] bg-white text-neutral-500 hover:text-[#0E0E10]'
+                  : 'border-white/[0.08] bg-[#0E0E10] text-neutral-400 hover:text-white'
+            }`}
+          >
+            <Bookmark
+              className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`}
+              strokeWidth={1.75}
+            />
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => onSelect(item)}
+          className="text-left w-full"
+        >
+          <h3
+            className={`text-lg font-bold tracking-[-0.02em] leading-snug transition-colors ${
+              isLight
+                ? 'text-[#0E0E10] group-hover:text-[#4353FF]'
+                : 'text-white group-hover:text-[#818CF8]'
+            }`}
+          >
+            {item.title}
+          </h3>
+        </button>
+
+        <p
+          className={`mt-1.5 text-xs font-medium ${
+            isLight ? 'text-neutral-600' : 'text-neutral-400'
+          }`}
+        >
+          {item.organization}
+        </p>
+
+        <p
+          className={`mt-3 text-sm leading-relaxed line-clamp-3 ${
+            isLight ? 'text-neutral-600' : 'text-neutral-400'
+          }`}
+        >
+          {item.summary}
+        </p>
+      </div>
+
+      <div
+        className={`mt-6 pt-4 border-t space-y-3 ${
+          isLight ? 'border-[#0E0E10]/[0.08]' : 'border-white/[0.08]'
+        }`}
+      >
+        <p
+          className={`text-[11px] font-medium ${
+            isLight ? 'text-neutral-500' : 'text-neutral-400'
+          }`}
+        >
+          {item.tags.slice(0, 3).join(', ')}
+        </p>
+
+        <div className="flex items-center justify-between gap-2 text-xs">
+          <span
+            className={`inline-flex items-center gap-1.5 font-medium truncate ${
+              isLight ? 'text-neutral-600' : 'text-neutral-400'
+            }`}
+          >
+            <Calendar className="w-3.5 h-3.5 shrink-0" strokeWidth={1.75} />
+            {item.deadline}
+          </span>
+          <button
+            type="button"
+            onClick={() => onSelect(item)}
+            className={`inline-flex items-center gap-1 font-semibold transition-colors shrink-0 ${
+              isLight
+                ? 'text-[#0E0E10] hover:text-[#4353FF]'
+                : 'text-white hover:text-[#818CF8]'
+            }`}
+          >
+            Details
+            <ArrowUpRight
+              className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              strokeWidth={1.75}
+            />
+          </button>
+        </div>
+
+        <div
+          className={`flex items-center gap-1.5 text-[11px] truncate ${
+            isLight ? 'text-neutral-500' : 'text-neutral-500'
+          }`}
+        >
+          <MapPin className="w-3 h-3 shrink-0" strokeWidth={1.75} />
+          <span className="truncate">{item.locationOrMode}</span>
+        </div>
+      </div>
+    </article>
+  );
+};
+
+
+===== FILE: src/components/shared/OpportunityDetailDrawer.tsx =====
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowUpRight, Bookmark, Calendar, Check, MapPin } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import type { OpportunityItem } from '../../types';
+import { Drawer } from '../ui/Drawer';
+
+interface OpportunityDetailDrawerProps {
+  item: OpportunityItem | null;
+  onClose: () => void;
+}
+
+export const OpportunityDetailDrawer: React.FC<OpportunityDetailDrawerProps> = ({
+  item,
+  onClose,
+}) => {
+  const { bookmarkedIds, toggleBookmark } = useApp();
+  if (!item) return null;
+
+  const isSaved = bookmarkedIds.includes(item.id);
+  const isInternal = item.externalUrl.startsWith('/');
+
+  return (
+    <Drawer
+      open={Boolean(item)}
+      onClose={onClose}
+      subtitle={`${item.category} · ${item.deadline}`}
+      title={item.title}
+      footer={
+        <div className="flex items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={() => toggleBookmark(item.id)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/[0.12] bg-[#16161A] text-xs font-semibold text-white hover:border-white/[0.22] transition-colors active:scale-[0.97]"
+          >
+            <Bookmark
+              className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#4353FF] text-[#4353FF]' : ''}`}
+              strokeWidth={1.75}
+            />
+            {isSaved ? 'Saved in Feed' : 'Bookmark'}
+          </button>
+
+          {isInternal ? (
+            <Link
+              to={item.externalUrl}
+              onClick={onClose}
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.97]"
+            >
+              {item.ctaLabel}
+              <ArrowUpRight
+                className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.75}
+              />
+            </Link>
+          ) : (
+            <a
+              href={item.externalUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.97]"
+            >
+              {item.ctaLabel}
+              <ArrowUpRight
+                className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.75}
+              />
+            </a>
+          )}
+        </div>
+      }
+    >
+      <div className="space-y-6">
+        <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] space-y-2.5">
+          <div className="flex items-center justify-between gap-4 text-xs">
+            <span className="text-neutral-500 font-medium">Organizer</span>
+            <span className="text-white font-semibold text-right">{item.organization}</span>
+          </div>
+          <div className="flex items-center justify-between gap-4 text-xs">
+            <span className="text-neutral-500 font-medium">Location / Mode</span>
+            <span className="text-neutral-300 inline-flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5" strokeWidth={1.75} />
+              {item.locationOrMode}
+            </span>
+          </div>
+          <div className="flex items-center justify-between gap-4 text-xs">
+            <span className="text-neutral-500 font-medium">Deadline</span>
+            <span className="text-white font-semibold inline-flex items-center gap-1.5">
+              <Calendar className="w-3.5 h-3.5 text-[#818CF8]" strokeWidth={1.75} />
+              {item.deadline}
+            </span>
+          </div>
+          {item.stipendOrPrize && (
+            <div className="flex items-center justify-between gap-4 text-xs">
+              <span className="text-neutral-500 font-medium">Reward / Compensation</span>
+              <span className="text-[#818CF8] font-semibold">{item.stipendOrPrize}</span>
+            </div>
+          )}
+        </div>
+
+        <div>
+          <p className="cnx-section-label text-neutral-500 mb-2">Overview</p>
+          <p className="text-sm text-neutral-300 leading-relaxed">{item.summary}</p>
+        </div>
+
+        <div>
+          <p className="cnx-section-label text-neutral-500 mb-3">Key Breakdown</p>
+          <ul className="space-y-2.5">
+            {item.details.map((line) => (
+              <li
+                key={line}
+                className="flex items-start gap-2.5 text-sm text-neutral-300 leading-relaxed"
+              >
+                <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="cnx-section-label text-neutral-500 mb-2.5">Signal Tags</p>
+          <div className="flex flex-wrap gap-2">
+            {item.tags.map((tag) => (
+              <span
+                key={tag}
+                className="px-2.5 py-1 rounded-md bg-[#0E0E10] border border-white/[0.08] text-xs font-medium text-neutral-300"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Drawer>
+  );
+};
+
+
+===== FILE: src/components/shared/RoleApplicationModal.tsx =====
+import React, { useState } from 'react';
+import { CheckCircle2 } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import { Modal } from '../ui/Modal';
+
+interface RoleApplicationModalProps {
+  open: boolean;
+  roleId: string;
+  roleTitle: string;
+  onClose: () => void;
+}
+
+export const RoleApplicationModal: React.FC<RoleApplicationModalProps> = ({
+  open,
+  roleId,
+  roleTitle,
+  onClose,
+}) => {
+  const { user, appliedRoles, applyForRole } = useApp();
+  const [name, setName] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
+  const [college, setCollege] = useState(user.college);
+  const [linkedin, setLinkedin] = useState('https://linkedin.com/in/');
+  const [statement, setStatement] = useState('');
+  const [error, setError] = useState('');
+
+  const isApplied = appliedRoles.includes(roleId);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !email.includes('@') || !college.trim() || statement.trim().length < 20) {
+      setError('Complete all fields and share at least 20 characters about your initiative.');
+      return;
+    }
+    setError('');
+    applyForRole(roleId, roleTitle);
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={onClose}
+      subtitle="CodeNeuraX Application"
+      title={`Apply: ${roleTitle}`}
+      maxWidthClass="max-w-lg"
+    >
+      {isApplied ? (
+        <div className="p-5 rounded-xl bg-[#4353FF]/15 border border-[#4353FF]/30 space-y-3">
+          <div className="flex items-center gap-2.5 text-white">
+            <CheckCircle2 className="w-5 h-5 text-[#818CF8]" strokeWidth={1.75} />
+            <h4 className="text-sm font-bold">Application Recorded</h4>
+          </div>
+          <p className="text-xs text-neutral-300 leading-relaxed">
+            Your application for <strong className="text-white">{roleTitle}</strong> has been logged
+            for {name} ({college}). Core Team leads review cohorts weekly.
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold hover:bg-neutral-200"
+          >
+            Done
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block cnx-section-label text-neutral-400 mb-1.5">Full Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block cnx-section-label text-neutral-400 mb-1.5">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                College &amp; Branch
+              </label>
+              <input
+                type="text"
+                value={college}
+                onChange={(e) => setCollege(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                LinkedIn / GitHub URL
+              </label>
+              <input
+                type="url"
+                value={linkedin}
+                onChange={(e) => setLinkedin(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block cnx-section-label text-neutral-400 mb-1.5">
+              Why do you want to lead with CodeNeuraX?
+            </label>
+            <textarea
+              rows={4}
+              value={statement}
+              onChange={(e) => setStatement(e.target.value)}
+              placeholder="Share campus events, open-source work, or communities you have contributed to..."
+              className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none resize-none"
+            />
+          </div>
+
+          {error && <p className="text-xs font-medium text-[#E1498A]">{error}</p>}
+
+          <div className="flex justify-end gap-2.5">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 rounded-lg border border-white/[0.1] text-xs font-medium text-neutral-300 hover:text-white"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.97]"
+            >
+              Submit Application
+            </button>
+          </div>
+        </form>
+      )}
+    </Modal>
+  );
+};
+
+
+===== FILE: src/pages/FeedPage.tsx =====
+import React, { useMemo, useState } from 'react';
+import { Bookmark, Search, SlidersHorizontal } from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { OPPORTUNITIES } from '../data/opportunities';
+import type { OpportunityCategory, OpportunityItem } from '../types';
+import { OpportunityCard } from '../components/shared/OpportunityCard';
+import { OpportunityDetailDrawer } from '../components/shared/OpportunityDetailDrawer';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+
+const CATEGORIES: Array<'All' | 'Saved' | OpportunityCategory> = [
+  'All',
+  'Hackathons',
+  'Internships',
+  'Workshops',
+  'Tech Updates',
+  'Saved',
+];
+
+export const FeedPage: React.FC = () => {
+  const { bookmarkedIds } = useApp();
+  const [activeCategory, setActiveCategory] = useState<'All' | 'Saved' | OpportunityCategory>(
+    'All',
+  );
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedItem, setSelectedItem] = useState<OpportunityItem | null>(null);
+
+  const filteredItems = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return OPPORTUNITIES.filter((item) => {
+      const catMatch =
+        activeCategory === 'All'
+          ? true
+          : activeCategory === 'Saved'
+            ? bookmarkedIds.includes(item.id)
+            : item.category === activeCategory;
+
+      const qMatch =
+        !q ||
+        item.title.toLowerCase().includes(q) ||
+        item.organization.toLowerCase().includes(q) ||
+        item.summary.toLowerCase().includes(q) ||
+        item.tags.some((t) => t.toLowerCase().includes(q));
+
+      return catMatch && qMatch;
+    });
+  }, [activeCategory, searchQuery, bookmarkedIds]);
+
+  return (
+    <div className="bg-[#0E0E10] text-white min-h-screen">
+      {/* Header */}
+      <section className="cnx-midnight-hero border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 py-14 sm:py-16">
+          <HeroMount className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+            <div className="max-w-2xl">
+              <p className="cnx-section-label text-[#818CF8] mb-3">Opportunity Feed</p>
+              <h1 className="text-[clamp(2.35rem,4.6vw,3.9rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
+                High-signal engineering{' '}
+                <span className="font-editorial pr-1">opportunities</span>.
+              </h1>
+              <p className="mt-2 text-[15px] sm:text-base text-neutral-400 leading-relaxed">
+                Search verified hackathons, coding contests (AlgoRush 2026, NeuraKnockout 2026,
+                SIH prep), paid student internships, and practical AI tooling briefs.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-6 border-l border-white/[0.1] pl-6 shrink-0">
+              <div>
+                <p className="text-xs text-neutral-400 font-medium">Open listings</p>
+                <p className="text-2xl font-bold text-white">{OPPORTUNITIES.length} total</p>
+              </div>
+              <div className="h-9 w-px bg-white/[0.08]" />
+              <div>
+                <p className="text-xs text-neutral-400 font-medium">Saved</p>
+                <p className="text-2xl font-bold text-white flex items-center gap-1.5">
+                  <Bookmark className="w-4 h-4 text-[#4353FF] fill-[#4353FF]" strokeWidth={1.75} />
+                  {bookmarkedIds.length}
+                </p>
+              </div>
+            </div>
+          </HeroMount>
+        </div>
+      </section>
+
+      {/* Filter Toolbar & Grid */}
+      <section className="py-12">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="pb-6 border-b border-white/[0.08] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {CATEGORIES.map((category) => {
+                const isActive = activeCategory === category;
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                      isActive
+                        ? 'bg-[#4353FF] text-white'
+                        : 'bg-[#16161A] text-neutral-400 hover:text-white border border-white/[0.08]'
+                    }`}
+                  >
+                    {category}
+                    {category === 'Saved' && (
+                      <span className="ml-1.5 opacity-80">({bookmarkedIds.length})</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-3 w-full lg:w-auto">
+              <div className="relative flex-1 lg:w-80">
+                <Search
+                  className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2"
+                  strokeWidth={1.75}
+                />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Filter by title, organization, or skill tag..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#16161A] border border-white/[0.08] text-xs text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
+                />
+              </div>
+              <div className="hidden sm:flex items-center gap-1.5 text-xs font-medium text-neutral-400 shrink-0">
+                <SlidersHorizontal className="w-3.5 h-3.5" strokeWidth={1.75} />
+                {filteredItems.length} shown
+              </div>
+            </div>
+          </div>
+
+          {filteredItems.length > 0 ? (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredItems.map((item) => (
+                <OpportunityCard key={item.id} item={item} onSelect={setSelectedItem} />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-10 p-12 rounded-2xl bg-[#16161A] border border-white/[0.08] text-center space-y-3">
+              <p className="text-lg font-bold text-white">
+                {activeCategory === 'Saved'
+                  ? 'No saved opportunities yet'
+                  : 'No matching opportunities found'}
+              </p>
+              <p className="text-sm text-neutral-400 max-w-md mx-auto">
+                {activeCategory === 'Saved'
+                  ? 'Bookmark any hackathon, internship, or engineering brief to persist it locally.'
+                  : 'Try broadening your search keyword or resetting category filters.'}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategory('All');
+                  setSearchQuery('');
+                }}
+                className="px-5 py-2.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold"
+              >
+                Show all listings
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <OpportunityDetailDrawer item={selectedItem} onClose={() => setSelectedItem(null)} />
+    </div>
+  );
+};
+
+
+===== FILE: src/pages/EventsPage.tsx =====
+import React, { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, ArrowUpRight, Calendar, MapPin, Mic, Users } from 'lucide-react';
+import {
+  COMPLETED_EVENTS,
+  TOPICS_WE_COVER,
+  UPCOMING_EVENTS,
+} from '../data/events';
+import type { CnxEvent } from '../types';
+import { EventRegistrationModal } from '../components/shared/EventRegistrationModal';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+import { SectionHeader } from '../components/ui/SectionHeader';
+
+type GalleryFilter = 'All' | 'Upcoming' | 'Completed' | 'Workshops';
+
+export const EventsPage: React.FC = () => {
+  const [filter, setFilter] = useState<GalleryFilter>('All');
+  const [selectedEvent, setSelectedEvent] = useState<CnxEvent | null>(null);
+
+  const allEvents = useMemo(() => [...UPCOMING_EVENTS, ...COMPLETED_EVENTS], []);
+
+  const filteredEvents = useMemo(() => {
+    if (filter === 'All') return allEvents;
+    if (filter === 'Upcoming') return UPCOMING_EVENTS;
+    if (filter === 'Completed') return COMPLETED_EVENTS;
+    return allEvents.filter(
+      (e) =>
+        e.category.toLowerCase().includes('summit') ||
+        e.category.toLowerCase().includes('automation') ||
+        e.category.toLowerCase().includes('interview') ||
+        e.category.toLowerCase().includes('career'),
+    );
+  }, [filter, allEvents]);
+
+  return (
+    <div className="bg-[#0E0E10] text-white min-h-screen">
+      {/* Header + Featured Hero Spotlight Card */}
+      <section className="cnx-midnight-hero border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 py-14 sm:py-16">
+          <HeroMount className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10">
+            <div className="max-w-2xl">
+              <p className="cnx-section-label text-[#818CF8] mb-3">
+                CNX Events · {allEvents.length} Sessions
+              </p>
+              <h1 className="text-[clamp(2.35rem,4.6vw,3.9rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
+                Summits, sprints &amp; unfiltered{' '}
+                <span className="font-editorial pr-1">engineering</span> sessions.
+              </h1>
+              <p className="mt-2 text-[15px] sm:text-base text-neutral-400 leading-relaxed">
+                Flagship 2-day AI summits in Rajkot, 7-hour solo web challenges, national DSA
+                contests, and career sessions from Google, Microsoft, and Amazon engineers.
+              </p>
+            </div>
+          </HeroMount>
+
+          {/* Featured Hero Spotlight Card */}
+          <div className="rounded-2xl overflow-hidden border border-white/[0.1] bg-[#16161A] grid grid-cols-1 lg:grid-cols-12">
+            <div className="lg:col-span-6 p-7 sm:p-10 flex flex-col justify-between">
+              <div>
+                <p className="cnx-section-label text-[#E1498A] mb-3">
+                  Featured Flagship · Aug 7–8, 2026
+                </p>
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-[-0.025em] text-white">
+                  AI Sparks ’26 Summit
+                </h2>
+                <p className="mt-3 text-sm sm:text-base text-neutral-400 leading-relaxed">
+                  Hosted at Marwadi University in association with Dept. of AI, ML &amp; DS—360+
+                  attendees, 4 technical keynotes, $30 Devnovate credits, and ₹4,999 GATE DA Prep
+                  awards.
+                </p>
+              </div>
+
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <Link
+                  to="/aispark"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors"
+                >
+                  Explore AI Sparks ’26
+                  <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setSelectedEvent(UPCOMING_EVENTS[0])}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold hover:bg-neutral-200 transition-colors"
+                >
+                  Register NeuraKnockout ’26
+                </button>
+              </div>
+            </div>
+
+            <div className="lg:col-span-6 relative min-h-[260px] overflow-hidden group">
+              <img
+                src="/images/ai-sparks-closing.jpg"
+                alt="AI Sparks 2026 at Marwadi University"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#16161A]/80 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between text-xs font-medium text-white">
+                <span>360+ Attendees · 2 Days</span>
+                <span>Marwadi University, Rajkot</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Poster / Session 4-Column Grid */}
+      <section className="py-16 border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-8 border-b border-white/[0.08]">
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+              Event &amp; Session Directory
+            </h2>
+
+            <div className="flex flex-wrap items-center gap-1.5">
+              {(['All', 'Upcoming', 'Completed', 'Workshops'] as GalleryFilter[]).map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setFilter(tab)}
+                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                    filter === tab
+                      ? 'bg-[#4353FF] text-white'
+                      : 'bg-[#16161A] border border-white/[0.08] text-neutral-300 hover:text-white'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {filteredEvents.map((evt) => {
+              const anchorId =
+                evt.id === 'evt-neuraknockout-2026'
+                  ? 'neuraknockout'
+                  : evt.id === 'evt-algorush-2026'
+                    ? 'algorush'
+                    : undefined;
+
+              return (
+                <article
+                  key={evt.id}
+                  id={anchorId}
+                  className="scroll-mt-24 rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.18] transition-all flex flex-col justify-between overflow-hidden group"
+                >
+                  <div className="p-5 space-y-3">
+                    <div className="flex items-center justify-between gap-2 text-[11px] font-semibold">
+                      <span
+                        className={
+                          evt.status === 'Upcoming' ? 'text-[#E1498A]' : 'text-[#818CF8]'
+                        }
+                      >
+                        {evt.status}
+                      </span>
+                      <span className="text-neutral-500">{evt.mode}</span>
+                    </div>
+
+                    <h3 className="text-base font-bold text-white tracking-tight leading-snug group-hover:text-[#818CF8] transition-colors">
+                      {evt.title}
+                    </h3>
+                    <p className="text-xs text-neutral-400 leading-relaxed">{evt.subtitle}</p>
+
+                    <div className="pt-2 space-y-1.5 text-xs text-neutral-400">
+                      <p className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-neutral-500 shrink-0" strokeWidth={1.75} />
+                        <span className="truncate">{evt.date}</span>
+                      </p>
+                      <p className="flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-neutral-500 shrink-0" strokeWidth={1.75} />
+                        <span className="truncate">{evt.venueOrPlatform}</span>
+                      </p>
+                      <p className="flex items-center gap-1.5 text-neutral-300">
+                        <Users className="w-3.5 h-3.5 text-[#4353FF] shrink-0" strokeWidth={1.75} />
+                        <span className="truncate">{evt.attendeesOrTarget}</span>
+                      </p>
+                    </div>
+
+                    {evt.speaker && (
+                      <div className="pt-2 border-t border-white/[0.06] flex items-start gap-1.5 text-[11px] text-neutral-400">
+                        <Mic className="w-3 h-3 text-[#818CF8] mt-0.5 shrink-0" strokeWidth={1.75} />
+                        <span className="line-clamp-2">{evt.speaker}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mx-5 py-3.5 border-t border-white/[0.08] flex items-center justify-between text-xs font-semibold">
+                    {evt.internalRoute === '/aispark' ? (
+                      <Link
+                        to="/aispark"
+                        className="w-full flex items-center justify-between text-white hover:text-[#818CF8]"
+                      >
+                        <span>Open Microsite</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedEvent(evt)}
+                        className="w-full flex items-center justify-between text-white hover:text-[#818CF8]"
+                      >
+                        <span>{evt.status === 'Upcoming' ? 'Register' : 'View Brief'}</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                      </button>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Pure White Contrast Band: Speakers From Top Companies & Curriculum Tracks */}
+      <section className="py-16 sm:py-20 bg-white text-[#0E0E10]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 space-y-16">
+          <div>
+            <p className="cnx-section-label text-[#4353FF] mb-4">
+              Speakers &amp; Mentors Representing
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {[
+                { org: 'Google', note: 'Divanshi Jain · SWE Interview Prep' },
+                { org: 'Amazon', note: 'Nidhi Singh · SWE & OA Strategy' },
+                { org: 'Microsoft', note: 'Parth Thakrar · SDE & Ex-Intern' },
+                { org: 'AOSSIE', note: 'Nidhi Singh · GSoC Mentorship' },
+              ].map((item) => (
+                <div
+                  key={item.org}
+                  className="rounded-xl bg-[#F4F4F6] border border-[#0E0E10]/[0.08] p-6"
+                >
+                  <span className="text-2xl font-bold tracking-tight text-[#0E0E10]">
+                    {item.org}
+                  </span>
+                  <p className="mt-2 text-xs text-neutral-600">{item.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <SectionHeader
+              tone="light"
+              label="Curriculum Tracks"
+              title={
+                <>
+                  Six core tracks we <span className="font-editorial pr-1">teach</span> &amp;
+                  practice.
+                </>
+              }
+            />
+
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {TOPICS_WE_COVER.map((topic) => (
+                <div
+                  key={topic.index}
+                  className="rounded-xl bg-[#F4F4F6] border border-[#0E0E10]/[0.08] p-6"
+                >
+                  <span className="text-xs font-bold text-[#4353FF]">Track {topic.index}</span>
+                  <h3 className="mt-2 text-lg font-bold text-[#0E0E10]">{topic.title}</h3>
+                  <p className="mt-1.5 text-sm text-neutral-600 leading-relaxed">
+                    {topic.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <EventRegistrationModal event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+    </div>
+  );
+};
+
+
+===== FILE: src/pages/AiSparksPage.tsx =====
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Award,
+  Calendar,
+  Check,
+  Clock,
+  Cpu,
+  MapPin,
+  Sparkles,
+  Users,
+} from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { AI_SPARKS_SCHEDULE } from '../data/events';
+import { AI_SPARKS_PARTNERS, AI_SPARKS_SPEAKERS } from '../data/team';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+import { Modal } from '../components/ui/Modal';
+import { PartnerLogoMark } from '../components/ui/PartnerLogoMark';
+import { SectionHeader } from '../components/ui/SectionHeader';
+
+export const AiSparksPage: React.FC = () => {
+  const { pushToast } = useApp();
+  const [activeDay, setActiveDay] = useState<'day1' | 'day2'>('day1');
+  const [recapModalOpen, setRecapModalOpen] = useState(false);
+
+  const schedule = AI_SPARKS_SCHEDULE[activeDay];
+
+  const handleDownloadMaterials = (tierName: string) => {
+    const content = [
+      `# AI Sparks '26 — ${tierName}`,
+      `Venue: Marwadi University, Rajkot (Dept. of AI, ML & DS)`,
+      `Dates: Aug 7-8, 2026 | 360+ Attendees`,
+      ``,
+      `Included Verified Perks:`,
+      `- $30 USD (₹2,800) platform credits for Lovable / Vercel / n8n via Devnovate`,
+      `- Free GATE DA Prep Course (₹4,999 value) for top assessment performers`,
+      `- Official 2-Day Co-Branded Completion Certificate`,
+    ].join('\n');
+
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ai-sparks-2026-syllabus-perks.md';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    pushToast({
+      title: `Downloaded AI Sparks ’26 Brief`,
+      description: `Saved syllabus & ${tierName} details as Markdown.`,
+      variant: 'success',
+    });
+  };
+
+  return (
+    <div className="bg-[#0E0E10] text-white min-h-screen">
+      {/* Midnight-Indigo Atmospheric Hero */}
+      <section className="cnx-midnight-hero border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-10 pb-16 sm:pb-20">
+          <Link
+            to="/events"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-400 hover:text-white mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" strokeWidth={1.75} />
+            Back to CNX Events
+          </Link>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <HeroMount className="lg:col-span-7">
+              <p className="cnx-section-label text-[#818CF8] mb-3">
+                Flagship Summit · Aug 7–8, 2026
+              </p>
+
+              <h1 className="text-[clamp(2.85rem,6vw,5rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
+                AI Sparks{' '}
+                <span className="font-editorial pr-1">’26</span>
+              </h1>
+
+              <p className="mt-3 text-base sm:text-lg text-neutral-300 leading-relaxed max-w-2xl">
+                2-Day Flagship AI &amp; Automation Summit hosted at Marwadi University, Rajkot in
+                association with the Department of AI, ML &amp; Data Science—taking 360+ attendees
+                from Agentic AI internals to shipped workflows.
+              </p>
+
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { icon: Calendar, label: 'Dates', value: 'Aug 7–8, 2026' },
+                  { icon: MapPin, label: 'Venue', value: 'Rajkot, MU' },
+                  { icon: Users, label: 'Attendees', value: '360+ Builders' },
+                  { icon: Cpu, label: 'Credits', value: '$30 USD / Pass' },
+                ].map((meta) => {
+                  const Icon = meta.icon;
+                  return (
+                    <div
+                      key={meta.label}
+                      className="rounded-xl bg-[#16161A] border border-white/[0.08] p-4"
+                    >
+                      <p className="text-xs text-neutral-400 flex items-center gap-1.5">
+                        <Icon className="w-3.5 h-3.5 text-[#4353FF]" strokeWidth={1.75} />
+                        {meta.label}
+                      </p>
+                      <p className="mt-1 text-sm font-bold text-white">{meta.value}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setRecapModalOpen(true)}
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-sm font-semibold transition-colors active:scale-[0.98]"
+                >
+                  <Sparkles className="w-4 h-4" strokeWidth={1.75} />
+                  Summit Recap &amp; Materials
+                </button>
+                <Link
+                  to="/library"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-white text-[#0E0E10] text-sm font-semibold hover:bg-neutral-200 transition-colors"
+                >
+                  Open Agentic AI Notes
+                  <ArrowUpRight className="w-4 h-4" strokeWidth={1.75} />
+                </Link>
+              </div>
+            </HeroMount>
+
+            <HeroMount delay={0.08} className="lg:col-span-5">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2 relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/[0.1]">
+                  <img
+                    src="/images/ai-sparks-audience.jpg"
+                    alt="AI Sparks 2026 packed auditorium"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.1]">
+                  <img
+                    src="/images/ai-sparks-speaker.jpg"
+                    alt="Technical keynote on Marwadi University podium"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.1]">
+                  <img
+                    src="/images/ai-sparks-closing.jpg"
+                    alt="AI Sparks 2026 workshop felicitation"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </HeroMount>
+          </div>
+        </div>
+      </section>
+
+      {/* Alternating Pure-White Schedule Band */}
+      <section className="py-20 bg-white text-[#0E0E10]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <SectionHeader
+            tone="light"
+            label="Interactive Schedule"
+            title={
+              <>
+                Two days of structured{' '}
+                <span className="font-editorial pr-1">curriculum</span>.
+              </>
+            }
+            description={`${schedule.theme} · ${schedule.hours}`}
+            action={
+              <div className="flex items-center gap-2">
+                {(['day1', 'day2'] as const).map((dayKey) => {
+                  const active = activeDay === dayKey;
+                  return (
+                    <button
+                      key={dayKey}
+                      type="button"
+                      onClick={() => setActiveDay(dayKey)}
+                      className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-colors ${
+                        active
+                          ? 'bg-[#0E0E10] text-white'
+                          : 'bg-[#F4F4F6] border border-[#0E0E10]/[0.08] text-neutral-700 hover:text-[#0E0E10]'
+                      }`}
+                    >
+                      {dayKey === 'day1' ? 'Day 1 · Aug 7' : 'Day 2 · Aug 8'}
+                    </button>
+                  );
+                })}
+              </div>
+            }
+          />
+
+          <div className="mt-8 rounded-2xl bg-[#F4F4F6] border border-[#0E0E10]/[0.08] divide-y divide-[#0E0E10]/[0.08] overflow-hidden">
+            {schedule.sessions.map((session, idx) => (
+              <div
+                key={session.title}
+                className="p-6 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-start bg-white hover:bg-[#F4F4F6]/60 transition-colors"
+              >
+                <div className="lg:col-span-3 flex items-center gap-3">
+                  <span className="w-7 h-7 rounded-lg bg-[#EEF0FF] text-[#4353FF] text-xs font-bold flex items-center justify-center">
+                    {idx + 1}
+                  </span>
+                  <span className="text-xs font-semibold text-[#0E0E10] inline-flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-neutral-500" strokeWidth={1.75} />
+                    {session.time} IST
+                  </span>
+                </div>
+
+                <div className="lg:col-span-6">
+                  <h3 className="text-base sm:text-lg font-bold text-[#0E0E10] tracking-tight">
+                    {session.title}
+                  </h3>
+                  <p className="mt-1.5 text-sm text-neutral-600 leading-relaxed">
+                    {session.description}
+                  </p>
+                </div>
+
+                <div className="lg:col-span-3 flex flex-col lg:items-end justify-between gap-2.5">
+                  <span className="text-xs font-semibold text-[#0E0E10]">{session.speaker}</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {session.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-0.5 rounded-md bg-[#F4F4F6] border border-[#0E0E10]/[0.06] text-[11px] font-medium text-neutral-600"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dark 4-Speaker Portrait Cards & Partners & Passes */}
+      <section className="py-20 bg-[#0E0E10] border-t border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 space-y-20">
+          {/* 4 Keynote Speakers */}
+          <div>
+            <SectionHeader
+              label="Keynote Speakers"
+              title={
+                <>
+                  Four speakers across AI, ML &amp;{' '}
+                  <span className="font-editorial pr-1">automation</span>.
+                </>
+              }
+            />
+
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {AI_SPARKS_SPEAKERS.map((spk) => (
+                <div
+                  key={spk.id}
+                  className="group rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.18] transition-colors p-5 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-xs font-semibold text-[#818CF8]">{spk.day}</span>
+                      <a
+                        href={spk.linkedinUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-xs font-medium text-neutral-400 hover:text-white inline-flex items-center gap-1"
+                      >
+                        LinkedIn
+                        <ArrowUpRight className="w-3 h-3" strokeWidth={1.75} />
+                      </a>
+                    </div>
+
+                    <div className="aspect-square rounded-xl overflow-hidden bg-[#0E0E10] mb-4">
+                      {spk.avatar ? (
+                        <img
+                          src={spk.avatar}
+                          alt={spk.name}
+                          className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-xl font-bold">
+                          {spk.initials}
+                        </div>
+                      )}
+                    </div>
+
+                    <h3 className="text-base font-bold text-white">{spk.name}</h3>
+                    <p className="mt-0.5 text-xs font-medium text-[#818CF8]">{spk.role}</p>
+                    <p className="mt-1 text-xs text-neutral-400">{spk.organization}</p>
+                    <p className="mt-3 text-xs text-neutral-400 leading-relaxed">{spk.bio}</p>
+                  </div>
+
+                  <div className="mt-5 pt-3 border-t border-white/[0.08]">
+                    <p className="text-[11px] font-medium text-neutral-500 mb-1">Session Focus</p>
+                    <p className="text-xs text-white font-semibold leading-snug">{spk.topic}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 6 Official Partners */}
+          <div>
+            <SectionHeader
+              label="Backed By The Best"
+              title="Six official summit partners."
+            />
+
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {AI_SPARKS_PARTNERS.map((partner) => (
+                <div
+                  key={partner.id}
+                  className="rounded-xl bg-[#16161A] border border-white/[0.08] p-5 flex items-center gap-4"
+                >
+                  <PartnerLogoMark partner={partner} surface="dark" />
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-bold text-white">{partner.name}</h3>
+                    <p className="text-xs text-neutral-400 mt-0.5">{partner.role}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 2-Tier Pass & Perks Comparison */}
+          <div>
+            <SectionHeader
+              label="Passes & Participant Perks"
+              title="Verified credits, merit tracks & certification."
+            />
+
+            <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="rounded-2xl bg-[#16161A] border border-white/[0.08] p-7 sm:p-8 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between gap-4 mb-4">
+                    <span className="cnx-section-label text-neutral-400">All Attendees</span>
+                    <span className="text-xs font-semibold text-white">₹350 Summit Pass</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white">2-Day Builder Access Pass</h3>
+                  <p className="mt-2 text-sm text-neutral-400">
+                    Full access to Day 1 Agentic AI labs, Day 2 ML workshops, IDP counseling desk,
+                    and partner builder credits.
+                  </p>
+
+                  <ul className="mt-6 space-y-3 border-t border-white/[0.08] pt-6 text-sm text-neutral-300">
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                      <span>
+                        <strong className="text-white">$30 USD (₹2,800)</strong> platform credits
+                        for Lovable, Vercel &amp; n8n via Devnovate
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                      <span>
+                        Official{' '}
+                        <strong className="text-white">
+                          2-Day Co-Branded Completion Certificate
+                        </strong>
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                      <span>Meet-and-greet &amp; career Q&amp;A with Dev Anand &amp; speakers</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => handleDownloadMaterials('2-Day Builder Access Pass')}
+                  className="mt-8 w-full py-3 rounded-lg bg-[#0E0E10] border border-white/[0.12] text-xs font-semibold text-white hover:border-white/[0.24] transition-colors"
+                >
+                  Download Summit Syllabus &amp; Perks Brief
+                </button>
+              </div>
+
+              <div className="rounded-2xl bg-white text-[#0E0E10] p-7 sm:p-8 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between gap-4 mb-4">
+                    <span className="cnx-section-label text-[#4353FF]">
+                      Top Assessment Performers
+                    </span>
+                    <Award className="w-5 h-5 text-[#E1498A]" strokeWidth={1.75} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#0E0E10]">
+                    Merit &amp; Scholarship Recognition
+                  </h3>
+                  <p className="mt-2 text-sm text-neutral-600">
+                    Awarded to top-scoring students in the Day 2 technical evaluation covering
+                    Agentic AI, workflows, and ML modeling.
+                  </p>
+
+                  <ul className="mt-6 space-y-3 border-t border-neutral-200 pt-6 text-sm text-neutral-700">
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                      <span>
+                        <strong className="text-[#0E0E10]">
+                          Free GATE DA Prep Course (₹4,999 value)
+                        </strong>{' '}
+                        for top assessment performers
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                      <span>
+                        Full <strong className="text-[#0E0E10]">$30 USD (₹2,800) Devnovate</strong>{' '}
+                        credits for Lovable, Vercel &amp; n8n
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                      <span>
+                        Official 2-Day Co-Branded Merit Certificate + priority Core Team track
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                <Link
+                  to="/library"
+                  className="mt-8 w-full py-3 rounded-lg bg-[#0E0E10] text-white text-xs font-semibold hover:bg-neutral-800 transition-colors inline-flex items-center justify-center gap-2"
+                >
+                  Access GATE DA PYQs in CNX Library
+                  <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Modal
+        open={recapModalOpen}
+        onClose={() => setRecapModalOpen(false)}
+        subtitle="AI Sparks ’26 · Post-Summit Archive"
+        title="Summit Recap & Takeaways"
+      >
+        <div className="space-y-4 text-sm text-neutral-300 leading-relaxed">
+          <p>
+            AI Sparks ’26 concluded at Marwadi University, Rajkot with 360+ participants across
+            two full days of live Python Colab labs, Agentic AI reasoning workshops, and ML model
+            evaluations.
+          </p>
+          <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] space-y-2 text-xs">
+            <p className="font-semibold text-[#818CF8]">Verified Perks Distributed:</p>
+            <p>• $30 USD (₹2,800) Lovable, Vercel &amp; n8n credits via Devnovate</p>
+            <p>• ₹4,999 Free GATE DA Prep Course for top Day 2 assessment scorers</p>
+            <p>• Official 2-Day Co-Branded Completion Certificates</p>
+          </div>
+          <div className="flex justify-end gap-2.5 pt-2">
+            <button
+              type="button"
+              onClick={() => handleDownloadMaterials('Post-Summit Archive')}
+              className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+            >
+              Download Recap Sheet
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+};
+
+
+===== FILE: src/pages/WorkWithUsPage.tsx =====
+import React, { useMemo, useState } from 'react';
+import { ArrowUpRight, Check, MapPin } from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { CAREER_ROLES } from '../data/careers';
+import type { CareerRole } from '../types';
+import { RoleApplicationModal } from '../components/shared/RoleApplicationModal';
+import { Drawer } from '../components/ui/Drawer';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+
+type DeptFilter = 'All' | CareerRole['department'];
+
+export const WorkWithUsPage: React.FC = () => {
+  const { appliedRoles } = useApp();
+  const [department, setDepartment] = useState<DeptFilter>('All');
+  const [detailRole, setDetailRole] = useState<CareerRole | null>(null);
+  const [applyRole, setApplyRole] = useState<CareerRole | null>(null);
+
+  const departments: DeptFilter[] = ['All', 'Community', 'Engineering', 'Design', 'Content'];
+
+  const filteredRoles = useMemo(() => {
+    if (department === 'All') return CAREER_ROLES;
+    return CAREER_ROLES.filter((r) => r.department === department);
+  }, [department]);
+
+  return (
+    <div className="bg-white text-[#0E0E10] min-h-screen">
+      {/* Dark Editorial Header */}
+      <section className="cnx-midnight-hero text-white border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 py-14 sm:py-16">
+          <HeroMount className="max-w-2xl">
+            <p className="cnx-section-label text-[#818CF8] mb-3">Careers &amp; Core Team</p>
+            <h1 className="text-[clamp(2.35rem,4.6vw,3.9rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
+              Build India&apos;s student{' '}
+              <span className="font-editorial pr-1">engineering</span> infrastructure.
+            </h1>
+            <p className="mt-2 text-[15px] sm:text-base text-neutral-400 leading-relaxed">
+              Open volunteer leadership tracks and campus ambassador cohorts. Ship real community
+              tooling, design flagship summits, and lead builders on your campus.
+            </p>
+          </HeroMount>
+        </div>
+      </section>
+
+      {/* Pure White Tabular Hairline Roles Directory */}
+      <section className="py-16 bg-white text-[#0E0E10]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {departments.map((dept) => (
+                <button
+                  key={dept}
+                  type="button"
+                  onClick={() => setDepartment(dept)}
+                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                    department === dept
+                      ? 'bg-[#0E0E10] text-white'
+                      : 'bg-[#F4F4F6] border border-[#0E0E10]/[0.08] text-neutral-600 hover:text-[#0E0E10]'
+                  }`}
+                >
+                  {dept}
+                </button>
+              ))}
+            </div>
+
+            <span className="text-xs font-semibold text-neutral-500">
+              {filteredRoles.length} open role{filteredRoles.length === 1 ? '' : 's'}
+            </span>
+          </div>
+
+          <div className="rounded-2xl border border-[#0E0E10]/[0.08] divide-y divide-[#0E0E10]/[0.08] overflow-hidden bg-white">
+            <div className="hidden lg:grid grid-cols-12 gap-4 px-7 py-3.5 bg-[#F4F4F6] cnx-section-label text-neutral-500">
+              <div className="col-span-5">Role &amp; Focus</div>
+              <div className="col-span-2">Department</div>
+              <div className="col-span-2">Type &amp; Deadline</div>
+              <div className="col-span-3 text-right">Action</div>
+            </div>
+
+            {filteredRoles.map((role) => {
+              const isApplied = appliedRoles.includes(role.id);
+              return (
+                <div
+                  key={role.id}
+                  className="p-6 sm:px-7 grid grid-cols-1 lg:grid-cols-12 gap-5 items-center hover:bg-[#F4F4F6]/60 transition-colors group"
+                >
+                  <div className="lg:col-span-5 space-y-1.5">
+                    <h2 className="text-lg font-bold text-[#0E0E10] tracking-[-0.015em] group-hover:text-[#4353FF] transition-colors">
+                      {role.title}
+                    </h2>
+                    <p className="text-xs text-neutral-600 leading-relaxed">{role.summary}</p>
+                    <p className="text-[11px] font-medium text-neutral-500 pt-0.5">
+                      {role.tags.join(', ')}
+                    </p>
+                  </div>
+
+                  <div className="lg:col-span-2">
+                    <p className="text-xs font-semibold text-[#0E0E10]">{role.department}</p>
+                    <p className="text-xs text-neutral-600 flex items-center gap-1 mt-0.5">
+                      <MapPin className="w-3.5 h-3.5 text-neutral-400" strokeWidth={1.75} />
+                      {role.location}
+                    </p>
+                  </div>
+
+                  <div className="lg:col-span-2 space-y-0.5">
+                    <p className="text-xs text-neutral-600">{role.type}</p>
+                    <p className="text-xs font-semibold text-[#4353FF]">
+                      Apply by: {role.deadline}
+                    </p>
+                  </div>
+
+                  <div className="lg:col-span-3 flex items-center lg:justify-end gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setDetailRole(role)}
+                      className="px-4 py-2 rounded-lg border border-[#0E0E10]/[0.12] bg-white text-xs font-semibold text-[#0E0E10] hover:bg-[#F4F4F6] transition-colors"
+                    >
+                      Details
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setApplyRole(role)}
+                      className={`inline-flex items-center gap-1.5 px-5 py-2 rounded-lg text-xs font-semibold transition-colors active:scale-[0.98] ${
+                        isApplied
+                          ? 'bg-[#EEF0FF] text-[#4353FF] border border-[#4353FF]/25'
+                          : 'bg-[#0E0E10] text-white hover:bg-neutral-800'
+                      }`}
+                    >
+                      {isApplied ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" strokeWidth={1.75} />
+                          Applied
+                        </>
+                      ) : (
+                        <>
+                          Apply Now
+                          <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <Drawer
+        open={Boolean(detailRole)}
+        onClose={() => setDetailRole(null)}
+        subtitle={detailRole ? `${detailRole.department} · ${detailRole.type}` : ''}
+        title={detailRole?.title || ''}
+        footer={
+          detailRole && (
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-medium text-neutral-400">
+                Deadline: {detailRole.deadline}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  const target = detailRole;
+                  setDetailRole(null);
+                  setApplyRole(target);
+                }}
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+              >
+                Apply Now
+                <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+              </button>
+            </div>
+          )
+        }
+      >
+        {detailRole && (
+          <div className="space-y-6">
+            <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-neutral-500">Department</span>
+                <span className="font-semibold text-white">{detailRole.department}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-500">Engagement</span>
+                <span className="font-medium text-neutral-300">{detailRole.type}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-500">Apply By</span>
+                <span className="font-semibold text-[#818CF8]">{detailRole.deadline}</span>
+              </div>
+            </div>
+
+            <div>
+              <p className="cnx-section-label text-neutral-500 mb-2">Role Overview</p>
+              <p className="text-sm text-neutral-300 leading-relaxed">{detailRole.summary}</p>
+            </div>
+
+            <div>
+              <p className="cnx-section-label text-neutral-500 mb-2.5">Responsibilities</p>
+              <ul className="space-y-2 text-sm text-neutral-300">
+                {detailRole.responsibilities.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-xs font-medium text-neutral-500 mb-2.5">Perks &amp; growth</p>
+              <ul className="space-y-2 text-sm text-neutral-300 border-l border-white/[0.12] pl-3.5">
+                {detailRole.perks.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-xs font-medium text-neutral-500 mb-2.5">Eligibility</p>
+              <ul className="space-y-2 text-sm text-neutral-300 border-l border-white/[0.12] pl-3.5">
+                {detailRole.eligibility.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </Drawer>
+
+      <RoleApplicationModal
+        open={Boolean(applyRole)}
+        roleId={applyRole?.id || ''}
+        roleTitle={applyRole?.title || ''}
+        onClose={() => setApplyRole(null)}
+      />
+    </div>
+  );
+};
+
+
+===== FILE: src/pages/CampusAmbassadorsPage.tsx =====
+import React, { useMemo, useState } from 'react';
+import { ArrowUpRight, GraduationCap, MapPin, Search } from 'lucide-react';
+import { CAMPUS_AMBASSADORS } from '../data/ambassadors';
+import { RoleApplicationModal } from '../components/shared/RoleApplicationModal';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+import { SectionHeader } from '../components/ui/SectionHeader';
+
+const PROCESS_STEPS = [
+  {
+    step: '01',
+    title: 'Submit Application',
+    desc: 'Share your campus background, communities led, or technical projects before Dec 15, 2026.',
+  },
+  {
+    step: '02',
+    title: '15-Min Chapter Sync',
+    desc: 'Brief conversation with CodeNeuraX Core Team on local workshop goals and student needs.',
+  },
+  {
+    step: '03',
+    title: 'Onboard & Tooling',
+    desc: 'Receive chapter playbooks, BuddyKid squad priority, speaker request access, and partner links.',
+  },
+  {
+    step: '04',
+    title: 'Launch Campus Chapter',
+    desc: 'Host peer study jams, mobilize AlgoRush & NeuraKnockout teams, and mentor junior cohorts.',
+  },
+];
+
+export const CampusAmbassadorsPage: React.FC = () => {
+  const [query, setQuery] = useState('');
+  const [applyOpen, setApplyOpen] = useState(false);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return CAMPUS_AMBASSADORS;
+    return CAMPUS_AMBASSADORS.filter(
+      (a) =>
+        a.name.toLowerCase().includes(q) ||
+        a.college.toLowerCase().includes(q) ||
+        a.city.toLowerCase().includes(q),
+    );
+  }, [query]);
+
+  return (
+    <div className="bg-[#0E0E10] text-white min-h-screen">
+      {/* Midnight-Indigo Hero Banner + Real Stats Strip */}
+      <section className="cnx-midnight-hero border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 py-14 sm:py-16">
+          <HeroMount className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+            <div className="max-w-2xl">
+              <p className="cnx-section-label text-[#818CF8] mb-3">Chapter Network</p>
+              <h1 className="text-[clamp(2.35rem,4.6vw,3.9rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
+                Student leaders scaling{' '}
+                <span className="font-editorial pr-1">chapters</span> across India.
+              </h1>
+              <p className="mt-2 text-[15px] sm:text-base text-neutral-300 leading-relaxed">
+                Campus Ambassadors anchor local study circles, form cross-year hackathon squads,
+                and represent CodeNeuraX inside engineering institutes nationwide.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setApplyOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-[#0E0E10] text-sm font-semibold hover:bg-neutral-200 transition-colors active:scale-[0.98] shrink-0 w-fit"
+            >
+              Become a Campus Ambassador
+              <ArrowUpRight className="w-4 h-4" strokeWidth={1.75} />
+            </button>
+          </HeroMount>
+
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.1] border-y border-white/[0.1]">
+            <div className="py-6 sm:pr-8 flex items-baseline justify-between">
+              <span className="text-sm font-medium text-neutral-400">Campus Ambassadors</span>
+              <span className="text-3xl font-extrabold text-white">08</span>
+            </div>
+            <div className="py-6 sm:px-8 flex items-baseline justify-between">
+              <span className="text-sm font-medium text-neutral-400">Partner Colleges</span>
+              <span className="text-3xl font-extrabold text-white">08</span>
+            </div>
+            <div className="py-6 sm:pl-8 flex items-baseline justify-between">
+              <span className="text-sm font-medium text-neutral-400">Network</span>
+              <span className="text-xl font-bold text-[#818CF8]">Pan-India</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pure-White Section: 8 Verified Ambassadors */}
+      <section className="py-16 sm:py-20 bg-white text-[#0E0E10]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+            <div>
+              <p className="cnx-section-label text-[#4353FF] mb-1">Verified Roster</p>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0E0E10]">
+                2026 Campus Ambassadors ({filtered.length})
+              </h2>
+            </div>
+
+            <div className="relative w-full sm:w-80">
+              <Search
+                className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2"
+                strokeWidth={1.75}
+              />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search leader, college, city..."
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#F4F4F6] border border-[#0E0E10]/[0.08] text-xs text-[#0E0E10] placeholder:text-neutral-500 focus:border-[#4353FF] focus:bg-white focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {filtered.map((amb, idx) => (
+              <article
+                key={amb.id}
+                className="rounded-2xl bg-[#F4F4F6] border border-[#0E0E10]/[0.08] hover:border-[#0E0E10]/[0.2] transition-all p-6 flex flex-col justify-between hover:-translate-y-1"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-3 mb-5">
+                    <div className="w-14 h-14 rounded-xl bg-[#0E0E10] text-white flex items-center justify-center text-lg font-extrabold">
+                      {amb.initials}
+                    </div>
+                    <span className="text-xs font-bold text-[#4353FF]">#{idx + 1}</span>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-[#0E0E10] tracking-tight">{amb.name}</h3>
+
+                  <div className="mt-2 flex items-start gap-1.5 text-xs text-neutral-700">
+                    <GraduationCap
+                      className="w-3.5 h-3.5 text-[#4353FF] mt-0.5 shrink-0"
+                      strokeWidth={1.75}
+                    />
+                    <span className="leading-snug font-medium">{amb.college}</span>
+                  </div>
+
+                  <div className="mt-1.5 flex items-center gap-1.5 text-xs text-neutral-500">
+                    <MapPin className="w-3.5 h-3.5 shrink-0" strokeWidth={1.75} />
+                    <span>{amb.city}</span>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-[#0E0E10]/[0.08]">
+                    <span className="text-[11px] font-semibold text-[#0E0E10]">{amb.cohort}</span>
+                    <p className="mt-1 text-xs text-neutral-600 leading-relaxed">{amb.focus}</p>
+                  </div>
+                </div>
+
+                <a
+                  href={amb.linkedinUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-5 pt-3 border-t border-[#0E0E10]/[0.08] inline-flex items-center justify-between text-xs font-semibold text-[#0E0E10] hover:text-[#4353FF] transition-colors"
+                >
+                  <span>LinkedIn Profile</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dark Process Timeline + CTA */}
+      <section className="py-16 sm:py-20 bg-[#0E0E10] border-t border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 space-y-14">
+          <SectionHeader
+            label="Selection Process"
+            title={
+              <>
+                Ready to represent CodeNeuraX on your{' '}
+                <span className="font-editorial pr-1">campus</span>?
+              </>
+            }
+            action={
+              <button
+                type="button"
+                onClick={() => setApplyOpen(true)}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-sm font-semibold transition-colors"
+              >
+                Apply as Ambassador
+                <ArrowUpRight className="w-4 h-4" strokeWidth={1.75} />
+              </button>
+            }
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {PROCESS_STEPS.map((st) => (
+              <div
+                key={st.step}
+                className="rounded-xl bg-[#16161A] border border-white/[0.08] p-6"
+              >
+                <span className="text-xs font-bold text-[#818CF8]">Step {st.step}</span>
+                <h3 className="mt-2 text-base font-bold text-white">{st.title}</h3>
+                <p className="mt-2 text-xs text-neutral-400 leading-relaxed">{st.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <RoleApplicationModal
+        open={applyOpen}
+        roleId="role-campus-ambassador-2027"
+        roleTitle="CodeNeuraX Campus Ambassador 2027"
+        onClose={() => setApplyOpen(false)}
+      />
+    </div>
+  );
+};
+
+
+===== FILE: src/pages/BuddyKidPage.tsx =====
+import React, { useMemo, useState } from 'react';
+import {
+  ArrowRight,
+  Check,
+  Copy,
+  KeyRound,
+  Plus,
+  Search,
+  ShieldCheck,
+  UserCheck,
+  Users,
+  X,
+} from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { BUDDYKID_SKILL_OPTIONS } from '../data/buddykid';
+import type { Squad } from '../types';
+import { Drawer } from '../components/ui/Drawer';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+
+type BuddyKidTab = 'browse' | 'code' | 'create' | 'manage';
+
+export const BuddyKidPage: React.FC = () => {
+  const {
+    user,
+    toggleSignIn,
+    squads,
+    incomingRequests,
+    outgoingRequests,
+    requestJoinSquad,
+    joinWithCode,
+    createSquad,
+    handleIncomingRequest,
+    withdrawOutgoingRequest,
+    pushToast,
+  } = useApp();
+
+  const [activeTab, setActiveTab] = useState<BuddyKidTab>('browse');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [skillFilter, setSkillFilter] = useState<string>('All');
+  const [selectedSquad, setSelectedSquad] = useState<Squad | null>(null);
+  const [joinNote, setJoinNote] = useState('');
+  const [joinRole, setJoinRole] = useState('');
+
+  const [inviteCode, setInviteCode] = useState('');
+  const [codeFeedback, setCodeFeedback] = useState<{
+    ok: boolean;
+    message: string;
+    squad?: Squad;
+  } | null>(null);
+
+  const [newName, setNewName] = useState('');
+  const [newHackathon, setNewHackathon] = useState('');
+  const [newMaxSize, setNewMaxSize] = useState(4);
+  const [newSkills, setNewSkills] = useState<string[]>(['React', 'Machine Learning']);
+  const [newLookingFor, setNewLookingFor] = useState('');
+  const [newCollege, setNewCollege] = useState(user.college);
+  const [newMode, setNewMode] = useState<'Hybrid' | 'Offline' | 'Online'>('Hybrid');
+  const [newDescription, setNewDescription] = useState('');
+  const [createdSquad, setCreatedSquad] = useState<Squad | null>(null);
+
+  const pendingIncomingCount = incomingRequests.filter((r) => r.status === 'Pending').length;
+
+  const filteredSquads = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return squads.filter((sq) => {
+      const skillMatch =
+        skillFilter === 'All' ||
+        sq.skills.some((s) => s.toLowerCase() === skillFilter.toLowerCase());
+      const qMatch =
+        !q ||
+        sq.name.toLowerCase().includes(q) ||
+        sq.hackathon.toLowerCase().includes(q) ||
+        sq.college.toLowerCase().includes(q) ||
+        sq.lookingFor.toLowerCase().includes(q) ||
+        sq.skills.some((s) => s.toLowerCase().includes(q));
+      return skillMatch && qMatch;
+    });
+  }, [squads, searchQuery, skillFilter]);
+
+  const mySquads = useMemo(
+    () => squads.filter((s) => s.createdByMe || s.leader === user.name),
+    [squads, user.name],
+  );
+
+  const toggleCreateSkill = (skill: string) => {
+    setNewSkills((prev) =>
+      prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill],
+    );
+  };
+
+  const handleRedeemCode = (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = joinWithCode(inviteCode);
+    setCodeFeedback(res);
+  };
+
+  const handleCreateSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user.signedIn) {
+      pushToast({
+        title: 'Sign in required',
+        description: 'Activate your Dev Parmar session before creating a squad.',
+        variant: 'warning',
+      });
+      return;
+    }
+    if (!newName.trim() || !newHackathon.trim() || !newLookingFor.trim()) {
+      pushToast({
+        title: 'Missing squad fields',
+        description: 'Enter Squad Name, Hackathon Name, and the role you are looking for.',
+        variant: 'warning',
+      });
+      return;
+    }
+
+    const squad = createSquad({
+      name: newName,
+      hackathon: newHackathon,
+      maxSize: newMaxSize,
+      skills: newSkills,
+      lookingFor: newLookingFor,
+      college: newCollege,
+      mode: newMode,
+      description: newDescription,
+    });
+
+    setCreatedSquad(squad);
+    setNewName('');
+    setNewHackathon('');
+    setNewLookingFor('');
+    setNewDescription('');
+  };
+
+  const getOutgoingStatus = (squadId: string) =>
+    outgoingRequests.find((r) => r.squadId === squadId);
+
+  const copyCode = (code: string) => {
+    navigator.clipboard?.writeText(code).catch(() => {});
+    pushToast({ title: `Copied invite code ${code}`, variant: 'success' });
+  };
+
+  return (
+    <div className="bg-[#0E0E10] text-white min-h-screen">
+      {/* Clean Developer Utility Header */}
+      <section className="border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-10 pb-8">
+          <HeroMount className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <p className="cnx-section-label text-[#818CF8] mb-2">BuddyKid Utility</p>
+              <h1 className="text-[clamp(2rem,4.2vw,3.35rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
+                BuddyKid — Pan-India Hackathon{' '}
+                <span className="font-editorial pr-1">Squad</span> Finder
+              </h1>
+              <p className="mt-1 text-sm sm:text-base text-neutral-400 max-w-2xl">
+                Recruit balanced hackathon teams across Indian campuses, join squads via invite
+                codes, and approve incoming builders in one fast workspace.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-[#16161A] border border-white/[0.08] shrink-0 self-start md:self-auto">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-white">
+                  {user.signedIn ? user.name : 'Guest viewer'}
+                </p>
+                <p className="text-[11px] text-neutral-400 truncate">
+                  {user.signedIn ? user.college : 'Sign in to manage squads'}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={toggleSignIn}
+                className="ml-2 px-3 py-1 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold hover:bg-neutral-200"
+              >
+                {user.signedIn ? 'Switch' : 'Sign In'}
+              </button>
+            </div>
+          </HeroMount>
+
+          {/* Clean rounded-lg Tabs */}
+          <div className="mt-8 flex items-center gap-2 overflow-x-auto no-scrollbar">
+            {(
+              [
+                { id: 'browse', label: 'Browse Teams', count: squads.length },
+                { id: 'code', label: 'Join with Code' },
+                { id: 'create', label: 'Create a Team' },
+                {
+                  id: 'manage',
+                  label: 'My Squads & Approvals',
+                  count: pendingIncomingCount + outgoingRequests.length,
+                },
+              ] as const
+            ).map((tab) => {
+              const active = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap shrink-0 transition-colors flex items-center gap-2 ${
+                    active
+                      ? 'bg-[#4353FF] text-white'
+                      : 'bg-[#16161A] border border-white/[0.08] text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                  {'count' in tab && tab.count !== undefined && (
+                    <span
+                      className={`px-1.5 py-0.5 rounded text-[11px] ${
+                        active ? 'bg-white/20 text-white' : 'bg-[#0E0E10] text-neutral-300'
+                      }`}
+                    >
+                      {tab.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Workspace Body */}
+      <section className="py-10">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          {/* 1. BROWSE TEAMS */}
+          {activeTab === 'browse' && (
+            <div className="space-y-6">
+              <div className="pb-6 border-b border-white/[0.08] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div className="relative w-full lg:w-96">
+                  <Search
+                    className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2"
+                    strokeWidth={1.75}
+                  />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search hackathon, skill, or college..."
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#16161A] border border-white/[0.08] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {[
+                    'All',
+                    'Machine Learning',
+                    'Backend',
+                    'React',
+                    'Blockchain',
+                    'Cloud',
+                    'LLM Agents',
+                  ].map((skill) => (
+                    <button
+                      key={skill}
+                      type="button"
+                      onClick={() => setSkillFilter(skill)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                        skillFilter === skill
+                          ? 'bg-white text-[#0E0E10]'
+                          : 'bg-[#16161A] border border-white/[0.08] text-neutral-400 hover:text-white'
+                      }`}
+                    >
+                      {skill}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {filteredSquads.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredSquads.map((squad) => {
+                    const outReq = getOutgoingStatus(squad.id);
+                    const isMine = squad.createdByMe || squad.leader === user.name;
+                    const isFull = squad.currentSize >= squad.maxSize;
+
+                    return (
+                      <article
+                        key={squad.id}
+                        className="rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-6 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            <span
+                              className={`text-xs font-semibold ${
+                                isFull ? 'text-neutral-500' : 'text-[#E1498A]'
+                              }`}
+                            >
+                              {squad.currentSize}/{squad.maxSize} seats
+                            </span>
+                            {/* Monospace strictly for invite code */}
+                            <span className="font-mono text-[11px] font-semibold text-neutral-300">
+                              {squad.inviteCode}
+                            </span>
+                          </div>
+
+                          <h2 className="text-xl font-bold text-white tracking-tight">
+                            {squad.name}
+                          </h2>
+                          <p className="text-xs font-semibold text-[#818CF8] mt-0.5">
+                            {squad.hackathon}
+                          </p>
+                          <p className="text-xs text-neutral-400 mt-1">
+                            Leader: {squad.leader} · {squad.college}
+                          </p>
+
+                          <p className="mt-3 text-xs text-neutral-400 leading-relaxed line-clamp-2">
+                            {squad.description}
+                          </p>
+
+                          <div className="mt-4 pt-3 border-t border-white/[0.06] space-y-1">
+                            <p className="text-xs text-neutral-400">
+                              Looking for:{' '}
+                              <strong className="text-white">{squad.lookingFor}</strong>
+                            </p>
+                            <p className="text-[11px] font-medium text-neutral-400">
+                              {squad.skills.join(', ')}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="mt-5 pt-4 border-t border-white/[0.08] flex items-center justify-between gap-2.5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSelectedSquad(squad);
+                              setJoinRole(squad.lookingFor);
+                              setJoinNote('');
+                            }}
+                            className="text-xs font-semibold text-neutral-300 hover:text-white transition-colors"
+                          >
+                            View details
+                          </button>
+
+                          {isMine ? (
+                            <button
+                              type="button"
+                              onClick={() => setActiveTab('manage')}
+                              className="px-4 py-2 rounded-lg bg-[#4353FF]/20 text-[#818CF8] text-xs font-semibold hover:bg-[#4353FF]/30 transition-colors"
+                            >
+                              Manage Squad
+                            </button>
+                          ) : outReq ? (
+                            <span className="text-xs font-semibold text-[#818CF8]">
+                              {outReq.status}
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              disabled={isFull}
+                              onClick={() =>
+                                requestJoinSquad(
+                                  squad.id,
+                                  `Applying for ${squad.lookingFor} role.`,
+                                  squad.lookingFor,
+                                )
+                              }
+                              className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors active:scale-[0.98] ${
+                                isFull
+                                  ? 'bg-white/[0.04] text-neutral-500 cursor-not-allowed'
+                                  : 'bg-[#4353FF] hover:bg-[#3442E6] text-white'
+                              }`}
+                            >
+                              {isFull ? 'Squad Full' : 'Request to Join'}
+                            </button>
+                          )}
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="p-12 rounded-2xl bg-[#16161A] border border-white/[0.08] text-center space-y-3">
+                  <p className="text-sm text-neutral-400">
+                    No squads matched your filter. Create a new squad or clear filters.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSkillFilter('All');
+                    }}
+                    className="px-5 py-2.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold"
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* 2. JOIN WITH CODE */}
+          {activeTab === 'code' && (
+            <div className="max-w-xl mx-auto">
+              <div className="rounded-2xl bg-[#16161A] border border-white/[0.08] p-7 sm:p-9 space-y-6">
+                <div className="flex items-start gap-3.5">
+                  <div className="w-11 h-11 rounded-lg bg-[#4353FF]/20 text-[#818CF8] flex items-center justify-center shrink-0">
+                    <KeyRound className="w-5 h-5" strokeWidth={1.75} />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">Redeem Squad Code</h2>
+                    <p className="mt-1 text-xs text-neutral-400 leading-relaxed">
+                      Enter a team invite code shared by a squad leader to claim an open seat
+                      immediately.
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleRedeemCode} className="space-y-4">
+                  <div>
+                    <label className="block cnx-section-label text-neutral-400 mb-2">
+                      Invite Code
+                    </label>
+                    <div className="flex gap-2.5">
+                      <input
+                        type="text"
+                        value={inviteCode}
+                        onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                        placeholder="e.g. CNX-ROACH"
+                        className="flex-1 px-4 py-3 rounded-lg bg-[#0E0E10] border border-white/[0.1] font-mono text-sm font-semibold text-white uppercase placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
+                      />
+                      <button
+                        type="submit"
+                        className="px-6 py-3 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.98]"
+                      >
+                        Join Squad
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-400">
+                    <span>Sample codes:</span>
+                    {['CNX-ROACH', 'CNX-AI26', 'CNX-NK26'].map((sample) => (
+                      <button
+                        key={sample}
+                        type="button"
+                        onClick={() => setInviteCode(sample)}
+                        className="px-3 py-1 rounded-lg bg-[#0E0E10] border border-white/[0.08] font-mono text-xs font-semibold text-neutral-200 hover:border-[#4353FF]"
+                      >
+                        {sample}
+                      </button>
+                    ))}
+                  </div>
+                </form>
+
+                {codeFeedback && (
+                  <div
+                    className={`p-4 rounded-xl border text-xs ${
+                      codeFeedback.ok
+                        ? 'bg-[#4353FF]/15 border-[#4353FF]/30 text-white'
+                        : 'bg-[#E1498A]/15 border-[#E1498A]/30 text-white'
+                    }`}
+                  >
+                    <p className="font-semibold">{codeFeedback.message}</p>
+                    {codeFeedback.squad && (
+                      <p className="mt-1 text-neutral-300">
+                        Leader: {codeFeedback.squad.leader} · Looking for{' '}
+                        {codeFeedback.squad.lookingFor}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* 3. CREATE A TEAM */}
+          {activeTab === 'create' && (
+            <div className="max-w-2xl mx-auto">
+              <div className="rounded-2xl bg-[#16161A] border border-white/[0.08] p-7 sm:p-9 space-y-6">
+                <div>
+                  <h2 className="text-xl font-bold text-white">Create a Hackathon Squad</h2>
+                  <p className="mt-1 text-xs text-neutral-400">
+                    Publish your team to Browse Teams and generate a shareable BuddyKid invite code.
+                  </p>
+                </div>
+
+                {createdSquad && (
+                  <div className="p-4 rounded-xl bg-[#4353FF]/15 border border-[#4353FF]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-semibold text-white">
+                        Squad &ldquo;{createdSquad.name}&rdquo; is live
+                      </p>
+                      <p className="text-xs text-neutral-300 mt-0.5">
+                        Invite Code:{' '}
+                        <span className="font-mono font-bold text-white">
+                          {createdSquad.inviteCode}
+                        </span>
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => copyCode(createdSquad.inviteCode)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-xs font-semibold text-white"
+                      >
+                        <Copy className="w-3.5 h-3.5" strokeWidth={1.75} />
+                        Copy Code
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTab('browse')}
+                        className="inline-flex items-center gap-1 px-4 py-1.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold"
+                      >
+                        View in Browse
+                        <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <form onSubmit={handleCreateSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                        Squad Name
+                      </label>
+                      <input
+                        type="text"
+                        value={newName}
+                        onChange={(e) => setNewName(e.target.value)}
+                        placeholder="e.g. TensorGuild"
+                        className="w-full px-4 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                        Hackathon Name
+                      </label>
+                      <input
+                        type="text"
+                        value={newHackathon}
+                        onChange={(e) => setNewHackathon(e.target.value)}
+                        placeholder="e.g. Smart India Hackathon 2026"
+                        className="w-full px-4 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                        Max Team Size
+                      </label>
+                      <select
+                        value={newMaxSize}
+                        onChange={(e) => setNewMaxSize(Number(e.target.value))}
+                        className="w-full px-4 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                      >
+                        {[2, 3, 4, 5, 6].map((n) => (
+                          <option key={n} value={n}>
+                            {n} Members
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                        Mode
+                      </label>
+                      <select
+                        value={newMode}
+                        onChange={(e) =>
+                          setNewMode(e.target.value as 'Hybrid' | 'Offline' | 'Online')
+                        }
+                        className="w-full px-4 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                      >
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="Offline">Offline</option>
+                        <option value="Online">Online</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                        Looking For
+                      </label>
+                      <input
+                        type="text"
+                        value={newLookingFor}
+                        onChange={(e) => setNewLookingFor(e.target.value)}
+                        placeholder="e.g. Frontend / Design"
+                        className="w-full px-4 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                      College / Hub
+                    </label>
+                    <input
+                      type="text"
+                      value={newCollege}
+                      onChange={(e) => setNewCollege(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block cnx-section-label text-neutral-400 mb-2">
+                      Required Stack / Skills
+                    </label>
+                    <div className="flex flex-wrap gap-1.5">
+                      {BUDDYKID_SKILL_OPTIONS.map((skill) => {
+                        const selected = newSkills.includes(skill);
+                        return (
+                          <button
+                            key={skill}
+                            type="button"
+                            onClick={() => toggleCreateSkill(skill)}
+                            className={`px-3 py-1 rounded-lg text-xs font-semibold border transition-colors ${
+                              selected
+                                ? 'bg-[#4353FF] text-white border-[#4353FF]'
+                                : 'bg-[#0E0E10] text-neutral-400 border-white/[0.08] hover:text-white'
+                            }`}
+                          >
+                            {skill}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                      Project Brief (Optional)
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={newDescription}
+                      onChange={(e) => setNewDescription(e.target.value)}
+                      placeholder="Describe the problem statement or stack direction..."
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none resize-none"
+                    />
+                  </div>
+
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      type="submit"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-sm font-semibold transition-colors active:scale-[0.98]"
+                    >
+                      <Plus className="w-4 h-4" strokeWidth={1.75} />
+                      Publish Squad
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {/* 4. MY SQUADS & APPROVALS */}
+          {activeTab === 'manage' && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-6 space-y-5">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Users className="w-4 h-4 text-[#4353FF]" strokeWidth={1.75} />
+                    My Created Squads ({mySquads.length})
+                  </h2>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('create')}
+                    className="text-xs font-semibold text-[#818CF8] hover:underline underline-offset-4"
+                  >
+                    + New Squad
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  {mySquads.map((sq) => (
+                    <div
+                      key={sq.id}
+                      className="rounded-xl bg-[#16161A] border border-white/[0.08] p-5 space-y-3"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <h3 className="text-base font-bold text-white">{sq.name}</h3>
+                          <p className="text-xs text-neutral-400">{sq.hackathon}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => copyCode(sq.inviteCode)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#0E0E10] border border-white/[0.1] font-mono text-xs font-semibold text-white hover:border-[#4353FF]"
+                        >
+                          {sq.inviteCode}
+                          <Copy className="w-3 h-3 text-neutral-400" strokeWidth={1.75} />
+                        </button>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-neutral-400 pt-2 border-t border-white/[0.08]">
+                        <span className="font-semibold text-white">
+                          {sq.currentSize}/{sq.maxSize} seats filled
+                        </span>
+                        <span>Looking for: {sq.lookingFor}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4 space-y-4">
+                  <h2 className="text-lg font-bold text-white">
+                    Outgoing Join Requests ({outgoingRequests.length})
+                  </h2>
+                  {outgoingRequests.length > 0 ? (
+                    <div className="space-y-3">
+                      {outgoingRequests.map((req) => (
+                        <div
+                          key={req.id}
+                          className="rounded-xl bg-[#16161A] border border-white/[0.08] p-4 flex items-center justify-between gap-4"
+                        >
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-white truncate">
+                              {req.squadName} ·{' '}
+                              <span className="text-neutral-400 font-normal">{req.hackathon}</span>
+                            </p>
+                            <p className="text-xs text-neutral-500 mt-0.5">
+                              Role: {req.roleRequested} · {req.timestamp}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className="px-2.5 py-1 rounded-lg bg-[#4353FF]/20 text-[#818CF8] text-[11px] font-semibold">
+                              {req.status}
+                            </span>
+                            {req.status === 'Pending' && (
+                              <button
+                                type="button"
+                                onClick={() => withdrawOutgoingRequest(req.id)}
+                                className="p-1.5 rounded-lg border border-white/[0.1] text-neutral-400 hover:text-white"
+                                title="Withdraw request"
+                              >
+                                <X className="w-3.5 h-3.5" strokeWidth={1.75} />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-6 rounded-xl bg-[#16161A] border border-white/[0.08] text-xs text-neutral-400">
+                      No outgoing requests yet. Request to join a squad from Browse Teams.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 space-y-5">
+                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-[#E1498A]" strokeWidth={1.75} />
+                  Incoming Join Approvals ({pendingIncomingCount} Pending)
+                </h2>
+
+                <div className="space-y-4">
+                  {incomingRequests.map((req) => (
+                    <div
+                      key={req.id}
+                      className="rounded-xl bg-[#16161A] border border-white/[0.08] p-5 space-y-3"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <UserCheck className="w-4 h-4 text-[#4353FF]" strokeWidth={1.75} />
+                            <h3 className="text-sm font-bold text-white">{req.applicantName}</h3>
+                            <span className="text-[11px] text-neutral-500">· {req.timestamp}</span>
+                          </div>
+                          <p className="text-xs text-neutral-400 mt-0.5">{req.applicantCollege}</p>
+                        </div>
+                        <span className="px-2.5 py-0.5 rounded-lg bg-[#0E0E10] border border-white/[0.08] text-[11px] font-semibold text-white">
+                          {req.status}
+                        </span>
+                      </div>
+
+                      <div className="pt-3 border-t border-white/[0.06] text-xs space-y-1">
+                        <p className="text-white font-semibold">
+                          Applying to {req.squadName} · {req.roleRequested}
+                        </p>
+                        <p className="text-neutral-400 leading-relaxed">{req.note}</p>
+                        <p className="text-[11px] font-medium text-neutral-500 pt-1">
+                          {req.skills.join(', ')}
+                        </p>
+                      </div>
+
+                      {req.status === 'Pending' && (
+                        <div className="pt-3 flex items-center justify-end gap-2.5 border-t border-white/[0.08]">
+                          <button
+                            type="button"
+                            onClick={() => handleIncomingRequest(req.id, 'decline')}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/[0.1] text-xs font-semibold text-neutral-300 hover:text-white"
+                          >
+                            <X className="w-3.5 h-3.5" strokeWidth={1.75} />
+                            Decline
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleIncomingRequest(req.id, 'accept')}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold active:scale-[0.98]"
+                          >
+                            <Check className="w-3.5 h-3.5" strokeWidth={1.75} />
+                            Accept Builder
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <Drawer
+        open={Boolean(selectedSquad)}
+        onClose={() => setSelectedSquad(null)}
+        subtitle={selectedSquad ? `${selectedSquad.hackathon} · ${selectedSquad.inviteCode}` : ''}
+        title={selectedSquad?.name || ''}
+        footer={
+          selectedSquad && (
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-medium text-neutral-400">
+                {selectedSquad.currentSize}/{selectedSquad.maxSize} seats filled
+              </span>
+              <button
+                type="button"
+                disabled={
+                  selectedSquad.createdByMe ||
+                  selectedSquad.leader === user.name ||
+                  selectedSquad.currentSize >= selectedSquad.maxSize
+                }
+                onClick={() => {
+                  const ok = requestJoinSquad(selectedSquad.id, joinNote, joinRole);
+                  if (ok) setSelectedSquad(null);
+                }}
+                className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Send Join Request
+              </button>
+            </div>
+          )
+        }
+      >
+        {selectedSquad && (
+          <div className="space-y-6">
+            <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] space-y-2 text-xs">
+              <div className="flex justify-between">
+                <span className="text-neutral-500">Squad Leader</span>
+                <span className="text-white font-semibold">{selectedSquad.leader}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-500">Campus / Base</span>
+                <span className="text-neutral-300">{selectedSquad.college}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-500">Mode</span>
+                <span className="text-neutral-300">{selectedSquad.mode}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-neutral-500">Open Role</span>
+                <span className="text-[#818CF8] font-semibold">{selectedSquad.lookingFor}</span>
+              </div>
+            </div>
+
+            <div>
+              <p className="cnx-section-label text-neutral-500 mb-2">Squad Brief</p>
+              <p className="text-sm text-neutral-300 leading-relaxed">{selectedSquad.description}</p>
+            </div>
+
+            <div>
+              <p className="cnx-section-label text-neutral-500 mb-2">Core Stack</p>
+              <div className="flex flex-wrap gap-1.5">
+                {selectedSquad.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-2.5 py-1 rounded-md bg-[#0E0E10] border border-white/[0.08] text-xs font-medium text-neutral-300"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {!selectedSquad.createdByMe && selectedSquad.leader !== user.name && (
+              <div className="pt-4 border-t border-white/[0.08] space-y-3">
+                <div>
+                  <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                    Role You Offer
+                  </label>
+                  <input
+                    type="text"
+                    value={joinRole}
+                    onChange={(e) => setJoinRole(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block cnx-section-label text-neutral-400 mb-1.5">
+                    Intro Pitch to {selectedSquad.leader}
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={joinNote}
+                    onChange={(e) => setJoinNote(e.target.value)}
+                    placeholder="Share relevant repos, hackathon experience, or what you can ship..."
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none resize-none"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </Drawer>
+    </div>
+  );
+};
+
+
+===== FILE: src/pages/ServicesPage.tsx =====
+import React, { useState } from 'react';
+import { Check } from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { SERVICE_KPIS, SERVICE_OFFERINGS, SERVICE_PRINCIPLES } from '../data/services';
+import type { ServiceOffering } from '../types';
+import { Drawer } from '../components/ui/Drawer';
+import { Modal } from '../components/ui/Modal';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+
+export const ServicesPage: React.FC = () => {
+  const { pushToast } = useApp();
+  const [selectedService, setSelectedService] = useState<ServiceOffering | null>(null);
+  const [consultOpen, setConsultOpen] = useState(false);
+
+  const [clientName, setClientName] = useState('');
+  const [clientEmail, setClientEmail] = useState('');
+  const [projectScope, setProjectScope] = useState('AI & Automation');
+  const [preferredDate, setPreferredDate] = useState('2026-12-05');
+  const [brief, setBrief] = useState('');
+  const [booked, setBooked] = useState(false);
+
+  const handleBookConsultation = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!clientName.trim() || !clientEmail.includes('@') || brief.trim().length < 15) {
+      pushToast({
+        title: 'Complete consultation details',
+        description: 'Enter your name, email, and at least 15 characters on project scope.',
+        variant: 'warning',
+      });
+      return;
+    }
+    setBooked(true);
+    pushToast({
+      title: 'Consultation scheduled',
+      description: `Architecture call requested for ${preferredDate} (${projectScope}).`,
+      variant: 'success',
+    });
+  };
+
+  return (
+    <div className="bg-[#0E0E10] text-white min-h-screen">
+      {/* Band 1 — Restrained Studio Hero (Pure #0E0E10, zero radial neon haze) */}
+      <section className="bg-[#0E0E10] pt-28 pb-20">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+          <HeroMount>
+            <h1 className="max-w-4xl text-[clamp(2.75rem,6vw,5rem)] font-semibold tracking-[-0.035em] text-white leading-[1.06] pb-2 overflow-visible">
+              Engineering and design for{' '}
+              <span className="font-editorial pr-1 font-normal">teams</span> that ship.
+            </h1>
+
+            <div className="border-t border-white/10 pt-8 mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+              <p className="lg:col-span-6 text-base text-neutral-400 leading-relaxed max-w-xl">
+                Senior-led squads from CodeNeuraX build custom web products, AI workflow automation,
+                cloud pipelines, and technical brand systems with clean handoff.
+              </p>
+
+              <div className="lg:col-span-6 flex flex-wrap items-center lg:justify-end gap-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBooked(false);
+                    setConsultOpen(true);
+                  }}
+                  className="px-6 py-3 rounded-lg bg-white text-[#0E0E10] text-sm font-semibold hover:bg-neutral-200 transition-colors active:scale-[0.98]"
+                >
+                  Book a consultation
+                </button>
+                <a
+                  href="#capabilities"
+                  className="text-sm font-medium text-neutral-300 hover:text-white transition-colors"
+                >
+                  View capabilities ↓
+                </a>
+              </div>
+            </div>
+          </HeroMount>
+        </div>
+      </section>
+
+      {/* Band 2 — Understated Typographic Proof Strip */}
+      <section className="bg-[#0E0E10] border-y border-white/10">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+          <div className="py-10 lg:py-0 grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8 lg:gap-0 lg:divide-x lg:divide-white/10">
+            {SERVICE_KPIS.map((kpi) => (
+              <div key={kpi.label} className="lg:py-10 lg:px-8 first:lg:pl-0 last:lg:pr-0">
+                <p className="text-3xl sm:text-4xl font-bold tracking-[-0.03em] text-white">
+                  {kpi.value}
+                </p>
+                <p className="mt-2 text-xs sm:text-sm text-neutral-400 leading-snug">
+                  {kpi.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Band 3 — Interactive Capabilities Ledger (Pure #FFFFFF Contrast Band) */}
+      <section id="capabilities" className="scroll-mt-20 py-28 bg-white text-[#0E0E10]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-16">
+          {/* Sticky Left Rail */}
+          <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start space-y-4">
+            <h2 className="text-[clamp(2rem,3.4vw,3rem)] font-bold tracking-[-0.03em] text-[#0E0E10] leading-[1.08]">
+              What we build.
+            </h2>
+            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed">
+              Every project runs on weekly reviewable staging sprints, direct repository access, and
+              maintainable production architecture.
+            </p>
+          </div>
+
+          {/* Right Interactive Ledger (Hairline-separated horizontal editorial rows) */}
+          <div className="lg:col-span-8">
+            {SERVICE_OFFERINGS.map((service) => (
+              <button
+                key={service.id}
+                type="button"
+                onClick={() => setSelectedService(service)}
+                className="group w-full text-left border-t border-black/10 last:border-b py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-black/30 transition-colors"
+              >
+                <div className="max-w-xl">
+                  <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-[#0E0E10] group-hover:text-[#4353FF] transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="mt-1.5 text-sm text-neutral-500 leading-relaxed">
+                    {service.shortDescription}
+                  </p>
+                </div>
+
+                <span className="text-xs sm:text-sm font-medium text-[#0E0E10] group-hover:text-[#4353FF] shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
+                  Inspect scope ↗
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Band 4 — How We Work (Calm Editorial 3-Column Strip on #F4F4F6) */}
+      <section className="py-20 bg-[#F4F4F6] text-[#0E0E10] border-t border-black/10">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.025em] text-[#0E0E10] mb-12">
+            How we work
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
+            {SERVICE_PRINCIPLES.map((step) => (
+              <div key={step.title} className="pt-6 border-t border-black/10">
+                <h3 className="text-lg font-semibold tracking-[-0.015em] text-[#0E0E10]">
+                  {step.title}
+                </h3>
+                <p className="mt-2.5 text-sm text-neutral-600 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Band 5 — Clean Consultation Initiation Band (Pure #0E0E10) */}
+      <section className="py-24 bg-[#0E0E10] text-white border-t border-white/10">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+          <div className="max-w-2xl">
+            <h2 className="text-[clamp(2rem,4vw,3.35rem)] font-bold tracking-[-0.03em] text-white leading-[1.08]">
+              Have a product, workflow, or brand to build?
+            </h2>
+            <p className="mt-3 text-base text-neutral-400 leading-relaxed">
+              Schedule a 30-minute technical scoping session or reach the engineering team directly
+              at team@codeneurax.in.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              setBooked(false);
+              setConsultOpen(true);
+            }}
+            className="px-7 py-3.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-sm font-semibold transition-colors shrink-0 w-fit active:scale-[0.98]"
+          >
+            Book a free consultation
+          </button>
+        </div>
+      </section>
+
+      <Drawer
+        open={Boolean(selectedService)}
+        onClose={() => setSelectedService(null)}
+        subtitle={selectedService ? `Timeline: ${selectedService.timeline}` : ''}
+        title={selectedService?.title || ''}
+        footer={
+          selectedService && (
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-medium text-neutral-400">
+                Sprint window: {selectedService.timeline}
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setProjectScope(selectedService.title);
+                  setSelectedService(null);
+                  setBooked(false);
+                  setConsultOpen(true);
+                }}
+                className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+              >
+                Start a project
+              </button>
+            </div>
+          )
+        }
+      >
+        {selectedService && (
+          <div className="space-y-7">
+            <div>
+              <p className="text-xs font-medium text-neutral-500 mb-2">Scope overview</p>
+              <p className="text-sm text-neutral-300 leading-relaxed">
+                {selectedService.shortDescription}
+              </p>
+            </div>
+
+            <div className="pt-6 border-t border-white/[0.08]">
+              <p className="text-xs font-medium text-neutral-500 mb-3">Concrete deliverables</p>
+              <ul className="space-y-2.5 text-sm text-neutral-300">
+                {selectedService.deliverables.map((d) => (
+                  <li key={d} className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="pt-6 border-t border-white/[0.08]">
+              <p className="text-xs font-medium text-neutral-500 mb-2">Core stack</p>
+              <p className="text-sm text-neutral-200">{selectedService.stack.join(' · ')}</p>
+            </div>
+
+            <div className="pt-6 border-t border-white/[0.08]">
+              <p className="text-xs font-medium text-neutral-500 mb-1.5">Ideal fit</p>
+              <p className="text-sm text-neutral-300 leading-relaxed">{selectedService.idealFor}</p>
+            </div>
+          </div>
+        )}
+      </Drawer>
+
+      <Modal
+        open={consultOpen}
+        onClose={() => setConsultOpen(false)}
+        subtitle="Architectural Scoping · 30 min"
+        title="Book a Free Consultation"
+      >
+        {booked ? (
+          <div className="py-4 space-y-4">
+            <h4 className="text-base font-bold text-white">Consultation request received.</h4>
+            <p className="text-sm text-neutral-300 leading-relaxed">
+              A calendar invite and technical scoping worksheet for{' '}
+              <strong className="text-white">{projectScope}</strong> ({preferredDate}) will be sent
+              to {clientEmail}.
+            </p>
+            <button
+              type="button"
+              onClick={() => setConsultOpen(false)}
+              className="px-5 py-2.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold"
+            >
+              Close
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleBookConsultation} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
+                  Your name
+                </label>
+                <input
+                  type="text"
+                  value={clientName}
+                  onChange={(e) => setClientName(e.target.value)}
+                  placeholder="Full name"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
+                  Work email
+                </label>
+                <input
+                  type="email"
+                  value={clientEmail}
+                  onChange={(e) => setClientEmail(e.target.value)}
+                  placeholder="founder@company.com"
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
+                  Service track
+                </label>
+                <select
+                  value={projectScope}
+                  onChange={(e) => setProjectScope(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                >
+                  {SERVICE_OFFERINGS.map((s) => (
+                    <option key={s.id} value={s.title}>
+                      {s.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-neutral-400 mb-1.5">
+                  Preferred date
+                </label>
+                <input
+                  type="date"
+                  value={preferredDate}
+                  onChange={(e) => setPreferredDate(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-neutral-400 mb-1.5">
+                Project scope
+              </label>
+              <textarea
+                rows={4}
+                value={brief}
+                onChange={(e) => setBrief(e.target.value)}
+                placeholder="Outline deliverables, target launch window, or existing architecture..."
+                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none resize-none"
+              />
+            </div>
+
+            <div className="flex justify-end gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={() => setConsultOpen(false)}
+                className="px-4 py-2.5 rounded-lg border border-white/[0.1] text-xs font-medium text-neutral-300 hover:text-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+              >
+                Confirm booking
+              </button>
+            </div>
+          </form>
+        )}
+      </Modal>
+    </div>
+  );
+};
+
+
+===== FILE: src/pages/LibraryPage.tsx =====
+import React, { useMemo, useState } from 'react';
+import {
+  ArrowUpRight,
+  BookOpen,
+  Check,
+  Code2,
+  Download,
+  Eye,
+  Search,
+} from 'lucide-react';
+import { useApp } from '../context/AppContext';
+import { LEETCODE_COMPANY_ROWS, LIBRARY_RESOURCES } from '../data/library';
+import type { LibraryCategory, LibraryResource } from '../types';
+import { Drawer } from '../components/ui/Drawer';
+import { Modal } from '../components/ui/Modal';
+import { HeroMount } from '../components/ui/MotionPrimitives';
+
+const LIBRARY_TABS: LibraryCategory[] = [
+  'Previous Year Questions',
+  'Notes',
+  'Problem Statements',
+];
+
+export const LibraryPage: React.FC = () => {
+  const { pushToast } = useApp();
+  const [activeTab, setActiveTab] = useState<LibraryCategory>('Previous Year Questions');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [previewResource, setPreviewResource] = useState<LibraryResource | null>(null);
+  const [leetcodeModalOpen, setLeetcodeModalOpen] = useState(false);
+  const [lcCompanyFilter, setLcCompanyFilter] = useState<string>('All');
+  const [lcDifficultyFilter, setLcDifficultyFilter] = useState<string>('All');
+
+  const filteredResources = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    return LIBRARY_RESOURCES.filter((res) => {
+      const tabMatch = res.category === activeTab;
+      const qMatch =
+        !q ||
+        res.title.toLowerCase().includes(q) ||
+        res.summary.toLowerCase().includes(q) ||
+        res.tags.some((t) => t.toLowerCase().includes(q));
+      return tabMatch && qMatch;
+    });
+  }, [activeTab, searchQuery]);
+
+  const filteredLeetCode = useMemo(() => {
+    return LEETCODE_COMPANY_ROWS.filter((row) => {
+      const compOk =
+        lcCompanyFilter === 'All' || row.companies.includes(lcCompanyFilter);
+      const diffOk =
+        lcDifficultyFilter === 'All' || row.difficulty === lcDifficultyFilter;
+      return compOk && diffOk;
+    });
+  }, [lcCompanyFilter, lcDifficultyFilter]);
+
+  const handleDownloadPack = (res: LibraryResource) => {
+    const content = [
+      `# ${res.title}`,
+      `Category: ${res.category} | Volume: ${res.countLabel}`,
+      `Format: ${res.format} | Updated: ${res.updatedAt}`,
+      ``,
+      `## Overview`,
+      res.summary,
+      ``,
+      `## Core Modules & Topics`,
+      ...res.sampleTopics.map((t) => `- ${t}`),
+      ``,
+      `## Technical Checkpoint`,
+      res.previewSnippet,
+      ``,
+      `Curated by CodeNeuraX Library — https://codeneurax.in/library`,
+    ].join('\n');
+
+    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${res.id}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    pushToast({
+      title: `Downloaded ${res.title}`,
+      description: `${res.countLabel} study reference saved locally.`,
+      variant: 'success',
+    });
+  };
+
+  return (
+    <div className="bg-[#0E0E10] text-white min-h-screen">
+      {/* Header */}
+      <section className="cnx-midnight-hero border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 py-14 sm:py-16">
+          <HeroMount className="max-w-2xl">
+            <p className="cnx-section-label text-[#818CF8] mb-3">
+              CodeNeuraX Econtent · Open Archive
+            </p>
+            <h1 className="text-[clamp(2.35rem,4.6vw,3.9rem)] font-bold tracking-[-0.03em] text-white leading-[1.12] pb-2 overflow-visible">
+              CodeNeuraX <span className="font-editorial pr-1">Library</span>
+            </h1>
+            <p className="mt-2 text-[15px] sm:text-base text-neutral-300 leading-relaxed">
+              Curated company-wise interview archives, official GATE CS &amp; DA previous year
+              papers, and concise systems engineering notes—free for every student builder.
+            </p>
+          </HeroMount>
+        </div>
+      </section>
+
+      {/* Featured Silk Spotlight Banner for Company-Wise LeetCode Questions */}
+      <section className="py-10 border-b border-white/[0.08]">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="rounded-2xl cnx-silk-spotlight border border-white/[0.12] p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-white/[0.08] border border-white/[0.14] flex items-center justify-center shrink-0">
+                <Code2 className="w-5 h-5 text-white" strokeWidth={1.75} />
+              </div>
+              <div>
+                <p className="cnx-section-label text-white/80 mb-1">
+                  Featured Interactive Index
+                </p>
+                <h2 className="text-lg sm:text-xl font-bold text-white">
+                  Company-Wise LeetCode Questions (with Direct LeetCode Links)
+                </h2>
+                <p className="mt-1 text-xs sm:text-sm text-white/80 max-w-2xl">
+                  Filter high-frequency DSA problems across Google, Amazon, Microsoft, LinkedIn,
+                  Adobe, and TCS with direct LeetCode problem URLs.
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setLeetcodeModalOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold hover:bg-neutral-200 transition-colors shrink-0 w-fit active:scale-[0.98]"
+            >
+              Open Problem Table
+              <ArrowUpRight className="w-4 h-4" strokeWidth={1.75} />
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Search + 3 Category Tabs */}
+      <section className="py-12">
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-8">
+          <div className="pb-6 border-b border-white/[0.08] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {LIBRARY_TABS.map((tab) => {
+                const active = activeTab === tab;
+                const count = LIBRARY_RESOURCES.filter((r) => r.category === tab).length;
+                return (
+                  <button
+                    key={tab}
+                    type="button"
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                      active
+                        ? 'bg-[#4353FF] text-white'
+                        : 'bg-[#16161A] border border-white/[0.08] text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    {tab} ({count})
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="relative w-full lg:w-80">
+              <Search
+                className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2"
+                strokeWidth={1.75}
+              />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search company, GATE, OS, DBMS..."
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-[#16161A] border border-white/[0.08] text-xs text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none"
+              />
+            </div>
+          </div>
+
+          {filteredResources.length > 0 ? (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredResources.map((res) => (
+                <article
+                  key={res.id}
+                  className="rounded-2xl bg-[#16161A] border border-white/[0.08] hover:border-white/[0.16] transition-colors p-6 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <span className="text-xs font-semibold text-[#818CF8]">
+                        {res.countLabel}
+                      </span>
+                      <span className="text-xs font-medium text-neutral-500">{res.updatedAt}</span>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-white tracking-tight">{res.title}</h3>
+                    <p className="mt-1 text-xs font-medium text-neutral-400">{res.format}</p>
+                    <p className="mt-3 text-xs sm:text-sm text-neutral-400 leading-relaxed">
+                      {res.summary}
+                    </p>
+
+                    <p className="mt-4 text-[11px] font-medium text-neutral-400">
+                      {res.tags.join(', ')}
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-white/[0.08] flex items-center justify-between gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewResource(res)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/[0.1] bg-[#0E0E10] text-xs font-semibold text-white hover:border-white/[0.2]"
+                    >
+                      <Eye className="w-3.5 h-3.5" strokeWidth={1.75} />
+                      Preview
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadPack(res)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold transition-colors active:scale-[0.98]"
+                    >
+                      <Download className="w-3.5 h-3.5" strokeWidth={1.75} />
+                      Download
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-8 p-10 rounded-2xl bg-[#16161A] border border-white/[0.08] text-center">
+              <p className="text-sm text-neutral-400">
+                No resources matched &ldquo;{searchQuery}&rdquo; in {activeTab}.
+              </p>
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="mt-3 px-5 py-2 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold"
+              >
+                Clear Search
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <Drawer
+        open={Boolean(previewResource)}
+        onClose={() => setPreviewResource(null)}
+        subtitle={
+          previewResource ? `${previewResource.category} · ${previewResource.countLabel}` : ''
+        }
+        title={previewResource?.title || ''}
+        footer={
+          previewResource && (
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-medium text-neutral-400">{previewResource.format}</span>
+              <button
+                type="button"
+                onClick={() => handleDownloadPack(previewResource)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+              >
+                <Download className="w-3.5 h-3.5" strokeWidth={1.75} />
+                Download Study Pack
+              </button>
+            </div>
+          )
+        }
+      >
+        {previewResource && (
+          <div className="space-y-6">
+            <div>
+              <p className="cnx-section-label text-neutral-500 mb-2">Overview</p>
+              <p className="text-sm text-neutral-300 leading-relaxed">{previewResource.summary}</p>
+            </div>
+
+            <div>
+              <p className="cnx-section-label text-neutral-500 mb-2.5">
+                Included Modules &amp; Patterns
+              </p>
+              <ul className="space-y-2 text-sm text-neutral-300">
+                {previewResource.sampleTopics.map((topic) => (
+                  <li key={topic} className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                    <span>{topic}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="cnx-section-label text-neutral-500 mb-2">Excerpt / Key Checkpoint</p>
+              <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] text-xs text-neutral-200 whitespace-pre-wrap leading-relaxed overflow-x-auto">
+                {previewResource.previewSnippet}
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#0E0E10] border border-white/[0.08] flex items-center gap-3">
+              <BookOpen className="w-4 h-4 text-[#4353FF] shrink-0" strokeWidth={1.75} />
+              <p className="text-xs text-neutral-300">
+                Pair this pack with weekly problem drills in the CodeNeuraX DSA WhatsApp group.
+              </p>
+            </div>
+          </div>
+        )}
+      </Drawer>
+
+      <Modal
+        open={leetcodeModalOpen}
+        onClose={() => setLeetcodeModalOpen(false)}
+        subtitle="Interactive Problem Sheet · Direct Links"
+        title="Company-Wise LeetCode Questions"
+        maxWidthClass="max-w-4xl"
+      >
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex flex-wrap gap-1.5">
+              {['All', 'Google', 'Amazon', 'Microsoft', 'LinkedIn', 'Adobe', 'TCS'].map((comp) => (
+                <button
+                  key={comp}
+                  type="button"
+                  onClick={() => setLcCompanyFilter(comp)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold border transition-colors ${
+                    lcCompanyFilter === comp
+                      ? 'bg-white text-[#0E0E10] border-white'
+                      : 'bg-[#0E0E10] text-neutral-300 border-white/[0.08] hover:border-white/[0.2]'
+                  }`}
+                >
+                  {comp}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex gap-1.5">
+              {['All', 'Easy', 'Medium', 'Hard'].map((diff) => (
+                <button
+                  key={diff}
+                  type="button"
+                  onClick={() => setLcDifficultyFilter(diff)}
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold border transition-colors ${
+                    lcDifficultyFilter === diff
+                      ? 'bg-[#4353FF] text-white border-[#4353FF]'
+                      : 'bg-[#0E0E10] text-neutral-400 border-white/[0.08]'
+                  }`}
+                >
+                  {diff}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="border border-white/[0.08] rounded-xl overflow-hidden overflow-x-auto bg-[#0E0E10]">
+            <table className="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr className="border-b border-white/[0.08] bg-[#16161A] cnx-section-label text-neutral-400">
+                  <th className="py-3 px-4">#</th>
+                  <th className="py-3 px-4">Problem</th>
+                  <th className="py-3 px-4">Topic</th>
+                  <th className="py-3 px-4">Difficulty</th>
+                  <th className="py-3 px-4">Companies</th>
+                  <th className="py-3 px-4 text-right">Solve</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/[0.08]">
+                {filteredLeetCode.map((row) => (
+                  <tr key={row.id} className="hover:bg-[#16161A] transition-colors">
+                    <td className="py-3 px-4 font-semibold text-neutral-500">{row.number}</td>
+                    <td className="py-3 px-4 font-semibold text-white">{row.title}</td>
+                    <td className="py-3 px-4 text-neutral-400">{row.topic}</td>
+                    <td className="py-3 px-4">
+                      <span
+                        className={`text-xs font-semibold ${
+                          row.difficulty === 'Hard'
+                            ? 'text-[#E1498A]'
+                            : row.difficulty === 'Medium'
+                              ? 'text-[#818CF8]'
+                              : 'text-neutral-200'
+                        }`}
+                      >
+                        {row.difficulty}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-xs text-neutral-300">
+                      {row.companies.join(', ')}
+                    </td>
+                    <td className="py-3 px-4 text-right">
+                      <a
+                        href={row.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 text-[#818CF8] hover:text-white font-semibold"
+                      >
+                        LeetCode
+                        <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={1.75} />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+};

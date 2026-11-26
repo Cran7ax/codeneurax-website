@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Check } from 'lucide-react';
+import { ArrowUpRight, Check } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { SERVICE_KPIS, SERVICE_OFFERINGS, SERVICE_PRINCIPLES } from '../data/services';
 import type { ServiceOffering } from '../types';
 import { Drawer } from '../components/ui/Drawer';
 import { Modal } from '../components/ui/Modal';
-import { HeroMount } from '../components/ui/MotionPrimitives';
+import { HeroMount, RevealBlock } from '../components/ui/MotionPrimitives';
 
 export const ServicesPage: React.FC = () => {
   const { pushToast } = useApp();
@@ -39,19 +39,18 @@ export const ServicesPage: React.FC = () => {
 
   return (
     <div className="bg-[#0E0E10] text-white min-h-screen">
-      {/* Band 1 — Restrained Studio Hero (Pure #0E0E10, zero radial neon haze) */}
-      <section className="bg-[#0E0E10] pt-28 pb-20">
+      {/* Band 1 — Restrained Studio Hero */}
+      <section className="cnx-prism-hero pt-32 pb-20 sm:pt-36">
         <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
           <HeroMount>
-            <h1 className="max-w-4xl text-[clamp(2.75rem,6vw,5rem)] font-semibold tracking-[-0.035em] text-white leading-[1.06] pb-2 overflow-visible">
+            <h1 className="max-w-4xl text-[clamp(2.65rem,5.6vw,4.65rem)] font-bold tracking-[-0.035em] text-white leading-[1.06]">
               Engineering and design for{' '}
-              <span className="font-editorial pr-1 font-normal">teams</span> that ship.
+              <span className="cnx-accent-gradient-dark">teams</span> that ship.
             </h1>
 
             <div className="border-t border-white/10 pt-8 mt-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-              <p className="lg:col-span-6 text-base text-neutral-400 leading-relaxed max-w-xl">
-                Senior-led squads from CodeNeuraX build custom web products, AI workflow automation,
-                cloud pipelines, and technical brand systems with clean handoff.
+              <p className="lg:col-span-6 text-base text-neutral-300 leading-relaxed max-w-xl">
+                Web products, AI automation, cloud infrastructure, and brand systems.
               </p>
 
               <div className="lg:col-span-6 flex flex-wrap items-center lg:justify-end gap-6">
@@ -61,7 +60,7 @@ export const ServicesPage: React.FC = () => {
                     setBooked(false);
                     setConsultOpen(true);
                   }}
-                  className="px-6 py-3 rounded-lg bg-white text-[#0E0E10] text-sm font-semibold hover:bg-neutral-200 transition-colors active:scale-[0.98]"
+                  className="cnx-clay-btn-white px-6 py-3 rounded-xl text-sm font-semibold"
                 >
                   Book a consultation
                 </button>
@@ -95,79 +94,99 @@ export const ServicesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Band 3 — Interactive Capabilities Ledger (Pure #FFFFFF Contrast Band) */}
-      <section id="capabilities" className="scroll-mt-20 py-28 bg-white text-[#0E0E10]">
-        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-16">
-          {/* Sticky Left Rail */}
-          <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start space-y-4">
-            <h2 className="text-[clamp(2rem,3.4vw,3rem)] font-bold tracking-[-0.03em] text-[#0E0E10] leading-[1.08]">
-              What we build.
-            </h2>
-            <p className="text-sm sm:text-base text-neutral-600 leading-relaxed">
-              Every project runs on weekly reviewable staging sprints, direct repository access, and
-              maintainable production architecture.
-            </p>
-          </div>
+      {/* Band 3 — Static "What we build" Header + Balanced 2-Column Sculpted Clay Grid */}
+      <section id="capabilities" className="scroll-mt-20 py-24 sm:py-28 bg-[#F3F4F8] text-[#0E0E10]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+          {/* Completely static, full-width balanced editorial header (zero sticky drift) */}
+          <RevealBlock className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end pb-12 mb-12 border-b border-black/[0.08]">
+            <div className="lg:col-span-6">
+              <h2 className="text-[clamp(2.1rem,3.8vw,3.15rem)] font-bold tracking-[-0.03em] text-[#0E0E10] leading-[1.08]">
+                What we <span className="cnx-accent-gradient-light">build.</span>
+              </h2>
+            </div>
+            <div className="lg:col-span-6">
+              <p className="text-sm sm:text-base text-neutral-600 leading-relaxed max-w-xl">
+                Weekly staging sprints and clean handoff. Select any track to inspect scope.
+              </p>
+            </div>
+          </RevealBlock>
 
-          {/* Right Interactive Ledger (Hairline-separated horizontal editorial rows) */}
-          <div className="lg:col-span-8">
-            {SERVICE_OFFERINGS.map((service) => (
-              <button
-                key={service.id}
-                type="button"
-                onClick={() => setSelectedService(service)}
-                className="group w-full text-left border-t border-black/10 last:border-b py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-black/30 transition-colors"
-              >
-                <div className="max-w-xl">
-                  <h3 className="text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-[#0E0E10] group-hover:text-[#4353FF] transition-colors">
-                    {service.title}
+          {/* Spacious 2-Column Ceramic Clay Capabilities Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {SERVICE_OFFERINGS.map((service, idx) => (
+              <RevealBlock key={service.id} delay={Math.min(idx * 0.04, 0.2)}>
+                <button
+                  type="button"
+                  onClick={() => setSelectedService(service)}
+                  className="group w-full h-full text-left rounded-[26px] cnx-clay-light p-7 sm:p-8 flex flex-col justify-between gap-7"
+                >
+                  <div>
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-[#0E0E10] group-hover:text-[#4353FF] transition-colors">
+                        {service.title}
+                      </h3>
+                      <ArrowUpRight
+                        className="w-5 h-5 text-neutral-400 group-hover:text-[#4353FF] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[transform,color] shrink-0 mt-1"
+                        strokeWidth={1.75}
+                      />
+                    </div>
+                    <p className="mt-2.5 text-sm text-neutral-600 leading-relaxed">
+                      {service.shortDescription}
+                    </p>
+                  </div>
+
+                  <div className="pt-5 border-t border-black/[0.07] flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <span className="text-neutral-500 font-medium">
+                      {service.stack.slice(0, 3).join(' · ')}
+                    </span>
+                    <span className="font-semibold text-[#0E0E10] group-hover:text-[#4353FF] transition-colors shrink-0">
+                      {service.timeline}
+                    </span>
+                  </div>
+                </button>
+              </RevealBlock>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Band 4 — How We Work (Calm 3-Column Strip) */}
+      <section className="py-20 bg-[#EAECEF] text-[#0E0E10] border-t border-black/[0.08]">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+          <RevealBlock className="mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.025em] text-[#0E0E10]">
+              How we <span className="cnx-accent-gradient-light">work</span>
+            </h2>
+          </RevealBlock>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {SERVICE_PRINCIPLES.map((step, idx) => (
+              <RevealBlock key={step.title} delay={idx * 0.05}>
+                <div className="h-full rounded-[24px] cnx-clay-light p-7">
+                  <span className="text-xs font-semibold text-[#4353FF]">0{idx + 1}</span>
+                  <h3 className="mt-3 text-lg font-bold tracking-[-0.015em] text-[#0E0E10]">
+                    {step.title}
                   </h3>
-                  <p className="mt-1.5 text-sm text-neutral-500 leading-relaxed">
-                    {service.shortDescription}
+                  <p className="mt-2 text-sm text-neutral-600 leading-relaxed">
+                    {step.description}
                   </p>
                 </div>
-
-                <span className="text-xs sm:text-sm font-medium text-[#0E0E10] group-hover:text-[#4353FF] shrink-0 transition-transform duration-200 group-hover:translate-x-0.5">
-                  Inspect scope ↗
-                </span>
-              </button>
+              </RevealBlock>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Band 4 — How We Work (Calm Editorial 3-Column Strip on #F4F4F6) */}
-      <section className="py-20 bg-[#F4F4F6] text-[#0E0E10] border-t border-black/10">
-        <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-[-0.025em] text-[#0E0E10] mb-12">
-            How we work
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
-            {SERVICE_PRINCIPLES.map((step) => (
-              <div key={step.title} className="pt-6 border-t border-black/10">
-                <h3 className="text-lg font-semibold tracking-[-0.015em] text-[#0E0E10]">
-                  {step.title}
-                </h3>
-                <p className="mt-2.5 text-sm text-neutral-600 leading-relaxed">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Band 5 — Clean Consultation Initiation Band (Pure #0E0E10) */}
+      {/* Band 5 — Clean Consultation Initiation Band */}
       <section className="py-24 bg-[#0E0E10] text-white border-t border-white/10">
         <div className="max-w-[1200px] mx-auto px-5 sm:px-8 flex flex-col lg:flex-row lg:items-end justify-between gap-10">
           <div className="max-w-2xl">
             <h2 className="text-[clamp(2rem,4vw,3.35rem)] font-bold tracking-[-0.03em] text-white leading-[1.08]">
-              Have a product, workflow, or brand to build?
+              Have a product, workflow, or brand to{' '}
+              <span className="cnx-accent-gradient-dark">build</span>?
             </h2>
             <p className="mt-3 text-base text-neutral-400 leading-relaxed">
-              Schedule a 30-minute technical scoping session or reach the engineering team directly
-              at team@codeneurax.in.
+              Book a 30-minute scoping call or write to team@codeneurax.in.
             </p>
           </div>
 
@@ -177,7 +196,7 @@ export const ServicesPage: React.FC = () => {
               setBooked(false);
               setConsultOpen(true);
             }}
-            className="px-7 py-3.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-sm font-semibold transition-colors shrink-0 w-fit active:scale-[0.98]"
+            className="cnx-clay-btn-primary px-7 py-3.5 rounded-xl text-sm font-semibold shrink-0 w-fit"
           >
             Book a free consultation
           </button>
@@ -187,13 +206,13 @@ export const ServicesPage: React.FC = () => {
       <Drawer
         open={Boolean(selectedService)}
         onClose={() => setSelectedService(null)}
-        subtitle={selectedService ? `Timeline: ${selectedService.timeline}` : ''}
-        title={selectedService?.title || ''}
+        subtitle={selectedService ? `Sprint window · ${selectedService.timeline}` : ""}
+        title={selectedService?.title || ""}
         footer={
           selectedService && (
             <div className="flex items-center justify-between gap-3">
               <span className="text-xs font-medium text-neutral-400">
-                Sprint window: {selectedService.timeline}
+                Typical delivery: {selectedService.timeline}
               </span>
               <button
                 type="button"
@@ -203,7 +222,7 @@ export const ServicesPage: React.FC = () => {
                   setBooked(false);
                   setConsultOpen(true);
                 }}
-                className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+                className="cnx-clay-btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold"
               >
                 Start a project
               </button>
@@ -212,34 +231,47 @@ export const ServicesPage: React.FC = () => {
         }
       >
         {selectedService && (
-          <div className="space-y-7">
-            <div>
-              <p className="text-xs font-medium text-neutral-500 mb-2">Scope overview</p>
+          <div className="space-y-4">
+            <div className="rounded-xl cnx-popout-tile p-4">
+              <p className="text-[11px] font-medium text-neutral-500 mb-1.5">Overview</p>
               <p className="text-sm text-neutral-300 leading-relaxed">
                 {selectedService.shortDescription}
               </p>
             </div>
 
-            <div className="pt-6 border-t border-white/[0.08]">
-              <p className="text-xs font-medium text-neutral-500 mb-3">Concrete deliverables</p>
-              <ul className="space-y-2.5 text-sm text-neutral-300">
+            <div className="rounded-xl cnx-popout-tile p-4">
+              <p className="text-[11px] font-medium text-neutral-500 mb-2.5">Deliverables</p>
+              <ul className="space-y-2 text-xs sm:text-sm text-neutral-300 leading-relaxed">
                 {selectedService.deliverables.map((d) => (
                   <li key={d} className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-[#4353FF] mt-0.5 shrink-0" strokeWidth={1.75} />
+                    <Check className="w-3.5 h-3.5 text-[#60A5FA] mt-1 shrink-0" strokeWidth={2.25} />
                     <span>{d}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="pt-6 border-t border-white/[0.08]">
-              <p className="text-xs font-medium text-neutral-500 mb-2">Core stack</p>
-              <p className="text-sm text-neutral-200">{selectedService.stack.join(' · ')}</p>
-            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="rounded-xl cnx-popout-tile p-4">
+                <p className="text-[11px] font-medium text-neutral-500 mb-2">Core stack</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedService.stack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2 py-0.5 rounded-md bg-white/[0.05] text-[11px] font-medium text-neutral-200"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
 
-            <div className="pt-6 border-t border-white/[0.08]">
-              <p className="text-xs font-medium text-neutral-500 mb-1.5">Ideal fit</p>
-              <p className="text-sm text-neutral-300 leading-relaxed">{selectedService.idealFor}</p>
+              <div className="rounded-xl cnx-popout-tile p-4">
+                <p className="text-[11px] font-medium text-neutral-500 mb-1.5">Best fit</p>
+                <p className="text-xs text-neutral-300 leading-relaxed">
+                  {selectedService.idealFor}
+                </p>
+              </div>
             </div>
           </div>
         )}
@@ -248,28 +280,37 @@ export const ServicesPage: React.FC = () => {
       <Modal
         open={consultOpen}
         onClose={() => setConsultOpen(false)}
-        subtitle="Architectural Scoping · 30 min"
+        subtitle="30-minute scoping call"
         title="Book a Free Consultation"
+        maxWidthClass="max-w-lg"
       >
         {booked ? (
-          <div className="py-4 space-y-4">
-            <h4 className="text-base font-bold text-white">Consultation request received.</h4>
-            <p className="text-sm text-neutral-300 leading-relaxed">
-              A calendar invite and technical scoping worksheet for{' '}
-              <strong className="text-white">{projectScope}</strong> ({preferredDate}) will be sent
-              to {clientEmail}.
-            </p>
-            <button
-              type="button"
-              onClick={() => setConsultOpen(false)}
-              className="px-5 py-2.5 rounded-lg bg-white text-[#0E0E10] text-xs font-semibold"
-            >
-              Close
-            </button>
+          <div className="space-y-5">
+            <div className="rounded-xl cnx-popout-tile p-5 flex items-start gap-3.5">
+              <span className="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 flex items-center justify-center shrink-0 mt-0.5">
+                <Check className="w-4 h-4" strokeWidth={2.25} />
+              </span>
+              <div>
+                <h4 className="text-sm font-bold text-white">Consultation scheduled</h4>
+                <p className="mt-1 text-xs text-neutral-400 leading-relaxed">
+                  Scoping invite for <strong className="text-white">{projectScope}</strong> (
+                  {preferredDate}) queued to {clientEmail}.
+                </p>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setConsultOpen(false)}
+                className="cnx-clay-btn-white px-5 py-2 rounded-lg text-xs font-semibold"
+              >
+                Done
+              </button>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleBookConsultation} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
                 <label className="block text-xs font-medium text-neutral-400 mb-1.5">
                   Your name
@@ -279,7 +320,7 @@ export const ServicesPage: React.FC = () => {
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                   placeholder="Full name"
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                  className="cnx-popout-input"
                 />
               </div>
               <div>
@@ -291,12 +332,12 @@ export const ServicesPage: React.FC = () => {
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
                   placeholder="founder@company.com"
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                  className="cnx-popout-input"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               <div>
                 <label className="block text-xs font-medium text-neutral-400 mb-1.5">
                   Service track
@@ -304,7 +345,7 @@ export const ServicesPage: React.FC = () => {
                 <select
                   value={projectScope}
                   onChange={(e) => setProjectScope(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                  className="cnx-popout-input"
                 >
                   {SERVICE_OFFERINGS.map((s) => (
                     <option key={s.id} value={s.title}>
@@ -321,7 +362,7 @@ export const ServicesPage: React.FC = () => {
                   type="date"
                   value={preferredDate}
                   onChange={(e) => setPreferredDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white focus:border-[#4353FF] focus:outline-none"
+                  className="cnx-popout-input"
                 />
               </div>
             </div>
@@ -331,25 +372,25 @@ export const ServicesPage: React.FC = () => {
                 Project scope
               </label>
               <textarea
-                rows={4}
+                rows={3}
                 value={brief}
                 onChange={(e) => setBrief(e.target.value)}
-                placeholder="Outline deliverables, target launch window, or existing architecture..."
-                className="w-full px-3.5 py-2.5 rounded-lg bg-[#0E0E10] border border-white/[0.1] text-sm text-white placeholder:text-neutral-500 focus:border-[#4353FF] focus:outline-none resize-none"
+                placeholder="Outline deliverables, target launch window, or existing stack..."
+                className="cnx-popout-input resize-none"
               />
             </div>
 
-            <div className="flex justify-end gap-2.5 pt-1">
+            <div className="flex justify-end gap-3 pt-1">
               <button
                 type="button"
                 onClick={() => setConsultOpen(false)}
-                className="px-4 py-2.5 rounded-lg border border-white/[0.1] text-xs font-medium text-neutral-300 hover:text-white"
+                className="px-4 py-2 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-5 py-2.5 rounded-lg bg-[#4353FF] hover:bg-[#3442E6] text-white text-xs font-semibold"
+                className="cnx-clay-btn-primary px-5 py-2.5 rounded-xl text-xs font-semibold"
               >
                 Confirm booking
               </button>
